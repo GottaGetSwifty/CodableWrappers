@@ -5,8 +5,6 @@
 
 ## A collection of Extendable [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) for custom (de)serialization of Codable Types
 
-Customize your Codable Types in a declarative and property constrained manor. No more relying on the (En/De)coders supporting your customization or writing your 
-
 ### Advantages
 
 - Declarative
