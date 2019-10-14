@@ -16,7 +16,7 @@ class DataDecodingTests: DecodingTestSpec {
             //MARK: - JSONDecoder
             context("JSONDecoder") {
                 //MARK: Base64
-                it("Decodes_Base64") {
+                it("Base64") {
                     expect {_ = try self.jsonDecoder.decode(TestBase64Model.self, from: base64TestJSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(TestBase64Model.self, from: base64TestJSON.data(using: .utf8)!)
                     expect(decodedModel).toNot(beNil())
@@ -25,7 +25,7 @@ class DataDecodingTests: DecodingTestSpec {
                     }
                 }
                 //MARK: Custom
-                it("Decodes_CustomDecoder") {
+                it("CustomDecoder") {
                     expect {_ = try self.jsonDecoder.decode(TestCustomDataModel.self, from: customTestJSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(TestCustomDataModel.self, from: customTestJSON.data(using: .utf8)!)
                     expect(decodedModel).toNot(beNil())
@@ -37,7 +37,7 @@ class DataDecodingTests: DecodingTestSpec {
             //MARK: - PListDecoder
             context("PListDecoder") {
                 //MARK: Base64
-                it("Decodes_Base64") {
+                it("Base64") {
                     expect {_ = try self.plistDecoder.decode(TestBase64Model.self, from: base64TestXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(TestBase64Model.self, from: base64TestXML.data(using: .utf8)!)
                     expect(decodedModel).toNot(beNil())
@@ -46,7 +46,7 @@ class DataDecodingTests: DecodingTestSpec {
                     }
                 }
                 //MARK: Custom
-                it("Decodes_CustomDecoder") {
+                it("CustomDecoder") {
                     expect {_ = try self.plistDecoder.decode(TestCustomDataModel.self, from: customTestXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(TestCustomDataModel.self, from: customTestXML.data(using: .utf8)!)
                     expect(decodedModel).toNot(beNil())

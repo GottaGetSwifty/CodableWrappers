@@ -16,7 +16,7 @@ class DataEncodingTests: EncodingTestSpec {
             //MARK: - JSONEncoder
             context("JSONEncoder") {
                 //MARK: Base64
-                it("Encodes_Base64") {
+                it("Base64") {
                     expect {_ = try self.jsonEncoder.encode(base64TestModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(base64TestModel)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
@@ -28,7 +28,7 @@ class DataEncodingTests: EncodingTestSpec {
                     }
                 }
                 //MARK: Custom
-                it("Encodes_CustomEncoder") {
+                it("CustomEncoder") {
                     expect {_ = try self.jsonEncoder.encode(customDataTestModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(customDataTestModel)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
@@ -43,7 +43,7 @@ class DataEncodingTests: EncodingTestSpec {
             //MARK: - PListEncoder
             context("PListEncoder") {
                 //MARK: Base64
-                it("Encodes_Base64") {
+                it("Base64") {
                     expect {_ = try self.plistEncoder.encode(base64TestModel)}.toNot(throwError())
                     let encodedData = try? self.plistEncoder.encode(base64TestModel)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
@@ -55,7 +55,7 @@ class DataEncodingTests: EncodingTestSpec {
                     }
                 }
                 //MARK: Custom
-                it("Encodes_CustomEncoder") {
+                it("CustomEncoder") {
                     expect {_ = try self.plistEncoder.encode(customDataTestModel)}.toNot(throwError())
                     let encodedData = try? self.plistEncoder.encode(customDataTestModel)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
