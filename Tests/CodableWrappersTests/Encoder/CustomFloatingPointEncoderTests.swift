@@ -79,7 +79,7 @@ private let floatTestModel = TestFloatModel(regular: 5, infinity: Float.infinity
 private struct TestFloatModel: Codable, Equatable {
     @NonConformingFloatCoding<NonConformingValueProvider>
     var regular: Float
-    @NonConformingFloatCoding<NonConformingValueProvider>
+    @NonConformingFloatCodingMutable<NonConformingValueProvider>
     var infinity: Float
     @NonConformingFloatCoding<NonConformingValueProvider>
     var negativeInfinity: Float
@@ -153,6 +153,7 @@ private let doubleTestXML = """
 """
 
 //MARK: - FloatValueProvider
+
 private struct NonConformingValueProvider: NonConformingDecimalValueProvider {
     static var positiveInfinity: String = "100"
     static var negativeInfinity: String = "-100"

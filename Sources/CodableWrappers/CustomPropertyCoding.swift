@@ -10,6 +10,7 @@ import Foundation
 //MARK: - Static Coding Protocols
 
 /// Mirrors of `Encodable`'s functionality but in a static context
+/// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticEncoder {
     /// The Type this encodes
     associatedtype OriginalType: Encodable
@@ -19,6 +20,7 @@ public protocol StaticEncoder {
 }
 
 /// Mirrors of `Decodable`'s functionality but in a static context
+/// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticDecoder {
     /// The Type this will decode
     associatedtype DecodedType: Decodable
@@ -28,6 +30,7 @@ public protocol StaticDecoder {
 }
 
 /// Combines `StaticDecoder` and `StaticEncoder`
+/// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticCoder: StaticDecoder & StaticEncoder where DecodedType == OriginalType {
     /// `StaticDecoder.DecodedType` & `StaticEncoder.OriginalType`
     typealias CodingType = DecodedType
