@@ -85,6 +85,7 @@ private let base64TestXML = """
 """
 
 // MARK: - Custom Mock Data
+
 private let customDataTestModel = TestCustomDataModel(customData: "Oh, Hi Mark!".data(using: .utf8)!)
 private struct TestCustomDataModel: Codable, Equatable {
     @Base64Coding

@@ -137,6 +137,7 @@ public struct CustomCodingMutable<CustomCoder: StaticCoder>: StaticCodingWrapper
 }
 
 //MARK: Equatable Conformance
+
 extension CustomEncoding: Equatable where CustomEncoder.OriginalType: Equatable {}
 extension CustomDecoding: Equatable where CustomDecoder.DecodedType: Equatable {}
 extension CustomCoding: Equatable where CustomCoder.CodingType: Equatable {}
