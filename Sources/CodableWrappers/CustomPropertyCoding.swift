@@ -136,6 +136,13 @@ public struct CustomCodingMutable<CustomCoder: StaticCoder>: StaticCodingWrapper
     }
 }
 
+//MARK: Enables only customizing one direction
+extension CustomEncoding: Decodable where CustomEncoder.OriginalType: Decodable {}
+extension CustomDecoding: Encodable where CustomDecoder.DecodedType: Encodable {}
+
+extension CustomEncodingMutable: Decodable where CustomEncoder.OriginalType: Decodable {}
+extension CustomDecodingMutable: Encodable where CustomDecoder.DecodedType: Encodable {}
+
 //MARK: Equatable Conformance
 
 extension CustomEncoding: Equatable where CustomEncoder.OriginalType: Equatable {}
