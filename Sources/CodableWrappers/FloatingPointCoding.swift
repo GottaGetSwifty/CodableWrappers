@@ -51,16 +51,21 @@ public struct NonConformingFloatEncoder<ValueProvider: NonConformingDecimalValue
     public static func encode(value: Float, to encoder: Encoder) throws {
 
         //For some reason the switch with nan doesn't work
-        guard !value.isNaN else {
+        if value.isNaN {
             return try ValueProvider.nan.encode(to: encoder)
         }
-        switch value {
-        case .infinity: return try ValueProvider.positiveInfinity.encode(to: encoder)
-        case -.infinity: return try ValueProvider.negativeInfinity.encode(to: encoder)
-        default: try value.encode(to: encoder)
+        else if value == Float.infinity {
+            return try ValueProvider.positiveInfinity.encode(to: encoder)
+        }
+        else if value == -Float.infinity {
+            return try ValueProvider.negativeInfinity.encode(to: encoder)
+        }
+        else {
+            try value.encode(to: encoder)
         }
     }
 }
+
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
 public struct NonConformingDoubleCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
     private init() { }
@@ -95,13 +100,17 @@ public struct NonConformingDoubleEncoder<ValueProvider: NonConformingDecimalValu
     public static func encode(value: Double, to encoder: Encoder) throws {
 
         //For some reason the switch with nan doesn't work
-        guard !value.isNaN else {
+        if value.isNaN {
             return try ValueProvider.nan.encode(to: encoder)
         }
-        switch value {
-        case .infinity: return try ValueProvider.positiveInfinity.encode(to: encoder)
-        case -.infinity: return try ValueProvider.negativeInfinity.encode(to: encoder)
-        default: try value.encode(to: encoder)
+        else if value == Double.infinity {
+            return try ValueProvider.positiveInfinity.encode(to: encoder)
+        }
+        else if value == -Double.infinity {
+            return try ValueProvider.negativeInfinity.encode(to: encoder)
+        }
+        else {
+            try value.encode(to: encoder)
         }
     }
 }

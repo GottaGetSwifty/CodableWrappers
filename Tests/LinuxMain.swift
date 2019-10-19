@@ -1,7 +1,14 @@
 import XCTest
+import Quick
 
-import CodableWrappersTests
+@testable import CodableWrappersTests
 
-var tests = [XCTestCaseEntry]()
-tests += CodableWrappersTests.allTests()
-XCTMain(tests)
+let allTestClasses = [
+    CustomFloatingPointDecoderTests.self,
+    DataDecodingTests.self,
+    DateDecodingTests.self,
+    CustomFloatingPointEncoderTests.self,
+    DataEncodingTests.self,
+    DateEncodingTests.self,
+]
+Quick.QCKMain(allTestClasses)

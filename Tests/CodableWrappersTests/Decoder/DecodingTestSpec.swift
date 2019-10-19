@@ -13,6 +13,7 @@ import Nimble
 class DecodingTestSpec: QuickSpec {
     let jsonDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
+        decoder.dataDecodingStrategy = .base64
         return decoder
     }()
 

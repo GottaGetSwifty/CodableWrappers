@@ -123,9 +123,11 @@ private let secondsSince1790XML = """
 
 //MARK: - Milliseconds Since 1970 Mock Data
 private struct MillisecondsSince1970TestModel: Codable, Equatable {
-    @CustomCoding<MillisecondsSince1970DateCoder>
+
+    @MillisecondsSince1970DateCoding
     var millisecondsSince1970Date: Date
 }
+
 private let millisecondsSince1790TestInstance = MillisecondsSince1970TestModel(millisecondsSince1970Date: Date(timeIntervalSince1970: 590277534.123))
 private let millisecondsSince1790JSON = """
 {

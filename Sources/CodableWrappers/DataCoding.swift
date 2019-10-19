@@ -7,13 +7,14 @@
 
 import Foundation
 
+typealias Base64DataCoder = Coder<Base64DataEncoder, Base64DataDecoder>
 /// Uses Base64 for (de)serailization of `Data`
-public struct Base64DataCoder: StaticCoder {
-    private init() { }
-
-    public static func decode(from decoder: Decoder) throws -> Data { try Base64DataDecoder.decode(from: decoder) }
-    public static func encode(value: Data, to encoder: Encoder) throws { try Base64DataEncoder.encode(value: value, to: encoder) }
-}
+//public struct Base64DataCoder: StaticCoder {
+//    private init() { }
+//
+//    public static func decode(from decoder: Decoder) throws -> Data { try Base64DataDecoder.decode(from: decoder) }
+//    public static func encode(value: Data, to encoder: Encoder) throws { try Base64DataEncoder.encode(value: value, to: encoder) }
+//}
 
 /// Uses Base64 for deserialization of `Data`
 public struct Base64DataDecoder: StaticDecoder {

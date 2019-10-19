@@ -23,7 +23,7 @@ class CustomFloatingPointEncoderTests: EncodingTestSpec {
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
                     expect(encodedData).toNot(beNil())
                     expect(encodedString).toNot(beNil())
-
+                    print(encodedString)
                     if let actualString = encodedString {
                         expect(actualString).to(haveEqualLines(to: floatTestJSON))
                     }
@@ -33,6 +33,7 @@ class CustomFloatingPointEncoderTests: EncodingTestSpec {
                     expect {_ = try self.jsonEncoder.encode(floatTestModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(floatTestModel)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
+                    print(encodedString)
                     expect(encodedData).toNot(beNil())
                     expect(encodedString).toNot(beNil())
 

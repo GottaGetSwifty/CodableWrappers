@@ -136,3 +136,4 @@ private struct CustomBase64Coder: StaticCoder {
         try value.base64EncodedString().encode(to: encoder)
     }
 }
+

@@ -88,8 +88,8 @@ private let base64TestXML = """
 
 private let customDataTestModel = TestCustomDataModel(customData: "Oh, Hi Mark!".data(using: .utf8)!)
 private struct TestCustomDataModel: Codable, Equatable {
-    @Base64Coding
-    var customData: Data
+
+    @Base64Coding var customData: Data
 }
 
 private let customTestJSON = """

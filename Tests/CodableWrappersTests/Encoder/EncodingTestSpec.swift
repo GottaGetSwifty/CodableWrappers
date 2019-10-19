@@ -13,7 +13,11 @@ import Nimble
 class EncodingTestSpec: QuickSpec {
     let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
+//        if #available(OSX 10.13, *) {
+//            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+//        } else {
+            encoder.outputFormatting = [.prettyPrinted]
+//        }
         return encoder
     }()
 

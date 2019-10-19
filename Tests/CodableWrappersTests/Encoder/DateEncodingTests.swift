@@ -17,26 +17,26 @@ class DateEncodingTests: EncodingTestSpec {
             describe("JSONEncoder") {
                 //MARK: SecondsSince1970
                 it("SecondsSince1970") {
-                    expect {_ = try self.jsonEncoder.encode(secondsSince1790TestInstance)}.toNot(throwError())
-                    let encodedData = try? self.jsonEncoder.encode(secondsSince1790TestInstance)
+                    expect {_ = try self.jsonEncoder.encode(secondsSince1970TestInstance)}.toNot(throwError())
+                    let encodedData = try? self.jsonEncoder.encode(secondsSince1970TestInstance)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
                     expect(encodedData).toNot(beNil())
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: secondsSince1790JSON))
+                        expect(actualString).to(haveEqualLines(to: secondsSince1970JSON))
                     }
                 }
                 //MARK: SecondsSince1970
                 it("MillisecondsSince1970") {
-                    expect {_ = try self.jsonEncoder.encode(millisecondsSince1790TestInstance)}.toNot(throwError())
-                    let encodedData = try? self.jsonEncoder.encode(millisecondsSince1790TestInstance)
+                    expect {_ = try self.jsonEncoder.encode(millisecondsSince1970TestInstance)}.toNot(throwError())
+                    let encodedData = try? self.jsonEncoder.encode(millisecondsSince1970TestInstance)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
                     expect(encodedData).toNot(beNil())
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: millisecondsSince1790JSON))
+                        expect(actualString).to(haveEqualLines(to: millisecondsSince1970JSON))
                     }
                 }
                 //MARK: ISO8601
@@ -70,26 +70,26 @@ class DateEncodingTests: EncodingTestSpec {
             describe("PListEncoder") {
                 //MARK: SecondsSince1970
                 it("SecondsSince1970") {
-                    expect {_ = try self.plistEncoder.encode(secondsSince1790TestInstance)}.toNot(throwError())
-                    let encodedData = try? self.plistEncoder.encode(secondsSince1790TestInstance)
+                    expect {_ = try self.plistEncoder.encode(secondsSince1970TestInstance)}.toNot(throwError())
+                    let encodedData = try? self.plistEncoder.encode(secondsSince1970TestInstance)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
                     expect(encodedData).toNot(beNil())
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: secondsSince1790XML))
+                        expect(actualString).to(haveEqualLines(to: secondsSince1970XML))
                     }
                 }
                 //MARK: MillisecondsSince1970
                 it("MillisecondsSince1970") {
-                    expect {_ = try self.plistEncoder.encode(millisecondsSince1790TestInstance)}.toNot(throwError())
-                    let encodedData = try? self.plistEncoder.encode(millisecondsSince1790TestInstance)
+                    expect {_ = try self.plistEncoder.encode(millisecondsSince1970TestInstance)}.toNot(throwError())
+                    let encodedData = try? self.plistEncoder.encode(millisecondsSince1970TestInstance)
                     let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
                     expect(encodedData).toNot(beNil())
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: millisecondsSince1790XML))
+                        expect(actualString).to(haveEqualLines(to: millisecondsSince1970XML))
                     }
                 }
                 //MARK: ISO8601
@@ -128,13 +128,13 @@ private struct SecondsSince1970TestModel: Codable, Equatable {
     @CustomCoding<SecondsSince1970DateCoder>
     var secondsSince1970Date: Date
 }
-private let secondsSince1790TestInstance = SecondsSince1970TestModel(secondsSince1970Date: Date(timeIntervalSince1970: 590277534.0))
-private let secondsSince1790JSON = """
+private let secondsSince1970TestInstance = SecondsSince1970TestModel(secondsSince1970Date: Date(timeIntervalSince1970: 590277534.0))
+private let secondsSince1970JSON = """
 {
     "secondsSince1970Date" : "590277534.0"
 }
 """
-private let secondsSince1790XML = """
+private let secondsSince1970XML = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -147,16 +147,17 @@ private let secondsSince1790XML = """
 
 //MARK: - Milliseconds Since 1970 Mock Data
 private struct MillisecondsSince1970TestModel: Codable, Equatable {
-    @CustomCoding<MillisecondsSince1970DateCoder>
+    @MillisecondsSince1970DateCoding
     var millisecondsSince1970Date: Date
 }
-private let millisecondsSince1790TestInstance = MillisecondsSince1970TestModel(millisecondsSince1970Date: Date(timeIntervalSince1970: 590277534.123))
-private let millisecondsSince1790JSON = """
+
+private let millisecondsSince1970TestInstance = MillisecondsSince1970TestModel(millisecondsSince1970Date: Date(timeIntervalSince1970: 590277534.123))
+private let millisecondsSince1970JSON = """
 {
     "millisecondsSince1970Date" : "590277534123.0"
 }
 """
-private let millisecondsSince1790XML = """
+private let millisecondsSince1970XML = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

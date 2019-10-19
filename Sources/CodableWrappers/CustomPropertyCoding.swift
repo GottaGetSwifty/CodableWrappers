@@ -36,6 +36,12 @@ public protocol StaticCoder: StaticDecoder & StaticEncoder where DecodedType == 
     typealias CodingType = DecodedType
 }
 
+public struct Coder<Enc: StaticEncoder, Dec: StaticDecoder>: StaticCoder where Enc.OriginalType == Dec.DecodedType {
+
+    public static func decode(from decoder: Decoder) throws -> Dec.DecodedType { try Dec.decode(from: decoder) }
+    public static func encode(value: Enc.OriginalType, to encoder: Encoder) throws { try Enc.encode(value: value, to: encoder) }
+}
+
 //MARK: - Static Coding Wrapper Protocols
 
 /// Contract for a Static Encoding Property Wrapper
@@ -144,7 +150,6 @@ extension CustomEncodingMutable: Decodable where CustomEncoder.OriginalType: Dec
 extension CustomDecodingMutable: Encodable where CustomDecoder.DecodedType: Encodable {}
 
 //MARK: Equatable Conformance
-
 extension CustomEncoding: Equatable where CustomEncoder.OriginalType: Equatable {}
 extension CustomDecoding: Equatable where CustomDecoder.DecodedType: Equatable {}
 extension CustomCoding: Equatable where CustomCoder.CodingType: Equatable {}
