@@ -20,12 +20,6 @@ public protocol NonConformingDecimalValueProvider {
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Float`
 public struct NonConformingFloatCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
     private init() { }
-    public static func decode(from decoder: Decoder) throws -> Float { try NonConformingFloatDecoder<ValueProvider>.decode(from: decoder) }
-    public static func encode(value: Float, to encoder: Encoder) throws { try NonConformingFloatEncoder<ValueProvider>.encode(value: value, to: encoder) }
-}
-/// Uses the `ValueProvider` for deserialization of a non-conforming `Float`
-public struct NonConformingFloatDecoder<ValueProvider: NonConformingDecimalValueProvider>: StaticDecoder {
-    private init() { }
 
     public static func decode(from decoder: Decoder) throws -> Float {
         guard let stringValue = try? String(from: decoder) else {
@@ -43,10 +37,6 @@ public struct NonConformingFloatDecoder<ValueProvider: NonConformingDecimalValue
             return value
         }
     }
-}
-/// Uses the `ValueProvider` for serialization of a non-conforming `Float`
-public struct NonConformingFloatEncoder<ValueProvider: NonConformingDecimalValueProvider>: StaticEncoder {
-    private init() {}
 
     public static func encode(value: Float, to encoder: Encoder) throws {
 
@@ -69,12 +59,6 @@ public struct NonConformingFloatEncoder<ValueProvider: NonConformingDecimalValue
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
 public struct NonConformingDoubleCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
     private init() { }
-    public static func decode(from decoder: Decoder) throws -> Double { try NonConformingDoubleDecoder<ValueProvider>.decode(from: decoder) }
-    public static func encode(value: Double, to encoder: Encoder) throws { try NonConformingDoubleEncoder<ValueProvider>.encode(value: value, to: encoder) }
-}
-/// Uses the `ValueProvider` for deserialization of a non-conforming `Double`
-public struct NonConformingDoubleDecoder<ValueProvider: NonConformingDecimalValueProvider>: StaticDecoder {
-    private init() { }
 
     public static func decode(from decoder: Decoder) throws -> Double {
         guard let stringValue = try? String(from: decoder) else {
@@ -92,10 +76,6 @@ public struct NonConformingDoubleDecoder<ValueProvider: NonConformingDecimalValu
             return value
         }
     }
-}
-/// Uses the `ValueProvider` for serialization of a non-conforming `Double`
-public struct NonConformingDoubleEncoder<ValueProvider: NonConformingDecimalValueProvider>: StaticEncoder {
-    private init() {}
 
     public static func encode(value: Double, to encoder: Encoder) throws {
 

@@ -10,15 +10,20 @@ import Foundation
 import Quick
 import Nimble
 
-class DecodingTestSpec: QuickSpec {
-    let jsonDecoder: JSONDecoder = {
+protocol DecodingTestSpec {
+    var jsonDecoder: JSONDecoder { get }
+    var plistDecoder: PropertyListDecoder { get }
+}
+
+extension DecodingTestSpec {
+    var jsonDecoder: JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dataDecodingStrategy = .base64
         return decoder
-    }()
+    }
 
-    let plistDecoder: PropertyListDecoder = {
+    var plistDecoder: PropertyListDecoder {
         let decoder = PropertyListDecoder()
         return decoder
-    }()
+    }
 }

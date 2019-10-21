@@ -10,7 +10,7 @@ import Foundation
 import Quick
 import Nimble
 
-class CustomFloatingPointDecoderTests: DecodingTestSpec {
+class CustomFloatingPointDecoderTests: QuickSpec, DecodingTestSpec {
 
     override func spec() {
         describe("CustomFloatingPointDecoding") {

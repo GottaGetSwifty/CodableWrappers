@@ -143,11 +143,31 @@ public struct CustomCodingMutable<CustomCoder: StaticCoder>: StaticCodingWrapper
 }
 
 //MARK: Enables only customizing one direction
-extension CustomEncoding: Decodable where CustomEncoder.OriginalType: Decodable {}
-extension CustomDecoding: Encodable where CustomDecoder.DecodedType: Encodable {}
+extension CustomEncoding: Decodable where CustomEncoder.OriginalType: Decodable {
+    /// Ensures there isn't an extra level added
+    public init(from decoder: Decoder) throws {
+        self.init(wrappedValue: try CustomEncoder.OriginalType(from: decoder))
+    }
+}
+extension CustomDecoding: Encodable where CustomDecoder.DecodedType: Encodable {
+    /// Ensures there isn't an extra level added
+    public func encode(to encoder: Encoder) throws {
+        try wrappedValue.encode(to: encoder)
+    }
+}
 
-extension CustomEncodingMutable: Decodable where CustomEncoder.OriginalType: Decodable {}
-extension CustomDecodingMutable: Encodable where CustomDecoder.DecodedType: Encodable {}
+extension CustomEncodingMutable: Decodable where CustomEncoder.OriginalType: Decodable {
+    /// Ensures there isn't an extra level added
+    public init(from decoder: Decoder) throws {
+        self.init(wrappedValue: try CustomEncoder.OriginalType(from: decoder))
+    }
+}
+extension CustomDecodingMutable: Encodable where CustomDecoder.DecodedType: Encodable {
+    /// Ensures there isn't an extra level added
+    public func encode(to encoder: Encoder) throws {
+        try wrappedValue.encode(to: encoder)
+    }
+}
 
 //MARK: Equatable Conformance
 extension CustomEncoding: Equatable where CustomEncoder.OriginalType: Equatable {}

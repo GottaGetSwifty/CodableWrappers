@@ -9,7 +9,7 @@ import Foundation
 import Quick
 import Nimble
 
-class DataDecodingTests: DecodingTestSpec {
+class DataDecodingTests: QuickSpec, DecodingTestSpec {
 
     override func spec() {
         describe("DataDecoding") {

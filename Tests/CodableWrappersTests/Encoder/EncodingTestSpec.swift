@@ -10,20 +10,25 @@ import Foundation
 import Quick
 import Nimble
 
-class EncodingTestSpec: QuickSpec {
-    let jsonEncoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-//        if #available(OSX 10.13, *) {
-//            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-//        } else {
-            encoder.outputFormatting = [.prettyPrinted]
-//        }
-        return encoder
-    }()
+protocol EncodingTestSpec {
+    var jsonEncoder: JSONEncoder { get }
+    var plistEncoder: PropertyListEncoder { get }
+}
 
-    let plistEncoder: PropertyListEncoder = {
+extension EncodingTestSpec {
+    var jsonEncoder: JSONEncoder {
+            let encoder = JSONEncoder()
+    //        if #available(OSX 10.13, *) {
+    //            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+    //        } else {
+                encoder.outputFormatting = [.prettyPrinted]
+    //        }
+            return encoder
+        }
+
+    var plistEncoder: PropertyListEncoder {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .xml
         return encoder
-    }()
+    }
 }

@@ -9,7 +9,7 @@ import Foundation
 import Quick
 import Nimble
 
-class DateDecodingTests: DecodingTestSpec {
+class DateDecodingTests: QuickSpec, DecodingTestSpec {
 
     override func spec() {
         describe("DateDecoding") {
@@ -107,7 +107,7 @@ private struct SecondsSince1970TestModel: Codable, Equatable {
 private let secondsSince1790TestInstance = SecondsSince1970TestModel(secondsSince1970Date: Date(timeIntervalSince1970: 590277534.0))
 private let secondsSince1790JSON = """
 {
-    "secondsSince1970Date" : "590277534.0"
+    "secondsSince1970Date" : 590277534
 }
 """
 private let secondsSince1790XML = """
@@ -116,7 +116,7 @@ private let secondsSince1790XML = """
 <plist version="1.0">
 <dict>
     <key>secondsSince1970Date</key>
-    <string>590277534.0</string>
+    <real>590277534</real>
 </dict>
 </plist>
 """
