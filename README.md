@@ -5,12 +5,14 @@
 
 ## A collection of [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) for custom serialization of Swift Codable Types
 
+Check out [this blog post](https://www.getswifty.blog/blog/making-custom-serialization-a-breeze-in-swift-51-with-property-wrappers) for a more detailed overview.
+
 ### Advantages
 
 - Declarative
 - Extendable
 - Declare once for all Encoders and Decoders. (e.g. JSONEncoder and PropertyListEncoder)
-- Can customize (de/en)coding without overriding `encode(to: Encoder)` or `init(with decoder)`!
+- Custom (de/en)coding without overriding `encode(to: Encoder)` or `init(with decoder)` for your whole Type
 - Multiple (de/en)coding strategies within the same and child Types
 - Cross Platform
 
@@ -34,25 +36,25 @@ If working in an Xcode project select `File->Swift Packages->Add Package Depende
 
 `https://github.com/GottaGetSwifty/CodableWrappers.git`
 
-### Note
+### **Note**
 
-Since SPM now has integrated support everywhere Swift 5.1 is used, there are currently no plans to support other dependency management tools. If SPM in unavailable, [Git-Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) is an option. More info can be found at the [SPM Website](https://swift.org/package-manager/)
+Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swift 5.1 is used, there are currently no plans to support other dependency management tools. If SPM in unavailable, [Git-Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) is an option. Or feel free to submit a pull request with support added for your preference! ️️😊
 
 ---
 
 ## Available Property Wrappers
 
-  - [@Base64Coding](#base64coding)
-  - [@SecondsSince1970DateCoding](#secondssince1970datecoding)
-  - [@MillisecondsSince1970DateCoding](#millisecondssince1970datecoding)
-  - [@ISO8601DateCoding](#iso8601datecoding)
-  - [Custom DateFormatter](#custom-dateformatter)
-  - [@NonConformingFloatCoding\<ValueProvider>](#nonconformingfloatcodingvalueprovider)
-  - [@NonConformingDoubleCoding\<ValueProvider>](#nonconformingdoublecodingvalueprovider)
-  - [Other Customization](#other-customization-1)
-  - [Property Mutability](#property-mutability)
-  - [Only Encoding or Decoding](#only-encoding-or-decoding)
-  
+- [@Base64Coding](#base64coding)
+ [@SecondsSince1970DateCoding](#secondssince1970datecoding)
+- [@MillisecondsSince1970DateCoding](#millisecondssince1970datecoding)
+- [@ISO8601DateCoding](#iso8601datecoding)
+- [@DateFormatterCoding\<DateFormatterStaticCoder>](#DateFormatterCoding\<DateFormatterStaticCoder>)
+- [@NonConformingFloatCoding\<ValueProvider>](#nonconformingfloatcodingvalueprovider)
+- [@NonConformingDoubleCoding\<ValueProvider>](#nonconformingdoublecodingvalueprovider)
+- [Other Customization](#other-customization-1)
+- [Property Mutability](#property-mutability)
+- [Only Encoding or Decoding](#only-encoding-or-decoding)
+
 ## Other Customization
 
 - [Property Mutability](#Property-Mutability)
@@ -103,12 +105,13 @@ struct MyType: Codable {
     var myDate: Date // Now encodes to ISO8601
 }
 ```
-## Custom DateFormatter
 
-For other Date formats, create a Type that adheres to the `CustomDateFormatterCoder` Protocol and use the `@CustomCoding<StaticCoder>` generic Property Wrapper
+## @DateFormatterCoding\<DateFormatterStaticCoder>
+
+For other Date formats, create a Type that adheres to the `DateFormatterStaticCoder` Protocol and use the `@CodingUses<StaticCoder>` generic Property Wrapper. A convenience `@DateFormatterCoding` `typealias` is also available.
 
 ```swift
-struct MyCustomDateCoder: CustomDateFormatterCoder {
+struct MyCustomDateCoder: DateFormatterStaticCoder {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM:dd:yy H:mm:ss"
@@ -117,12 +120,12 @@ struct MyCustomDateCoder: CustomDateFormatterCoder {
 }
 
 struct MyType: Codable {
-    @CustomCoding<MyCustomDateCoder>
+    @DateFormatterCoding<MyCustomDateCoder>
     var myDate: Date // Now encodes to the format: "MM:dd:yy H:mm:ss"
 }
 ```
 
-## @NonConformingFloatCoding<ValueProvider>
+## @NonConformingFloatCoding\<ValueProvider>
 
 When using a non-conforming Float, create a Type that adheres to NonConformingDecimalValueProvider and use `@NonConformingFloatCoding<NonConformingDecimalValueProvider>`
 
@@ -139,7 +142,7 @@ struct MyType: Codable {
 }
 ```
 
-## @NonConformingDoubleCoding<ValueProvider>
+## @NonConformingDoubleCoding\<ValueProvider>
 
 When using a non-conforming Double, create a Type that adheres to NonConformingDecimalValueProvider and use `@NonConformingDoubleCoding<NonConformingDecimalValueProvider>`
 
@@ -158,12 +161,11 @@ struct MyType: Codable {
 
 ## Other Customization
 
-This is build to allow easy extension the base Types for any custom (de/en)coding needed.
+The architecture was built with extensibility in mind so Implementing your own custom coding is as simple as implementing the StaticCoder `protocol`. You can then simply add `@CodingUses<YourCustomCoder>` to your property, or create a `typealias` to make it cleaner: `typealias YourCustomCoding = CodingUses<YourCustomCoder>`
 
-In fact all the above Property Wrappers are built the same way!
+In fact all the included Property Wrappers are built the same way!
 
-All that's needed for your custom Coder is to implement `StaticCoder`
-
+### Full Example
 ```swift
 
 struct NanosecondsSince9170Coder: StaticCoder {
@@ -188,7 +190,7 @@ struct MyType: Codable {
 
 // Approach 2: CustomEncoding propertyWrapper typealias
 
-typealias NanosecondsSince9170Coding = CustomCoding<NanosecondsSince9170Coder>
+typealias NanosecondsSince9170Coding = CodingUses<NanosecondsSince9170Coder>
 
 struct MyType: Codable {
     @NanosecondsSince9170Coding
@@ -196,11 +198,15 @@ struct MyType: Codable {
 }
 ```
 
+Take a look at [these other examples](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/CustomExamples.md) to see what else is possible.
+
+---
+
 ## Property Mutability
 
 Currently the Property a propertyWrapper wraps must be declared as a `var` and the ability to mutate is defined by the propertyWrapper.
 
-To allow flexibility all of the included propertyWrappers have a Mutable variant. 
+To allow flexibility all of the included propertyWrappers have a Mutable variant.
 
 **Add `Mutable` to the end to access the Mutable propertyWrapper, making the Property mutable**
 E.g. `@Base64CodingMutable`, `@SecondsSince1970DateCoding`, `@CustomCodingMutable<ACustomCoder>`, etc.
@@ -243,4 +249,4 @@ struct MyType: Decodable {
 
 ## Contributions
 
-If there's a standard Serialization strategy you'd like added, please open an issue to request it to be added and/or implement it and create a pull request with passing Unit Tests.
+If there's a standard Serialization strategy that could be added, please open an issue requesting it and/or submit a pull request with passing tests.

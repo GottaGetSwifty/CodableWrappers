@@ -18,7 +18,7 @@ protocol DecodingTestSpec {
 extension DecodingTestSpec {
     var jsonDecoder: JSONDecoder {
         let decoder = JSONDecoder()
-        decoder.dataDecodingStrategy = .base64
+        decoder.dateDecodingStrategy = .secondsSince1970
         return decoder
     }
 

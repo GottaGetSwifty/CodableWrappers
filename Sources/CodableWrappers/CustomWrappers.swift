@@ -11,11 +11,11 @@ import Foundation
 
 //MARK: Float
 
-/// Use the values in `ValueProvider` when encoding this immuitable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
+/// Use the values in `ValueProvider` when encoding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 typealias NonConformingFloatEncoding<ValueProvider: NonConformingDecimalValueProvider> = EncodingUses<NonConformingFloatStaticCoder<ValueProvider>>
-/// Use the values in `ValueProvider` when decoding this immuitable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
+/// Use the values in `ValueProvider` when decoding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 typealias NonConformingFloatDecoding<ValueProvider: NonConformingDecimalValueProvider> = DecodingUses<NonConformingFloatStaticCoder<ValueProvider>>
-/// Use the values in `ValueProvider` when (en/de)coding this immuitable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
+/// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 typealias NonConformingFloatCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingFloatStaticCoder<ValueProvider>>
 
 /// Use the values in `ValueProvider` when encoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
@@ -27,11 +27,11 @@ typealias NonConformingFloatCodingMutable<ValueProvider: NonConformingDecimalVal
 
 //MARK: Double
 
-/// Use the values in `ValueProvider` when encoding this immuitable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
+/// Use the values in `ValueProvider` when encoding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 typealias NonConformingDoubleEncoding<ValueProvider: NonConformingDecimalValueProvider> = EncodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
-/// Use the values in `ValueProvider` when decoding this immuitable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
+/// Use the values in `ValueProvider` when decoding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 typealias NonConformingDoubleDecoding<ValueProvider: NonConformingDecimalValueProvider> = DecodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
-/// Use the values in `ValueProvider` when (en/de)coding this immuitable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
+/// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 typealias NonConformingDoubleCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
 
 /// Use the values in `ValueProvider` when encoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
@@ -45,18 +45,18 @@ typealias NonConformingDoubleCodingMutable<ValueProvider: NonConformingDecimalVa
 
 //MARK: Base64
 
-/// Encode this immuitable `Data` Property as a Base64 encoded String
+/// Encode this immutable `Data` Property as a Base64 encoded String
 typealias Base64Encoding = EncodingUses<Base64DataStaticCoder>
-/// Decode this immuitable `Data` Property as a Base64 encoded String
+/// Decode this immutable `Data` Property as a Base64 encoded String
 typealias Base64Decoding = DecodingUses<Base64DataStaticCoder>
-/// (En/De)code this immuitable `Data` Property as a Base64 encoded String
+/// (En/De)code this immutable `Data` Property as a Base64 encoded String
 typealias Base64Coding = CodingUses<Base64DataStaticCoder>
 
-/// Encode this immuitable `Data` Property as a Base64 encoded String
+/// Encode this immutable `Data` Property as a Base64 encoded String
 typealias Base64EncodingMutable = EncodingUsesMutable<Base64DataStaticCoder>
-/// Decode this immuitable `Data` Property as a Base64 encoded String
+/// Decode this immutable `Data` Property as a Base64 encoded String
 typealias Base64DecodingMutable = DecodingUsesMutable<Base64DataStaticCoder>
-/// (En/De)code this immuitable `Data` Property as a Base64 encoded String
+/// (En/De)code this immutable `Data` Property as a Base64 encoded String
 typealias Base64CodingMutable = CodingUsesMutable<Base64DataStaticCoder>
 
 //MARK: - Date
