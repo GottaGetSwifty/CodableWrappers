@@ -13,7 +13,7 @@ import Foundation
 /// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticEncoder {
     /// The Type this encodes
-    associatedtype OriginalType: Encodable
+    associatedtype OriginalType
 
     /// Mirror of `Encodable`'s `encode(to: Encoder)` but in a static context
     static func encode(value: OriginalType, to encoder: Encoder) throws
@@ -23,7 +23,7 @@ public protocol StaticEncoder {
 /// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticDecoder {
     /// The Type this will decode
-    associatedtype DecodedType: Decodable
+    associatedtype DecodedType
 
     /// Mirror of `Decodable`'s `init(from: Decoder)` but in a static context
     static func decode(from decoder: Decoder) throws -> DecodedType
@@ -34,12 +34,6 @@ public protocol StaticDecoder {
 public protocol StaticCoder: StaticDecoder & StaticEncoder where DecodedType == OriginalType {
     /// `StaticDecoder.DecodedType` & `StaticEncoder.OriginalType`
     typealias CodingType = DecodedType
-}
-
-public struct Coder<Enc: StaticEncoder, Dec: StaticDecoder>: StaticCoder where Enc.OriginalType == Dec.DecodedType {
-
-    public static func decode(from decoder: Decoder) throws -> Dec.DecodedType { try Dec.decode(from: decoder) }
-    public static func encode(value: Enc.OriginalType, to encoder: Encoder) throws { try Enc.encode(value: value, to: encoder) }
 }
 
 //MARK: - Static Coding Wrapper Protocols
@@ -80,27 +74,27 @@ public protocol StaticCodingWrapper: StaticEncoderWrapper & StaticDecoderWrapper
 
 //MARK: - Custom Coding Property Wrappers
 
-/// Customize the encoding of a immuitable property using the `CustomEncoder`
+/// Customize the encoding of an immuitable property using the `CustomEncoder`
 @propertyWrapper
-public struct CustomEncoding<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
+public struct EncodingUses<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
     public let wrappedValue: CustomEncoder.OriginalType
     public init(wrappedValue: CustomEncoder.OriginalType) {
         self.wrappedValue = wrappedValue
     }
 }
 
-/// Customize the decoding of a immuitable property using the `CustomDecoder`
+/// Customize the decoding of an immuitable property using the `CustomDecoder`
 @propertyWrapper
-public struct CustomDecoding<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
+public struct DecodingUses<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
     public let wrappedValue: CustomDecoder.DecodedType
     public init(wrappedValue: CustomDecoder.DecodedType) {
         self.wrappedValue = wrappedValue
     }
 }
 
-/// Customize the encoding and decoding of a immuitable property using the `CustomCoder`
+/// Customize the encoding and decoding of an immuitable property using the `CustomCoder`
 @propertyWrapper
-public struct CustomCoding<CustomCoder: StaticCoder>: StaticCodingWrapper {
+public struct CodingUses<CustomCoder: StaticCoder>: StaticCodingWrapper {
     public typealias CustomEncoder = CustomCoder
     public typealias CustomDecoder = CustomCoder
 
@@ -114,7 +108,7 @@ public struct CustomCoding<CustomCoder: StaticCoder>: StaticCodingWrapper {
 
 /// Customize the encoding of a mutable property using the `CustomEncoder`
 @propertyWrapper
-public struct CustomEncodingMutable<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
+public struct EncodingUsesMutable<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
     public var wrappedValue: CustomEncoder.OriginalType
     public init(wrappedValue: CustomEncoder.OriginalType) {
         self.wrappedValue = wrappedValue
@@ -123,7 +117,7 @@ public struct CustomEncodingMutable<CustomEncoder: StaticEncoder>: StaticEncoder
 
 /// Customize the decoding of a mutable property using the `CustomDecoder`
 @propertyWrapper
-public struct CustomDecodingMutable<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
+public struct DecodingUsesMutable<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
     public var wrappedValue: CustomDecoder.DecodedType
     public init(wrappedValue: CustomDecoder.DecodedType) {
         self.wrappedValue = wrappedValue
@@ -132,7 +126,7 @@ public struct CustomDecodingMutable<CustomDecoder: StaticDecoder>: StaticDecoder
 
 /// Customize the encoding and decoding of a mutable property using the `CustomCoder`
 @propertyWrapper
-public struct CustomCodingMutable<CustomCoder: StaticCoder>: StaticCodingWrapper {
+public struct CodingUsesMutable<CustomCoder: StaticCoder>: StaticCodingWrapper {
     public typealias CustomEncoder = CustomCoder
     public typealias CustomDecoder = CustomCoder
 
@@ -142,27 +136,28 @@ public struct CustomCodingMutable<CustomCoder: StaticCoder>: StaticCodingWrapper
     }
 }
 
-//MARK: Enables only customizing one direction
-extension CustomEncoding: Decodable where CustomEncoder.OriginalType: Decodable {
+//MARK: Enable Customizing one direction
+
+extension EncodingUses: Decodable where CustomEncoder.OriginalType: Decodable {
     /// Ensures there isn't an extra level added
     public init(from decoder: Decoder) throws {
         self.init(wrappedValue: try CustomEncoder.OriginalType(from: decoder))
     }
 }
-extension CustomDecoding: Encodable where CustomDecoder.DecodedType: Encodable {
+extension DecodingUses: Encodable where CustomDecoder.DecodedType: Encodable {
     /// Ensures there isn't an extra level added
     public func encode(to encoder: Encoder) throws {
         try wrappedValue.encode(to: encoder)
     }
 }
 
-extension CustomEncodingMutable: Decodable where CustomEncoder.OriginalType: Decodable {
+extension EncodingUsesMutable: Decodable where CustomEncoder.OriginalType: Decodable {
     /// Ensures there isn't an extra level added
     public init(from decoder: Decoder) throws {
         self.init(wrappedValue: try CustomEncoder.OriginalType(from: decoder))
     }
 }
-extension CustomDecodingMutable: Encodable where CustomDecoder.DecodedType: Encodable {
+extension DecodingUsesMutable: Encodable where CustomDecoder.DecodedType: Encodable {
     /// Ensures there isn't an extra level added
     public func encode(to encoder: Encoder) throws {
         try wrappedValue.encode(to: encoder)
@@ -170,12 +165,13 @@ extension CustomDecodingMutable: Encodable where CustomDecoder.DecodedType: Enco
 }
 
 //MARK: Equatable Conformance
-extension CustomEncoding: Equatable where CustomEncoder.OriginalType: Equatable {}
-extension CustomDecoding: Equatable where CustomDecoder.DecodedType: Equatable {}
-extension CustomCoding: Equatable where CustomCoder.CodingType: Equatable {}
 
-extension CustomEncodingMutable: Equatable where CustomEncoder.OriginalType: Equatable {}
-extension CustomDecodingMutable: Equatable where CustomDecoder.DecodedType: Equatable {}
-extension CustomCodingMutable: Equatable where CustomCoder.CodingType: Equatable {}
+extension EncodingUses: Equatable where CustomEncoder.OriginalType: Equatable {}
+extension DecodingUses: Equatable where CustomDecoder.DecodedType: Equatable {}
+extension CodingUses: Equatable where CustomCoder.CodingType: Equatable {}
+
+extension EncodingUsesMutable: Equatable where CustomEncoder.OriginalType: Equatable {}
+extension DecodingUsesMutable: Equatable where CustomDecoder.DecodedType: Equatable {}
+extension CodingUsesMutable: Equatable where CustomCoder.CodingType: Equatable {}
 
 

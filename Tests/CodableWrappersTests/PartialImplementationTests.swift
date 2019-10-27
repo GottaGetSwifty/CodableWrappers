@@ -13,30 +13,28 @@ import Nimble
 class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
     override func spec() {
         describe("StaticCoder") {
-            context("OnlyUsing") {
-                describe("Decoding") {
-                    it("EncodesWithDefault") {
-                        let currentDate = Date()
-                        let encodingModel = DecodingModel(time: currentDate)
-                        let encoded = try! self.jsonEncoder.encode(encodingModel)
-                        expect {_ = try self.jsonDecoder.decode(DecodingModel.self, from: encoded)}.toNot(throwError())
-                        let decoded = try? self.jsonDecoder.decode(DecodingModel.self, from: encoded)
-                        expect(decoded).toNot(beNil())
-                        // This means it was decoded using the SecondsSince1970DateDecoding, but encoded using the default
-                        expect(decoded?.time.timeIntervalSince1970) == currentDate.timeIntervalSinceReferenceDate
-                    }
+            context("OnlyCustomDecoding") {
+                it("EncodesWithDefault") {
+                    let currentDate = Date()
+                    let encodingModel = DecodingModel(time: currentDate)
+                    let encoded = try! self.jsonEncoder.encode(encodingModel)
+                    expect {_ = try self.jsonDecoder.decode(DecodingModel.self, from: encoded)}.toNot(throwError())
+                    let decoded = try? self.jsonDecoder.decode(DecodingModel.self, from: encoded)
+                    expect(decoded).toNot(beNil())
+                    // This means it was decoded using the SecondsSince1970DateDecoding, but encoded using the default
+                    expect(decoded?.time.timeIntervalSince1970) == currentDate.timeIntervalSinceReferenceDate
                 }
-                describe("Encoding") {
-                    it("DecodesWithDefault") {
-                        let currentDate = Date()
-                        let encodingModel = EncodingModel(time: currentDate)
-                        let encoded = try! self.jsonEncoder.encode(encodingModel)
-                        expect {_ = try self.jsonDecoder.decode(EncodingModel.self, from: encoded)}.toNot(throwError())
-                        let decoded = try? self.jsonDecoder.decode(EncodingModel.self, from: encoded)
-                        expect(decoded).toNot(beNil())
-                        // This means it was decoded using the SecondsSince1970DateDecoding, but encoded using the default
-                        expect(decoded?.time.timeIntervalSinceReferenceDate) == currentDate.timeIntervalSince1970
-                    }
+            }
+            context("OnlyCustomEncoding") {
+                it("DecodesWithDefault") {
+                    let currentDate = Date()
+                    let encodingModel = EncodingModel(time: currentDate)
+                    let encoded = try! self.jsonEncoder.encode(encodingModel)
+                    expect {_ = try self.jsonDecoder.decode(EncodingModel.self, from: encoded)}.toNot(throwError())
+                    let decoded = try? self.jsonDecoder.decode(EncodingModel.self, from: encoded)
+                    expect(decoded).toNot(beNil())
+                    // This means it was decoded using the SecondsSince1970DateDecoding, but encoded using the default
+                    expect(decoded?.time.timeIntervalSinceReferenceDate) == currentDate.timeIntervalSince1970
                 }
             }
         }

@@ -9,8 +9,7 @@ import Foundation
 
 /// Uses Base64 for deserialization of `Data`
 /// Uses Base64 for (de)serailization of `Data`
-public struct Base64DataCoder: StaticCoder {
-    private init() { }
+public struct Base64DataStaticCoder: StaticCoder {
 
     public static func decode(from decoder: Decoder) throws -> Data {
 

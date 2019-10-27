@@ -63,7 +63,7 @@ class DataDecodingTests: QuickSpec, DecodingTestSpec {
 
 private let base64TestModel = TestBase64Model(base64Data: "Oh, Hi Mark!".data(using: .utf8)!)
 private struct TestBase64Model: Codable, Equatable {
-    @CustomCoding<Base64DataCoder>
+    @CodingUses<Base64DataStaticCoder>
     var base64Data: Data
 }
 

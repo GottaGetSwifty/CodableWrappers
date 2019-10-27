@@ -18,7 +18,7 @@ public protocol NonConformingDecimalValueProvider {
 }
 
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Float`
-public struct NonConformingFloatCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
+public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
     private init() { }
 
     public static func decode(from decoder: Decoder) throws -> Float {
@@ -57,7 +57,7 @@ public struct NonConformingFloatCoder<ValueProvider: NonConformingDecimalValuePr
 }
 
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
-public struct NonConformingDoubleCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
+public struct NonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
     private init() { }
 
     public static func decode(from decoder: Decoder) throws -> Double {

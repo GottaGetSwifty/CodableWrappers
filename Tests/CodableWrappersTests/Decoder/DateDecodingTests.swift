@@ -101,7 +101,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
 
 //MARK: - Seconds Since 1970 Mock Data
 private struct SecondsSince1970TestModel: Codable, Equatable {
-    @CustomCoding<SecondsSince1970DateCoder>
+    @SecondsSince1970DateCoding
     var secondsSince1970Date: Date
 }
 private let secondsSince1790TestInstance = SecondsSince1970TestModel(secondsSince1970Date: Date(timeIntervalSince1970: 590277534.0))
@@ -131,7 +131,7 @@ private struct MillisecondsSince1970TestModel: Codable, Equatable {
 private let millisecondsSince1790TestInstance = MillisecondsSince1970TestModel(millisecondsSince1970Date: Date(timeIntervalSince1970: 590277534.123))
 private let millisecondsSince1790JSON = """
 {
-    "millisecondsSince1970Date" : "590277534123.0"
+    "millisecondsSince1970Date" : 590277534123
 }
 """
 private let millisecondsSince1790XML = """
@@ -140,7 +140,7 @@ private let millisecondsSince1790XML = """
 <plist version="1.0">
 <dict>
     <key>millisecondsSince1970Date</key>
-    <string>590277534123.0</string>
+    <real>590277534123</real>
 </dict>
 </plist>
 """
@@ -148,7 +148,7 @@ private let millisecondsSince1790XML = """
 //MARK: - ISO8601 Mock Data
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 private struct ISO8601TestModel: Codable, Equatable {
-    @CustomCoding<ISO8601DateCoder>
+    @ISO8601DateCoding
     var iso8601Date: Date
 }
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
@@ -173,7 +173,7 @@ private let iso8601XML = """
 
 //MARK: - Custom Mock Data
 private struct CustomFormatterTestModel: Codable, Equatable {
-    @CustomCoding<TestCustomDateFormatter>
+    @DateFormatterCoding<TestCustomDateFormatter>
     var customFormatDate: Date
 }
 private let customFormatterTestInstance = CustomFormatterTestModel(customFormatDate: TestCustomDateFormatter.dateFormatter.date(from: "06:10:11 15:24:16")!)
@@ -194,7 +194,7 @@ private let customFormatterXML = """
 """
 
 //MARK: - Custom Formatter
-private struct TestCustomDateFormatter: CustomDateFormatterCoder {
+private struct TestCustomDateFormatter: DateFormatterStaticCoder {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM:dd:yy H:mm:ss"

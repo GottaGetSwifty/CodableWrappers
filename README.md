@@ -3,7 +3,7 @@
 [![Swift Package Manager](https://img.shields.io/badge/swift%20package%20manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![Platform](https://img.shields.io/cocoapods/p/Burritos.svg)](https://github.com/GottaGetSwifty/CodableWrappers)
 
-## A collection of Extendable [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) for custom (de)serialization of Swift Codable Types
+## A collection of [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) for custom serialization of Swift Codable Types
 
 ### Advantages
 
@@ -11,12 +11,12 @@
 - Extendable
 - Declare once for all Encoders and Decoders. (e.g. JSONEncoder and PropertyListEncoder)
 - Can customize (de/en)coding without overriding `encode(to: Encoder)` or `init(with decoder)`!
-- Multiple (de/en)coding strategies within the same or nested Types
+- Multiple (de/en)coding strategies within the same and child Types
 - Cross Platform
 
 ## Compatibility
 
-**Swift 5.1+** is required to build Property Wrappers (Xcode 11) and are [Backwards Deployable](https://forums.swift.org/t/which-of-swift-5-1-features-are-backwards-deployable/25610/3?u=getswifty)
+**Swift 5.1+** is required to build Property Wrappers (Xcode 11) which are [Backwards Deployable](https://forums.swift.org/t/which-of-swift-5-1-features-are-backwards-deployable/25610/3)
 
 ## Installation
 
@@ -166,35 +166,33 @@ All that's needed for your custom Coder is to implement `StaticCoder`
 
 ```swift
 
-struct CustomBase64Coder: StaticCoder {
+struct NanosecondsSince9170Coder: StaticCoder {
 
-    static func decode(from decoder: Decoder) throws -> Data {
-        let stringValue = try String(from: decoder)
-
-        guard let value = Data.init(base64Encoded: stringValue) else {
-            throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: "Expected \(Data.self) but could not convert \(stringValue) to Data"))
-        }
-        return value
+    static func decode(from decoder: Decoder) throws -> Date {
+        let nanoSeconds = try Double(from: decoder)
+        let seconds = nanoSeconds * 0.000000001
+        return Date(secondsSince1970: seconds)
     }
-    static func encode(value: Data, to encoder: Encoder) throws {
-        try value.base64EncodedString().encode(to: encoder)
+
+    static func encode(value: Date, to encoder: Encoder) throws {
+        let nanoSeconds = value.secondsSince1970 / 0.000000001
+        return try nanoSeconds.encode(to: encoder)
     }
 }
 
 // Approach 1: CustomCoding
 struct MyType: Codable {
-    @CustomCoding<CustomBase64Coder>
-    var myData: Data // Now uses the CustomBase64Coder for serialization
+    @CodingUses<NanosecondsSince9170Coder>
+    var myData: Date // Now uses the NanosecondsSince9170Coder for serialization
 }
 
-// Approach 2: CustomEncoding typealias
+// Approach 2: CustomEncoding propertyWrapper typealias
 
-typealias CustomBase64Coding = CustomCoding<CustomBase64Coder>
+typealias NanosecondsSince9170Coding = CustomCoding<NanosecondsSince9170Coder>
 
 struct MyType: Codable {
-    @CustomBase64Coding
-    var myData: Data // Now uses the CustomBase64Coder for serialization
+    @NanosecondsSince9170Coding
+    var myData: Date // Now uses the NanosecondsSince9170Coder for serialization
 }
 ```
 
