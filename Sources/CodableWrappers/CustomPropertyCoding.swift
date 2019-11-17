@@ -46,9 +46,9 @@ public protocol StaticEncoderWrapper: Encodable {
     var wrappedValue: CustomEncoder.OriginalType { get }
 }
 
-public extension StaticEncoderWrapper {
+extension StaticEncoderWrapper {
     /// Encodes the `wrappedValue` using the `CustomEncoder`
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         try CustomEncoder.encode(value: wrappedValue, to: encoder)
     }
 }

@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Uses secondsSince1970 for (de)serailization of `Date?`
+public typealias OptionalSecondsSince1970DateStaticCoder = OptionalStaticCoder<SecondsSince1970DateStaticCoder>
 /// Uses secondsSince1970 for (de)serailization of `Date`
 public struct SecondsSince1970DateStaticCoder: StaticCoder {
 
@@ -20,8 +22,12 @@ public struct SecondsSince1970DateStaticCoder: StaticCoder {
     public static func encode(value: Date, to encoder: Encoder) throws {
         try value.timeIntervalSince1970.encode(to: encoder)
     }
+
+
 }
 
+/// Uses millisecondsSince1970 for (de)serailization of `Date?`
+public typealias OptionalMillisecondsSince1970DateStaticCoder = OptionalStaticCoder<MillisecondsSince1970DateStaticCoder>
 /// Uses millisecondsSince1970 for (de)serailization of `Date`
 public struct MillisecondsSince1970DateStaticCoder: StaticCoder {
 
@@ -37,6 +43,10 @@ public struct MillisecondsSince1970DateStaticCoder: StaticCoder {
     }
 }
 
+/// Uses `ISO8601DateFormatter` with `formatOptions` set to `.withInternetDateTime` for (de)serailization of `Date?`
+/// - Note: Implement a `StaticCoder` to use a custom formatter
+@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+public typealias OptionalISO8601DateStaticCoder = OptionalStaticCoder<ISO8601DateStaticCoder>
 /// Uses `ISO8601DateFormatter` with `formatOptions` set to `.withInternetDateTime` for (de)serailization of `Date`
 /// - Note: Implement a `StaticCoder` to use a custom formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
