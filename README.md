@@ -65,8 +65,12 @@ Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swif
 - [Only Encoding or Decoding](#Only-Encoding-or-Decoding)
 
 ## Additional Links
+
+- [Introduction Blog Post](https://www.getswifty.blog/blog/making-custom-serialization-a-breeze-in-swift-51-with-property-wrappers)
 - [Custom Examples](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/CustomExamples.md)
 - [Release Notes](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/ReleaseNotes.md)
+- [Design Footnotes](https://www.getswifty.blog/blog/design-footnotes-for-codablewrappers)
+
 ---
 
 ## @OmitCoding
