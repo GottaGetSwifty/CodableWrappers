@@ -16,7 +16,7 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec {
             //MARK: - JSONDecoder
             context("JSONDecoder") {
                 //MARK: Base64
-                describe("OmmitCodingWhenNil") {
+                describe("OmitCodingWhenNil") {
                     it("HasNoValue") {
                         expect {_ = try self.jsonDecoder.decode(EmptyModel.self, from: Self.emptyJSON.data(using: .utf8)!)}.toNot(throwError())
                         let decodedModel = try? self.jsonDecoder.decode(EmptyModel.self, from: Self.emptyJSON.data(using: .utf8)!)
@@ -42,29 +42,29 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec {
                         }
                     }
                 }
-                describe("OmmitCoding") {
+                describe("OmitCoding") {
                     it("HasNoValue") {
-                        expect {_ = try self.jsonDecoder.decode(OmmitCodingTestModel.self, from: Self.emptyJSON.data(using: .utf8)!)}.toNot(throwError())
-                        let decodedModel = try? self.jsonDecoder.decode(OmmitCodingTestModel.self, from: Self.emptyJSON.data(using: .utf8)!)
+                        expect {_ = try self.jsonDecoder.decode(OmitCodingTestModel.self, from: Self.emptyJSON.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.jsonDecoder.decode(OmitCodingTestModel.self, from: Self.emptyJSON.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == ommitCodingEmptyTestInstance
+                            expect(actualModel) == omitCodingEmptyTestInstance
                         }
                     }
                     it("HasNullValue") {
-                        expect {_ = try self.jsonDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithNullJSON.data(using: .utf8)!)}.toNot(throwError())
-                        let decodedModel = try? self.jsonDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithNullJSON.data(using: .utf8)!)
+                        expect {_ = try self.jsonDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithNullJSON.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.jsonDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithNullJSON.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == ommitCodingEmptyTestInstance
+                            expect(actualModel) == omitCodingEmptyTestInstance
                         }
                     }
                     it("HasAValue") {
-                        expect {_ = try self.jsonDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithDataJSON.data(using: .utf8)!)}.toNot(throwError())
-                        let decodedModel = try? self.jsonDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithDataJSON.data(using: .utf8)!)
+                        expect {_ = try self.jsonDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithDataJSON.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.jsonDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithDataJSON.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == ommitCodingEmptyTestWithDataInstance
+                            expect(actualModel) == omitCodingEmptyTestWithDataInstance
                         }
                     }
                 }
@@ -72,7 +72,7 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec {
             //MARK: - PListDecoder
             context("PListDecoder") {
                 //MARK: Base64
-                describe("OmmitCodingWhenNil") {
+                describe("OmitCodingWhenNil") {
                     it("HasNoValue") {
                         expect {_ = try self.plistDecoder.decode(EmptyModel.self, from: Self.emptyPList.data(using: .utf8)!)}.toNot(throwError())
                         let decodedModel = try? self.plistDecoder.decode(EmptyModel.self, from: Self.emptyPList.data(using: .utf8)!)
@@ -98,29 +98,29 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec {
                         }
                     }
                 }
-                describe("OmmitCoding") {
+                describe("OmitCoding") {
                     it("HasNoValue") {
-                        expect {_ = try self.plistDecoder.decode(OmmitCodingTestModel.self, from: Self.emptyPList.data(using: .utf8)!)}.toNot(throwError())
-                        let decodedModel = try? self.plistDecoder.decode(OmmitCodingTestModel.self, from: Self.emptyPList.data(using: .utf8)!)
+                        expect {_ = try self.plistDecoder.decode(OmitCodingTestModel.self, from: Self.emptyPList.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.plistDecoder.decode(OmitCodingTestModel.self, from: Self.emptyPList.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == ommitCodingEmptyTestInstance
+                            expect(actualModel) == omitCodingEmptyTestInstance
                         }
                     }
                     it("HasNullValue") {
-                        expect {_ = try self.plistDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithNullXML.data(using: .utf8)!)}.toNot(throwError())
-                        let decodedModel = try? self.plistDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithNullXML.data(using: .utf8)!)
+                        expect {_ = try self.plistDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithNullXML.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.plistDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithNullXML.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == ommitCodingEmptyTestInstance
+                            expect(actualModel) == omitCodingEmptyTestInstance
                         }
                     }
                     it("HasAValue") {
-                        expect {_ = try self.plistDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithDataXML.data(using: .utf8)!)}.toNot(throwError())
-                        let decodedModel = try? self.plistDecoder.decode(OmmitCodingTestModel.self, from: ommitCodingEmptyTestWithDataXML.data(using: .utf8)!)
+                        expect {_ = try self.plistDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithDataXML.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.plistDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithDataXML.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == ommitCodingEmptyTestWithDataInstance
+                            expect(actualModel) == omitCodingEmptyTestWithDataInstance
                         }
                     }
                 }
@@ -133,7 +133,7 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec {
 
 
 private struct EmptyModel: Codable, Equatable {
-    @OmmitCodingWhenNil
+    @OmitCodingWhenNil
     var value: String?
 }
 private let emptyTestInstance = EmptyModel(value: nil)
@@ -173,20 +173,20 @@ private let emptyTestWithDataXML = """
 </plist>
 """
 
-//MARK: - OmmitCoding Mock Data
+//MARK: - OmitCoding Mock Data
 
-private struct OmmitCodingTestModel: Codable, Equatable {
-    @OmmitCodingWhenNil
-    var value: String?
+private struct OmitCodingTestModel: Codable, Equatable {
+    @OmitCodingWhenNil
+    var value: String? = "Oh Hai!"
 }
-private let ommitCodingEmptyTestInstance = OmmitCodingTestModel(value: nil)
-private let ommitCodingEmptyTestWithDataInstance = OmmitCodingTestModel(value: "hi")
-private let ommitCodingEmptyTestWithDataJSON = """
+private let omitCodingEmptyTestInstance = OmitCodingTestModel(value: nil)
+private let omitCodingEmptyTestWithDataInstance = OmitCodingTestModel(value: "hi")
+private let omitCodingEmptyTestWithDataJSON = """
 {
     "value" : "hi"
 }
 """
-private let ommitCodingEmptyTestWithDataXML = """
+private let omitCodingEmptyTestWithDataXML = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -197,13 +197,13 @@ private let ommitCodingEmptyTestWithDataXML = """
 </plist>
 """
 
-private let ommitCodingEmptyTestWithNullJSON = """
+private let omitCodingEmptyTestWithNullJSON = """
 {
     "value" : null
 }
 """
 
-private let ommitCodingEmptyTestWithNullXML = """
+private let omitCodingEmptyTestWithNullXML = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

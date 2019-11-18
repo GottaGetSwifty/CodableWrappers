@@ -45,3 +45,24 @@ struct ASCIIDataCoder: StaticCoder {
     }
 }
 ```
+
+## IntAsBoolStaticCoder
+
+```swift
+struct IntAsBoolStaticCoder: StaticCoder {
+
+    static func decode(from decoder: Decoder) throws -> Bool {
+        let intValue = try Int(from: decoder)
+        return intValue > 0 ? true : false
+    }
+
+    static func encode(value: Bool, to encoder: Encoder) throws {
+        try (value ? 1 : 0).encode(to: encoder)
+    }
+}
+
+struct MyType: Codable {
+    @CodingUses<IntAsBoolStaticCoder>
+    var myBool: Bool
+}
+```

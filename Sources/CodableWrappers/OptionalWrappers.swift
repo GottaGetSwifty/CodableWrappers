@@ -5,6 +5,23 @@
 
 import Foundation
 
+// MARK: Optional Static  Coder
+
+/// Used to wrap an existing StaticCoder to allow the wrapped value to be Optional
+public struct OptionalStaticCoder<SomeStaticCoder: StaticCoder>: StaticCoder  {
+
+    public static func decode(from decoder: Decoder) throws -> SomeStaticCoder.CodingType? {
+            try? SomeStaticCoder.decode(from: decoder)
+        }
+
+    public static func encode(value: SomeStaticCoder.CodingType?, to encoder: Encoder) throws {
+        guard let value = value else {
+            return
+        }
+        try SomeStaticCoder.encode(value: value, to: encoder)
+    }
+}
+
 //MARK: - OptionalCodingWrapper
 
 /// Protocol for a PropertyWrapper to propperly handle Coding when the wrappedValue is Optional
@@ -44,28 +61,11 @@ extension DecodingUsesMutable: OptionalCodingWrapper where CustomDecoder.Decoded
 extension EncodingUsesMutable: OptionalCodingWrapper where CustomEncoder.OriginalType: ExpressibleByNilLiteral { }
 extension CodingUsesMutable: OptionalCodingWrapper where CustomCoder.CodingType: ExpressibleByNilLiteral { }
 
-// MARK: Optional Static  Coder
-
-/// Used to wrap an existing StaticCoder to allow the wrapped value to be Optional
-public struct OptionalStaticCoder<SomeStaticCoder: StaticCoder>: StaticCoder  {
-
-    public static func decode(from decoder: Decoder) throws -> SomeStaticCoder.CodingType? {
-            try? SomeStaticCoder.decode(from: decoder)
-        }
-
-    public static func encode(value: SomeStaticCoder.CodingType?, to encoder: Encoder) throws {
-        guard let value = value else {
-            return
-        }
-        try SomeStaticCoder.encode(value: value, to: encoder)
-    }
-}
-
-//MARK: - OmmitCoding
+//MARK: - OmitCoding
 
 /// Add this to an Optional Property to not included it when Encoding or Decoding
 @propertyWrapper
-public struct OmmitCoding<WrappedType>: Codable {
+public struct OmitCoding<WrappedType>: Codable {
 
     public let wrappedValue: WrappedType?
     public init(wrappedValue: WrappedType?) {
@@ -81,19 +81,19 @@ public struct OmmitCoding<WrappedType>: Codable {
 
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalCodingWrapper to allow a value to avoid a missing key Error
-    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> OmmitCoding<T> where T : Decodable {
-        return OmmitCoding<T>(wrappedValue: nil)
+    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> OmitCoding<T> where T : Decodable {
+        return OmitCoding<T>(wrappedValue: nil)
     }
 }
 
 extension KeyedEncodingContainer {
     // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
-    public mutating func encode<T>(_ value: OmmitCoding<T>, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable {
+    public mutating func encode<T>(_ value: OmitCoding<T>, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable {
         return
     }
 }
 
-//MARK: - OmmitCodingWhenNil (prototype)
+//MARK: - OmitCodingWhenNil (prototype)
 
 private struct EmptyStaticCoder<T: Codable>: StaticCoder {
     static func decode(from decoder: Decoder) throws -> T { try T(from: decoder) }
@@ -102,7 +102,7 @@ private struct EmptyStaticCoder<T: Codable>: StaticCoder {
 
 /// Prototype Wrapper, goal is to be usable once Wrapper composition is possible.
 @propertyWrapper
-internal struct OmmitCodingWhenNil<WrappedType: Codable>: Codable, OptionalCodingWrapper {
+internal struct OmitCodingWhenNil<WrappedType: Codable>: Codable, OptionalCodingWrapper {
 
     public let wrappedValue: WrappedType?
     public init(wrappedValue: WrappedType?) {
@@ -121,4 +121,4 @@ internal struct OmmitCodingWhenNil<WrappedType: Codable>: Codable, OptionalCodin
     }
 }
 
-extension OmmitCodingWhenNil: Equatable where WrappedType: Equatable { }
+extension OmitCodingWhenNil: Equatable where WrappedType: Equatable { }
