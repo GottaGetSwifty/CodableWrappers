@@ -2,6 +2,7 @@
 
 [![Swift Package Manager](https://img.shields.io/badge/swift%20package%20manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![Platform](https://img.shields.io/cocoapods/p/Burritos.svg)](https://github.com/GottaGetSwifty/CodableWrappers)
+[![Build Status](https://travis-ci.org/GottaGetSwifty/CodableWrappers.svg?branch=develop)](https://travis-ci.org/GottaGetSwifty/CodableWrappers)
 
 ## A collection of [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) for custom serialization of Swift Codable Types
 

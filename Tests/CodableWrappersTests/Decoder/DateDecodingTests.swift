@@ -43,6 +43,14 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                             expect(actualModel) == iso8601TestInstance
                         }
                     }
+                    it("CustomISO8601Formatter") {
+                        expect {_ = try self.jsonDecoder.decode(CustomISO8601FormatterTestModel.self, from: iso8601customFormatterJSON.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.jsonDecoder.decode(CustomISO8601FormatterTestModel.self, from: iso8601customFormatterJSON.data(using: .utf8)!)
+                        expect(decodedModel).toNot(beNil())
+                        if let actualModel = decodedModel {
+                            expect(actualModel) == iso8601customFormatterTestInstance
+                        }
+                    }
                 }
                 //MARK: CustomFormatter
                 it("CustomFormatter") {
@@ -82,6 +90,14 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
                             expect(actualModel) == iso8601TestInstance
+                        }
+                    }
+                    it("CustomISO8601Formatter") {
+                        expect {_ = try self.plistDecoder.decode(CustomISO8601FormatterTestModel.self, from: iso8601customFormatterXML.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.plistDecoder.decode(CustomISO8601FormatterTestModel.self, from: iso8601customFormatterXML.data(using: .utf8)!)
+                        expect(decodedModel).toNot(beNil())
+                        if let actualModel = decodedModel {
+                            expect(actualModel) == iso8601customFormatterTestInstance
                         }
                     }
                 }
@@ -198,6 +214,41 @@ private struct TestCustomDateFormatter: DateFormatterStaticCoder {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM:dd:yy H:mm:ss"
+        return formatter
+    }()
+}
+
+//MARK: - Custom ISO8601 Mock Data
+
+@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+private struct CustomISO8601FormatterTestModel: Codable, Equatable {
+    @CodingUses<TestCustomISO8601DateFormatter>
+    var customFormatDate: Date
+}
+@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+private let iso8601customFormatterTestInstance = CustomISO8601FormatterTestModel(customFormatDate: TestCustomISO8601DateFormatter.iso8601DateFormatter.date(from: "2011-06-10T20:24:16Z")!)
+private let iso8601customFormatterJSON = """
+{
+    "customFormatDate" : "2011-06-10T20:24:16Z"
+}
+"""
+private let iso8601customFormatterXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>customFormatDate</key>
+    <string>2011-06-10T20:24:16Z</string>
+</dict>
+</plist>
+"""
+
+//MARK: - Custom ISO8601 Formatter
+@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+private struct TestCustomISO8601DateFormatter: ISO8601DateFormatterStaticCoder {
+    static let iso8601DateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withDashSeparatorInDate]
         return formatter
     }()
 }
