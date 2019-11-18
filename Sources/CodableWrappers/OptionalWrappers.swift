@@ -61,6 +61,38 @@ public struct OptionalStaticCoder<SomeStaticCoder: StaticCoder>: StaticCoder  {
     }
 }
 
+//MARK: - OmmitCoding
+
+/// Add this to an Optional Property to not included it when Encoding or Decoding
+@propertyWrapper
+public struct OmmitCoding<WrappedType>: Codable {
+
+    public let wrappedValue: WrappedType?
+    public init(wrappedValue: WrappedType?) {
+        self.wrappedValue = wrappedValue
+    }
+
+    public init(from decoder: Decoder) throws {
+        self.wrappedValue = nil
+    }
+
+    public func encode(to encoder: Encoder) throws { return }
+}
+
+extension KeyedDecodingContainer {
+    // This is used to override the default decoding behavior for OptionalCodingWrapper to allow a value to avoid a missing key Error
+    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> OmmitCoding<T> where T : Decodable {
+        return OmmitCoding<T>(wrappedValue: nil)
+    }
+}
+
+extension KeyedEncodingContainer {
+    // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
+    public mutating func encode<T>(_ value: OmmitCoding<T>, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable {
+        return
+    }
+}
+
 //MARK: - OmmitCodingWhenNil (prototype)
 
 private struct EmptyStaticCoder<T: Codable>: StaticCoder {

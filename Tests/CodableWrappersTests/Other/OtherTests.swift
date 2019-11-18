@@ -15,19 +15,18 @@ class OtherTests: QuickSpec {
         describe("Decoder") {
             it("Stuff") {
 //                let testJSON = #"{ "date" : 590277534123 }"#
-                let testJSON = #"{  }"#
-
-                let jsonData = testJSON.data(using: .utf8)!
-                do {
-                    let decoded = try JSONDecoder().decode(MyType.self, from: jsonData)
-                    print(decoded)
-                    let encoded = try JSONEncoder().encode(decoded)
-                    let json = String(data: encoded, encoding: .utf8)
-                    print(json)
-                }
-                catch let error {
-                    print(error)
-                }
+//                let testJSON = #"{  }"#
+//
+//                let jsonData = testJSON.data(using: .utf8)!
+//                do {
+//                    let decoded = try JSONDecoder().decode(MyType.self, from: jsonData)
+//                    print(decoded)
+//                    let encoded = try JSONEncoder().encode(decoded)
+//                    let json = String(data: encoded, encoding: .utf8)
+//                }
+//                catch let error {
+//                    print(error)
+//                }
 //}
 //                let json = try! JSONEncoder().encode(testItem)
 //                let jsonString = String.init(data: json, encoding: .utf8)
