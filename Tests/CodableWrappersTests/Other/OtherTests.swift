@@ -14,27 +14,44 @@ class OtherTests: QuickSpec {
     override func spec() {
         describe("Decoder") {
             it("Stuff") {
-//                let testJSON = #"{ "date" : 590277534123 }"#
+                let testJSON = #"{ "myBool" : 1 }"#
 //                let testJSON = #"{  }"#
-//
-//                let jsonData = testJSON.data(using: .utf8)!
-//                do {
-//                    let decoded = try JSONDecoder().decode(MyType.self, from: jsonData)
-//                    print(decoded)
-//                    let encoded = try JSONEncoder().encode(decoded)
-//                    let json = String(data: encoded, encoding: .utf8)
-//                }
-//                catch let error {
-//                    print(error)
-//                }
-//}
-//                let json = try! JSONEncoder().encode(testItem)
-//                let jsonString = String.init(data: json, encoding: .utf8)
-//                print(jsonString)
-//                print("here")
+
+                let jsonData = testJSON.data(using: .utf8)!
+                do {
+                    let decoded = try JSONDecoder().decode(MyType.self, from: jsonData)
+                    print(decoded)
+                    let encoded = try JSONEncoder().encode(decoded)
+                    let json = String(data: encoded, encoding: .utf8)!
+                    print(json)
+                }
+                catch let error {
+                    print(error)
+                }
             }
         }
     }
+}
+
+struct IntAsBoolStaticCoder: StaticCoder {
+
+    static func decode(from decoder: Decoder) throws -> Bool {
+        let intValue = try Int(from: decoder)
+        return intValue > 0 ? true : false
+    }
+
+    static func encode(value: Bool, to encoder: Encoder) throws {
+        try (value ? 1 : 0).encode(to: encoder)
+    }
+}
+
+typealias IntAsBoolOptionalCoding = CodingUses<OptionalStaticCoder<IntAsBoolStaticCoder>>
+
+class MyType: Codable {
+    @IntAsBoolOptionalCoding
+    var myBool: Bool?
+    @OmitCoding
+    var myStringNotToBeSerialized: String?
 }
 
 //private let testItem = Parent(child: Child(name: "Charley"))
@@ -81,8 +98,8 @@ class OtherTests: QuickSpec {
 //    }
 //}
 
-struct MyType: Codable {
-
-    @MillisecondsSince1970DateOptionalCoding
-    var date: Date?
-}
+//struct MyType: Codable {
+//
+//    @MillisecondsSince1970DateOptionalCoding
+//    var date: Date?
+//}

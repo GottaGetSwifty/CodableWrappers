@@ -24,7 +24,7 @@ public struct OptionalStaticCoder<SomeStaticCoder: StaticCoder>: StaticCoder  {
 
 //MARK: - OptionalCodingWrapper
 
-/// Protocol for a PropertyWrapper to propperly handle Coding when the wrappedValue is Optional
+/// Protocol for a PropertyWrapper to properly handle Coding when the wrappedValue is Optional
 public protocol OptionalCodingWrapper {
     associatedtype WrappedType: ExpressibleByNilLiteral
     var wrappedValue: WrappedType { get }
@@ -63,9 +63,15 @@ extension CodingUsesMutable: OptionalCodingWrapper where CustomCoder.CodingType:
 
 //MARK: - OmitCoding
 
+/// Protocol for a PropertyWrapper to indicate that it should be ommited from Coding.
+public protocol OmitableFromCoding {
+    associatedtype WrappedType: ExpressibleByNilLiteral
+    init(wrappedValue: WrappedType)
+
+}
 /// Add this to an Optional Property to not included it when Encoding or Decoding
 @propertyWrapper
-public struct OmitCoding<WrappedType>: Codable {
+public struct OmitCoding<WrappedType>: Codable, OmitableFromCoding {
 
     public let wrappedValue: WrappedType?
     public init(wrappedValue: WrappedType?) {
@@ -81,17 +87,19 @@ public struct OmitCoding<WrappedType>: Codable {
 
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalCodingWrapper to allow a value to avoid a missing key Error
-    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> OmitCoding<T> where T : Decodable {
-        return OmitCoding<T>(wrappedValue: nil)
+    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: OmitableFromCoding {
+        return try decodeIfPresent(T.self, forKey: key) ?? T(wrappedValue: nil)
     }
 }
 
 extension KeyedEncodingContainer {
     // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
-    public mutating func encode<T>(_ value: OmitCoding<T>, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable {
+    public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: OmitableFromCoding {
         return
     }
 }
+
+extension OmitCoding: Equatable where WrappedType: Equatable { }
 
 //MARK: - OmitCodingWhenNil (prototype)
 

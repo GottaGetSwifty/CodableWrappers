@@ -64,7 +64,7 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec {
                         let decodedModel = try? self.jsonDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithDataJSON.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == omitCodingEmptyTestWithDataInstance
+                            expect(actualModel) == omitCodingEmptyTestInstance
                         }
                     }
                 }
@@ -120,7 +120,7 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec {
                         let decodedModel = try? self.plistDecoder.decode(OmitCodingTestModel.self, from: omitCodingEmptyTestWithDataXML.data(using: .utf8)!)
                         expect(decodedModel).toNot(beNil())
                         if let actualModel = decodedModel {
-                            expect(actualModel) == omitCodingEmptyTestWithDataInstance
+                            expect(actualModel) == omitCodingEmptyTestInstance
                         }
                     }
                 }
@@ -176,7 +176,7 @@ private let emptyTestWithDataXML = """
 //MARK: - OmitCoding Mock Data
 
 private struct OmitCodingTestModel: Codable, Equatable {
-    @OmitCodingWhenNil
+    @OmitCoding
     var value: String? = "Oh Hai!"
 }
 private let omitCodingEmptyTestInstance = OmitCodingTestModel(value: nil)
