@@ -75,23 +75,12 @@ Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swif
 
 ## @OmitCoding
 
-For a Data property that should be serialized to a Base64 encoded String
+For a property that should not be serialized
 
 ```swift
 struct MyType: Codable {
     @OmitCoding
     var myText: String? // Never encodes and ignores a value if one is in decoded data.
-}
-```
-
-## @Base64Coding
-
-For a Data property that should be serialized to a Base64 encoded String
-
-```swift
-struct MyType: Codable {
-    @Base64Coding
-    var myData: Data // Now encodes to a Base64 String
 }
 ```
 
