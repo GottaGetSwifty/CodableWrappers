@@ -1,10 +1,23 @@
 # CodableWrappers
 
 [![Swift Package Manager](https://img.shields.io/badge/swift%20package%20manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
-[![Platform](https://img.shields.io/cocoapods/p/Burritos.svg)](https://github.com/GottaGetSwifty/CodableWrappers)
+![Platforms](https://img.shields.io/static/v1?label=Platforms&message=iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux&color=brightgreen)
 [![Build Status](https://travis-ci.org/GottaGetSwifty/CodableWrappers.svg?branch=master)](https://travis-ci.org/GottaGetSwifty/CodableWrappers)
 
 ## A collection of [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) for custom serialization of Swift Codable Types
+
+Move your Codable and (En/De)coder customization to annotations!
+
+```swift
+struct YourType: Codable {
+    @MillisecondsSince1970DateCoding
+    var millisecondsDate: Date
+    @Base64Coding
+    var someData: Data
+    @OmitCoding
+    var temporaryProperty
+}
+```
 
 Check out [this blog post](https://www.getswifty.blog/blog/making-custom-serialization-a-breeze-in-swift-51-with-property-wrappers) for a more detailed overview.
 
@@ -29,7 +42,7 @@ If you're working directly in a Package, add CodableWrappers to your Package.swi
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/GottaGetSwifty/CodableWrappers.git", .upToNextMajor(from: "1.0.0" )),
+    .package(url: "https://github.com/GottaGetSwifty/CodableWrappers.git", .upToNextMajor(from: "1.1.0" )),
 ]
 ```
 
@@ -75,7 +88,7 @@ Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swif
 
 ## @OmitCoding
 
-For a property that should not be serialized
+For a Property you want to be ignore when (en/de)coding
 
 ```swift
 struct MyType: Codable {
