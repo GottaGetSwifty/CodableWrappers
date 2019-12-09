@@ -22,8 +22,6 @@ public struct SecondsSince1970DateStaticCoder: StaticCoder {
     public static func encode(value: Date, to encoder: Encoder) throws {
         try value.timeIntervalSince1970.encode(to: encoder)
     }
-
-
 }
 
 /// Uses millisecondsSince1970 for (de)serailization of `Date?`
@@ -100,7 +98,6 @@ public struct ISO8601DateStaticCoder: ISO8601DateFormatterStaticCoder {
         formatter.formatOptions = .withInternetDateTime
         return formatter
     }()
-
 }
 
 //MARK:  Custom

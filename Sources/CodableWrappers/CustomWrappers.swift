@@ -190,3 +190,92 @@ public typealias DateFormatterDecodingMutable<CustomDecoder: DateFormatterStatic
 public typealias DateFormatterCodingMutable<CustomCoder: DateFormatterStaticCoder> = CodingUsesMutable<CustomCoder>
 /// (En/De)code this mutable `Date` Optional Property using the passed formatter
 public typealias DateFormatterOptionalCodingMutable<CustomCoder: DateFormatterStaticCoder> = CodingUsesMutable<OptionalStaticCoder<CustomCoder>>
+
+//MARK: - Bool
+
+//MARK: NonConformingBool
+
+/// Encode this immutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolEncoding<ValueProvider: NonConformingBoolValueProvider> = EncodingUses<NonConformingBoolStaticCoder<ValueProvider>>
+/// Decode this immutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolDecoding<ValueProvider: NonConformingBoolValueProvider> = DecodingUses<NonConformingBoolStaticCoder<ValueProvider>>
+/// (En/De)code this immutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolCoding<ValueProvider: NonConformingBoolValueProvider> = CodingUses<NonConformingBoolStaticCoder<ValueProvider>>
+/// (En/De)code this immutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolOptionalCoding<ValueProvider: NonConformingBoolValueProvider> = CodingUses<OptionalNonConformingBoolStaticCoder<ValueProvider>>
+
+/// Encode this mutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolEncodingMutable<ValueProvider: NonConformingBoolValueProvider> = EncodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
+/// Decode this mutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolDecodingMutable<ValueProvider: NonConformingBoolValueProvider> = DecodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
+/// (En/De)code this mutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolCodingMutable<ValueProvider: NonConformingBoolValueProvider> = CodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
+/// (En/De)code this mutable `Bool` Property using the passed NonConformingBoolValueProvider
+public typealias NonConformingBoolOptionalCodingMutable<ValueProvider: NonConformingBoolValueProvider> = CodingUsesMutable<OptionalNonConformingBoolStaticCoder<ValueProvider>>
+
+//MARK: BoolAsInteger
+
+/// Convenience typealias
+public typealias BoolAsIntegerStaticCoder<ValueType: FixedWidthInteger & Codable> = NonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>
+
+/// Encode this immutable `Bool` Property as the passed Integer Type using 1 as true and 0 as false
+public typealias BoolAsIntegerEncoding<ValueType: FixedWidthInteger & Codable> = EncodingUses<BoolAsIntegerStaticCoder<ValueType>>
+/// Decode this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
+public typealias BoolFromIntegerDecoding<ValueType: FixedWidthInteger & Codable> = DecodingUses<BoolAsIntegerStaticCoder<ValueType>>
+/// (En/De)code this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
+public typealias BoolAsIntegerCoding<ValueType: FixedWidthInteger & Codable> = CodingUses<BoolAsIntegerStaticCoder<ValueType>>
+/// (En/De)code this immutable `Bool` Optional Property as passed Integer Type using 1 as true and 0 as false
+public typealias BoolAsIntegerOptionalCoding<ValueType: FixedWidthInteger & Codable> = CodingUses<OptionalNonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>
+
+/// Encode this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
+public typealias BoolAsIntegerEncodingMutable<ValueType: FixedWidthInteger & Codable> = EncodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
+/// Decode this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
+public typealias BoolFromIntegerDecodingMutable<ValueType: FixedWidthInteger & Codable> = DecodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
+/// (En/De)code this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
+public typealias BoolAsIntegerCodingMutable<ValueType: FixedWidthInteger & Codable> = CodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
+/// (En/De)code this immutable `Bool` Optional Property as passed Integer Type using 1 as true and 0 as false
+public typealias BoolAsIntegerOptionalCodingMutable<ValueType: FixedWidthInteger & Codable> = CodingUsesMutable<OptionalNonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>
+
+
+//MARK: BoolAsInt
+
+/// Encode this immutable `Bool` Property as an Int using 1 as true and 0 as false
+public typealias BoolAsIntEncoding = BoolAsIntegerEncoding<Int>
+/// Decode this immutable `Bool` Property as an Int using 1 as true and 0 as false
+public typealias BoolFromIntDecoding = BoolFromIntegerDecoding<Int>
+/// (En/De)code this immutable `Bool` Property as an Int using 1 as true and 0 as false
+public typealias BoolAsIntCoding = BoolAsIntegerCoding<Int>
+/// (En/De)code this immutable `Bool` Optional Property as an Int using 1 as true and 0 as false
+public typealias BoolAsIntOptionalCoding = BoolAsIntegerOptionalCodingMutable<Int>
+
+/// Encode this immutable `Bool` Property as an Int using 1 as true and 0 as false
+public typealias BoolAsIntEncodingMutable = BoolAsIntegerEncodingMutable<Int>
+/// Decode this immutable `Bool` Property as an Int using 1 as true and 0 as false
+public typealias BoolFromIntDecodingMutable = BoolFromIntegerDecodingMutable<Int>
+/// (En/De)code this immutable `Bool` Property as an Int using 1 as true and 0 as false
+public typealias BoolAsIntCodingMutable = BoolAsIntegerCodingMutable<Int>
+/// (En/De)code this immutable `Bool` Optional Property as an Int using 1 as true and 0 as false
+public typealias BoolAsIntOptionalCodingMutable = BoolAsIntegerOptionalCodingMutable<Int>
+
+//MARK: BoolAsString
+
+/// Convenience typealias
+public typealias BoolAsStringStaticCoder = NonConformingBoolStaticCoder<BoolAsStringValueProvider>
+
+/// Encode this immutable `Bool` Property as a String using "true" for true and "false" for false
+public typealias BoolAsStringEncoding = EncodingUses<BoolAsStringStaticCoder>
+/// Decode this immutable `Bool` Property as a String using "true" for true and "false" for false
+public typealias BoolFromStringDecoding = DecodingUses<BoolAsStringStaticCoder>
+/// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
+public typealias BoolAsStringCoding = CodingUses<BoolAsStringStaticCoder>
+/// (En/De)code this immutable `Bool` Optional Property a String using "true" for true and "false" for false
+public typealias BoolAsStringOptionalCoding = CodingUses<OptionalNonConformingBoolStaticCoder<BoolAsStringValueProvider>>
+
+/// Encode this immutable `Bool` Property a String using "true" for true and "false" for false
+public typealias BoolAsStringEncodingMutable = EncodingUsesMutable<BoolAsStringStaticCoder>
+/// Decode this immutable `Bool` Property a String using "true" for true and "false" for false
+public typealias BoolFromStringDecodingMutable = DecodingUsesMutable<BoolAsStringStaticCoder>
+/// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
+public typealias BoolAsStringCodingMutable = CodingUsesMutable<BoolAsStringStaticCoder>
+/// (En/De)code this immutable `Bool` Optional Property a String using "true" for true and "false" for false
+public typealias BoolAsStringOptionalCodingMutable = CodingUsesMutable<OptionalNonConformingBoolStaticCoder<BoolAsStringValueProvider>>
