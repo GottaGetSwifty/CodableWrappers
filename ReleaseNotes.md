@@ -1,5 +1,31 @@
 # CodableWrappers Release Notes
 
+## Version 1.2
+
+### Added
+
+Bool <-> Int
+
+`@BoolAsIntEncoding`
+`@BoolFromIntDecoding`
+`@BoolAsIntCoding`
+`@BoolAsIntEncodingMutable`
+`@BoolFromIntDecodingMutable`
+`@BoolAsIntCodingMutable`
+`@BoolAsIntOptionalCodingMutable`
+
+Bool <-> String
+
+`@BoolAsStringEncoding`
+`@BoolFromStringDecoding`
+`@BoolAsStringCoding`
+`@BoolAsStringOptionalCoding`
+`@BoolAsStringEncodingMutable`
+`@BoolFromStringDecodingMutable`
+`@BoolAsStringCodingMutable`
+`@BoolAsStringOptionalCodingMutable`
+
+
 ## Version 1.1
 
 ### Added

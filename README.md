@@ -67,6 +67,7 @@ Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swif
 - [@ISO8601DateFormatterCoding\<ISO8601DateFormatterStaticCoder>](#ISO8601DateFormatterCoding\<ISO8601DateFormatterStaticCoder>)
 - [@NonConformingFloatCoding\<ValueProvider>](#nonconformingfloatcodingvalueprovider)
 - [@NonConformingDoubleCoding\<ValueProvider>](#nonconformingdoublecodingvalueprovider)
+- [BoolCoding](#BoolCoding)
 - [Additional Customization](#Additional-Customization)
 - [Property Mutability](#property-mutability)
 - [Only Encoding or Decoding](#only-encoding-or-decoding)
@@ -212,6 +213,28 @@ struct MyNonConformingValueProvider: NonConformingDecimalValueProvider {
 struct MyType: Codable {
     @NonConformingDoubleCoding<MyNonConformingValueProvider>
     var myFloat: Float // Now encodes with the MyNonConformingValueProvider values for infinity/NaN
+}
+```
+
+## BoolCoding
+
+Sometimes an API uses an `Int` or `String` for a booleans.
+
+`@BoolAsStringCoding`
+
+```swift
+struct MyType: Codable {
+    @BoolAsStringCoding
+    var myBool: Bool // Now encodes/decodes as a String. `"true"` for `true` and `"false"` for `false`. (Values are lower-cased before decoding)
+}
+```
+
+`@BoolAsIntCoding`
+
+```swift
+struct MyType: Codable {
+    @BoolAsIntCoding
+    var myBool: Bool // Now encodes/decodes as an Int. `1` for `true` and `0` for `false`.
 }
 ```
 
