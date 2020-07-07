@@ -156,7 +156,7 @@ private func boolAsIntTestXML(intValue: Int) -> String { """
 private let boolTrueAsStringTestModel = BoolAsStringTextModel(boolValue: true)
 private let boolFalseAsStringTestModel = BoolAsStringTextModel(boolValue: false)
 private struct BoolAsStringTextModel: Codable, Equatable {
-    @BoolAsStringCoding
+    @BoolAsStringEncoding
     var boolValue: Bool
 }
 

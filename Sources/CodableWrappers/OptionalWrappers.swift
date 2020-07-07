@@ -57,9 +57,9 @@ extension KeyedEncodingContainer {
 extension DecodingUses: OptionalCodingWrapper where CustomDecoder.DecodedType: ExpressibleByNilLiteral { }
 extension EncodingUses: OptionalCodingWrapper where CustomEncoder.OriginalType: ExpressibleByNilLiteral { }
 extension CodingUses: OptionalCodingWrapper where CustomCoder.CodingType: ExpressibleByNilLiteral, CustomCoder.CodingType: Equatable { }
-extension DecodingUsesMutable: OptionalCodingWrapper where CustomDecoder.DecodedType: ExpressibleByNilLiteral { }
-extension EncodingUsesMutable: OptionalCodingWrapper where CustomEncoder.OriginalType: ExpressibleByNilLiteral { }
-extension CodingUsesMutable: OptionalCodingWrapper where CustomCoder.CodingType: ExpressibleByNilLiteral { }
+//extension DecodingUsesMutable: OptionalCodingWrapper where CustomDecoder.DecodedType: ExpressibleByNilLiteral { }
+//extension EncodingUsesMutable: OptionalCodingWrapper where CustomEncoder.OriginalType: ExpressibleByNilLiteral { }
+//extension CodingUsesMutable: OptionalCodingWrapper where CustomCoder.CodingType: ExpressibleByNilLiteral { }
 
 //MARK: - OmitCoding
 

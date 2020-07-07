@@ -78,7 +78,7 @@ private let floatTestModel = TestFloatModel(regular: 5, infinity: Float.infinity
 private struct TestFloatModel: Codable, Equatable {
     @NonConformingFloatCoding<NonConformingValueProvider>
     var regular: Float
-    @NonConformingFloatCodingMutable<NonConformingValueProvider>
+    @NonConformingFloatCoding<NonConformingValueProvider>
     var infinity: Float
     @NonConformingFloatCoding<NonConformingValueProvider>
     var negativeInfinity: Float

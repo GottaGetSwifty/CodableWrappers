@@ -18,16 +18,21 @@ public typealias NonConformingFloatDecoding<ValueProvider: NonConformingDecimalV
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingFloatCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingFloatStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingFloatOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUses<NonConformingFloatStaticCoder<ValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<NonConformingFloatEncoding>` instead")
+public typealias NonConformingFloatOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<NonConformingFloatCoding<ValueProvider>>
 
 /// Use the values in `ValueProvider` when encoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingFloatEncodingMutable<ValueProvider: NonConformingDecimalValueProvider> = EncodingUsesMutable<NonConformingFloatStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingFloatEncoding")
+public typealias NonConformingFloatEncodingMutable<ValueProvider: NonConformingDecimalValueProvider> = EncodingUses<NonConformingFloatStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when decoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingFloatDecodingMutable<ValueProvider: NonConformingDecimalValueProvider> = DecodingUsesMutable<NonConformingFloatStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingFloatDecoding")
+public typealias NonConformingFloatDecodingMutable<ValueProvider: NonConformingDecimalValueProvider> = DecodingUses<NonConformingFloatStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingFloatCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUsesMutable<NonConformingFloatStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingFloatCoding")
+public typealias NonConformingFloatCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingFloatStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingFloatOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUsesMutable<NonConformingFloatStaticCoder<ValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<NonConformingFloatCoding<ValueProvider>>` instead")
+public typealias NonConformingFloatOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<NonConformingFloatCoding<ValueProvider>>
 
 //MARK: Double
 
@@ -38,16 +43,21 @@ public typealias NonConformingDoubleDecoding<ValueProvider: NonConformingDecimal
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingDoubleCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingDoubleOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUses<NonConformingDoubleStaticCoder<ValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<NonConformingDoubleCoding<ValueProvider>>` instead")
+public typealias NonConformingDoubleOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<NonConformingDoubleCoding<ValueProvider>>
 
 /// Use the values in `ValueProvider` when encoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingDoubleEncodingMutable<ValueProvider: NonConformingDecimalValueProvider> = EncodingUsesMutable<NonConformingDoubleStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingDoubleEncoding")
+public typealias NonConformingDoubleEncodingMutable<ValueProvider: NonConformingDecimalValueProvider> = EncodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when decoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingDoubleDecodingMutable<ValueProvider: NonConformingDecimalValueProvider> = DecodingUsesMutable<NonConformingDoubleStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingDoubleDecoding")
+public typealias NonConformingDoubleDecodingMutable<ValueProvider: NonConformingDecimalValueProvider> = DecodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingDoubleCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUsesMutable<NonConformingDoubleStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingDoubleCoding")
+public typealias NonConformingDoubleCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingDoubleOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUsesMutable<NonConformingDoubleStaticCoder<ValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<NonConformingDoubleCoding<ValueProvider>>` instead")
+public typealias NonConformingDoubleOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<NonConformingDoubleCoding<ValueProvider>>
 
 //MARK: - Data
 
@@ -60,18 +70,21 @@ public typealias Base64Decoding = DecodingUses<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Property as a Base64 encoded String
 public typealias Base64Coding = CodingUses<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Optional Property as a Base64 encoded String
-public typealias Base64OptionalCoding = OptionalCoding<CodingUses<Base64DataStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<Base64Encoding>` instead")
+public typealias Base64OptionalCoding = OptionalCoding<Base64Coding>
 
 /// Encode this immutable `Data` Property as a Base64 encoded String
 @available(*, deprecated, renamed: "Base64Encoding")
-public typealias Base64EncodingMutable = EncodingUsesMutable<Base64DataStaticCoder>
+public typealias Base64EncodingMutable = EncodingUses<Base64DataStaticCoder>
 /// Decode this immutable `Data` Property as a Base64 encoded String
-public typealias Base64DecodingMutable = DecodingUsesMutable<Base64DataStaticCoder>
+@available(*, deprecated, renamed: "Base64Decoding")
+public typealias Base64DecodingMutable = DecodingUses<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Property as a Base64 encoded String
-public typealias Base64CodingMutable = CodingUsesMutable<Base64DataStaticCoder>
+@available(*, deprecated, renamed: "Base64Coding")
+public typealias Base64CodingMutable = CodingUses<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Optional Property as a Base64 encoded String
-@available(*, deprecated, renamed: "Base64OptionalCoding")
-public typealias Base64OptionalCodingMutable = OptionalCoding<CodingUsesMutable<Base64DataStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<Base64Encoding>` instead")
+public typealias Base64OptionalCodingMutable = OptionalCoding<Base64Coding>
 
 //MARK: - Date
 
@@ -84,17 +97,22 @@ public typealias MillisecondsSince1970DateDecoding = DecodingUses<MillisecondsSi
 /// (En/De)code this immutable `Date` Property using millisecondsSince1970
 public typealias MillisecondsSince1970DateCoding = CodingUses<MillisecondsSince1970DateStaticCoder>
 /// (En/De)code this immutable `Date` Optional Property using millisecondsSince1970
-public typealias MillisecondsSince1970DateOptionalCoding = OptionalCoding<CodingUses<MillisecondsSince1970DateStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<MillisecondsSince1970DateCoding>` instead")
+public typealias MillisecondsSince1970DateOptionalCoding = OptionalCoding<MillisecondsSince1970DateCoding>
 
 
 /// Encode this mutable `Date` Property using millisecondsSince1970
-public typealias MillisecondsSince1970DateEncodingMutable = EncodingUsesMutable<MillisecondsSince1970DateStaticCoder>
+@available(*, deprecated, renamed: "MillisecondsSince1970DateEncoding")
+public typealias MillisecondsSince1970DateEncodingMutable = EncodingUses<MillisecondsSince1970DateStaticCoder>
 /// Decode this mutable `Date` Property using millisecondsSince1970
-public typealias MillisecondsSince1970DateDecodingMutable = DecodingUsesMutable<MillisecondsSince1970DateStaticCoder>
+@available(*, deprecated, renamed: "MillisecondsSince1970DateDecoding")
+public typealias MillisecondsSince1970DateDecodingMutable = DecodingUses<MillisecondsSince1970DateStaticCoder>
 /// (En/De)code this mutable `Date` Property using millisecondsSince1970
-public typealias MillisecondsSince1970DateCodingMutable = CodingUsesMutable<MillisecondsSince1970DateStaticCoder>
+@available(*, deprecated, renamed: "MillisecondsSince1970DateCoding")
+public typealias MillisecondsSince1970DateCodingMutable = CodingUses<MillisecondsSince1970DateStaticCoder>
 /// (En/De)code this mutable `Date` Optional Property using millisecondsSince1970
-public typealias MillisecondsSince1970DateOptionalCodingMutable = OptionalCoding<CodingUsesMutable<MillisecondsSince1970DateStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<MillisecondsSince1970DateCoding>` instead")
+public typealias MillisecondsSince1970DateOptionalCodingMutable = OptionalCoding<MillisecondsSince1970DateCoding>
 
 //MARK: secondsSince1970
 
@@ -105,16 +123,22 @@ public typealias SecondsSince1970DateDecoding = DecodingUses<SecondsSince1970Dat
 /// (En/De)code this immutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateCoding = CodingUses<SecondsSince1970DateStaticCoder>
 /// (En/De)code this immutable `Date` Optional Property using secondsSince1970
-public typealias SecondsSince1970DateOptionalCoding = OptionalCoding<CodingUses<SecondsSince1970DateStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<SecondsSince1970DateCoding>` instead")
+public typealias SecondsSince1970DateOptionalCoding = OptionalCoding<SecondsSince1970DateCoding>
+
 
 /// Encode this mutable `Date` Property using secondsSince1970
-public typealias SecondsSince1970DateEncodingMutable = EncodingUsesMutable<SecondsSince1970DateStaticCoder>
+@available(*, deprecated, renamed: "SecondsSince1970DateEncoding")
+public typealias SecondsSince1970DateEncodingMutable = EncodingUses<SecondsSince1970DateStaticCoder>
 /// Decode this mutable `Date` Property using secondsSince1970
-public typealias SecondsSince1970DateDecodingMutable = DecodingUsesMutable<SecondsSince1970DateStaticCoder>
+@available(*, deprecated, renamed: "SecondsSince1970DateDecoding")
+public typealias SecondsSince1970DateDecodingMutable = DecodingUses<SecondsSince1970DateStaticCoder>
 /// (En/De)code this mutable `Date` Property using secondsSince1970
-public typealias SecondsSince1970DateCodingMutable = CodingUsesMutable<SecondsSince1970DateStaticCoder>
+@available(*, deprecated, renamed: "SecondsSince1970DateCoding")
+public typealias SecondsSince1970DateCodingMutable = CodingUses<SecondsSince1970DateStaticCoder>
 /// (En/De)code this mutable `Date` Optional Property using secondsSince1970
-public typealias SecondsSince1970DateOptionalCodingMutable = OptionalCoding<CodingUsesMutable<SecondsSince1970DateStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<SecondsSince1970DateCoding>` instead")
+public typealias SecondsSince1970DateOptionalCodingMutable = OptionalCoding<SecondsSince1970DateCoding>
 
 //MARK: ISO8601Date
 
@@ -129,20 +153,25 @@ public typealias ISO8601DateDecoding = DecodingUses<ISO8601DateStaticCoder>
 public typealias ISO8601DateCoding = CodingUses<ISO8601DateStaticCoder>
 /// (En/De) this immutable `Date` Optional Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateOptionalCoding = OptionalCoding<CodingUses<ISO8601DateStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<ISO8601DateCoding>` instead")
+public typealias ISO8601DateOptionalCoding = OptionalCoding<ISO8601DateCoding>
 
 /// Encode this mutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateEncodingMutable = EncodingUsesMutable<ISO8601DateStaticCoder>
+@available(*, deprecated, renamed: "SecondsSince1970DateCoding")
+public typealias ISO8601DateEncodingMutable = EncodingUses<ISO8601DateStaticCoder>
 /// Decode this mutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateDecodingMutable = DecodingUsesMutable<ISO8601DateStaticCoder>
+@available(*, deprecated, renamed: "SecondsSince1970DateCoding")
+public typealias ISO8601DateDecodingMutable = DecodingUses<ISO8601DateStaticCoder>
 /// (En/De) this mutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateCodingMutable = CodingUsesMutable<ISO8601DateStaticCoder>
+@available(*, deprecated, renamed: "SecondsSince1970DateCoding")
+public typealias ISO8601DateCodingMutable = CodingUses<ISO8601DateStaticCoder>
 /// (En/De) this mutable `Date` Optional Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateOptionalCodingMutable = OptionalCoding<CodingUsesMutable<ISO8601DateStaticCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<ISO8601DateCoding>` instead")
+public typealias ISO8601DateOptionalCodingMutable = OptionalCoding<ISO8601DateCoding>
 
 //MARK: CustomISO8601Date
 
@@ -158,20 +187,25 @@ public typealias ISO8601DateFormatterDecoding<CustomDecoder: ISO8601DateFormatte
 public typealias ISO8601DateFormatterCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUses<CustomCoder>
 /// (En/De)code this immutable `Date` Optional Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterOptionalCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = OptionalCoding<CodingUses<CustomCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<ISO8601DateFormatterCoding<CustomCoder>>` instead")
+public typealias ISO8601DateFormatterOptionalCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = OptionalCoding<ISO8601DateFormatterCoding<CustomCoder>>
 
 /// Encode this mutable `Date` Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterEncodingMutable<CustomEncoder: ISO8601DateFormatterStaticEncoder> = EncodingUsesMutable<CustomEncoder>
+@available(*, deprecated, renamed: "ISO8601DateFormatterEncoding")
+public typealias ISO8601DateFormatterEncodingMutable<CustomEncoder: ISO8601DateFormatterStaticEncoder> = EncodingUses<CustomEncoder>
 /// Decode this mutable `Date` Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterDecodingMutable<CustomDecoder: ISO8601DateFormatterStaticDecoder> = DecodingUsesMutable<CustomDecoder>
+@available(*, deprecated, renamed: "ISO8601DateFormatterDecoding")
+public typealias ISO8601DateFormatterDecodingMutable<CustomDecoder: ISO8601DateFormatterStaticDecoder> = DecodingUses<CustomDecoder>
 /// (En/De)code this mutable `Date` Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterCodingMutable<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUsesMutable<CustomCoder>
+@available(*, deprecated, renamed: "ISO8601DateFormatterCoding")
+public typealias ISO8601DateFormatterCodingMutable<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUses<CustomCoder>
 /// (En/De)code this mutable `Date` Optional Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterOptionalCodingMutable<CustomCoder: ISO8601DateFormatterStaticCoder> = OptionalCoding<CodingUsesMutable<CustomCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<ISO8601DateFormatterCoding<CustomCoder>>` instead")
+public typealias ISO8601DateFormatterOptionalCodingMutable<CustomCoder: ISO8601DateFormatterStaticCoder> = OptionalCoding<ISO8601DateFormatterCoding<CustomCoder>>
 
 //MARK: DateFormatter
 
@@ -182,16 +216,21 @@ public typealias DateFormatterDecoding<CustomDecoder: DateFormatterStaticDecoder
 /// (En/De)code this immutable `Date` Property using the passed formatter
 public typealias DateFormatterCoding<CustomCoder: DateFormatterStaticCoder> = CodingUses<CustomCoder>
 /// (En/De)code this immutable `Date` Optional Property using the passed formatter
-public typealias DateFormatterOptionalCoding<CustomCoder: DateFormatterStaticCoder> = OptionalCoding<CodingUses<CustomCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<DateFormatterCoding<CustomCoder>>` instead")
+public typealias DateFormatterOptionalCoding<CustomCoder: DateFormatterStaticCoder> = OptionalCoding<DateFormatterCoding<CustomCoder>>
 
 /// Encode this mutable `Date` Property using the passed formatter
-public typealias DateFormatterEncodingMutable<CustomEncoder: DateFormatterStaticEncoder> = EncodingUsesMutable<CustomEncoder>
+@available(*, deprecated, renamed: "DateFormatterEncoding")
+public typealias DateFormatterEncodingMutable<CustomEncoder: DateFormatterStaticEncoder> = EncodingUses<CustomEncoder>
 /// Decode this mutable `Date` Property using the passed formatter
-public typealias DateFormatterDecodingMutable<CustomDecoder: DateFormatterStaticDecoder> = DecodingUsesMutable<CustomDecoder>
+@available(*, deprecated, renamed: "DateFormatterDecoding")
+public typealias DateFormatterDecodingMutable<CustomDecoder: DateFormatterStaticDecoder> = DecodingUses<CustomDecoder>
 /// (En/De)code this mutable `Date` Property using the passed formatter
-public typealias DateFormatterCodingMutable<CustomCoder: DateFormatterStaticCoder> = CodingUsesMutable<CustomCoder>
+@available(*, deprecated, renamed: "DateFormatterCoding")
+public typealias DateFormatterCodingMutable<CustomCoder: DateFormatterStaticCoder> = CodingUses<CustomCoder>
 /// (En/De)code this mutable `Date` Optional Property using the passed formatter
-public typealias DateFormatterOptionalCodingMutable<CustomCoder: DateFormatterStaticCoder> = OptionalCoding<CodingUsesMutable<CustomCoder>>
+@available(*, deprecated, message: "Use `OptionalCoding<DateFormatterCoding<CustomCoder>>` instead")
+public typealias DateFormatterOptionalCodingMutable<CustomCoder: DateFormatterStaticCoder> = OptionalCoding<DateFormatterCoding<CustomCoder>>
 
 //MARK: - Bool
 
@@ -204,16 +243,21 @@ public typealias NonConformingBoolDecoding<ValueProvider: NonConformingBoolValue
 /// (En/De)code this immutable `Bool` Property using the passed NonConformingBoolValueProvider
 public typealias NonConformingBoolCoding<ValueProvider: NonConformingBoolValueProvider> = CodingUses<NonConformingBoolStaticCoder<ValueProvider>>
 /// (En/De)code this immutable `Bool` Property using the passed NonConformingBoolValueProvider
-public typealias NonConformingBoolOptionalCoding<ValueProvider: NonConformingBoolValueProvider> = OptionalCoding<CodingUses<NonConformingBoolStaticCoder<ValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<NonConformingBoolCoding<ValueProvider>>` instead")
+public typealias NonConformingBoolOptionalCoding<ValueProvider: NonConformingBoolValueProvider> = OptionalCoding<NonConformingBoolCoding<ValueProvider>>
 
 /// Encode this mutable `Bool` Property using the passed NonConformingBoolValueProvider
-public typealias NonConformingBoolEncodingMutable<ValueProvider: NonConformingBoolValueProvider> = EncodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingBoolEncoding")
+public typealias NonConformingBoolEncodingMutable<ValueProvider: NonConformingBoolValueProvider> = EncodingUses<NonConformingBoolStaticCoder<ValueProvider>>
 /// Decode this mutable `Bool` Property using the passed NonConformingBoolValueProvider
-public typealias NonConformingBoolDecodingMutable<ValueProvider: NonConformingBoolValueProvider> = DecodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingBoolDecoding")
+public typealias NonConformingBoolDecodingMutable<ValueProvider: NonConformingBoolValueProvider> = DecodingUses<NonConformingBoolStaticCoder<ValueProvider>>
 /// (En/De)code this mutable `Bool` Property using the passed NonConformingBoolValueProvider
-public typealias NonConformingBoolCodingMutable<ValueProvider: NonConformingBoolValueProvider> = CodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
+@available(*, deprecated, renamed: "NonConformingBoolCoding")
+public typealias NonConformingBoolCodingMutable<ValueProvider: NonConformingBoolValueProvider> = CodingUses<NonConformingBoolStaticCoder<ValueProvider>>
 /// (En/De)code this mutable `Bool` Property using the passed NonConformingBoolValueProvider
-public typealias NonConformingBoolOptionalCodingMutable<ValueProvider: NonConformingBoolValueProvider> = OptionalCoding<CodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<NonConformingBoolCoding<ValueProvider>>` instead")
+public typealias NonConformingBoolOptionalCodingMutable<ValueProvider: NonConformingBoolValueProvider> = OptionalCoding<NonConformingBoolCoding<ValueProvider>>
 
 //MARK: BoolAsInteger
 
@@ -227,16 +271,21 @@ public typealias BoolFromIntegerDecoding<ValueType: FixedWidthInteger & Codable>
 /// (En/De)code this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
 public typealias BoolAsIntegerCoding<ValueType: FixedWidthInteger & Codable> = CodingUses<BoolAsIntegerStaticCoder<ValueType>>
 /// (En/De)code this immutable `Bool` Optional Property as passed Integer Type using 1 as true and 0 as false
-public typealias BoolAsIntegerOptionalCoding<ValueType: FixedWidthInteger & Codable> = OptionalCoding<CodingUses<NonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>>
+@available(*, deprecated, message: "Use `OptionalCoding<BoolAsIntegerCoding<ValueType>>` instead")
+public typealias BoolAsIntegerOptionalCoding<ValueType: FixedWidthInteger & Codable> = OptionalCoding<BoolAsIntegerCoding<ValueType>>
 
 /// Encode this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
-public typealias BoolAsIntegerEncodingMutable<ValueType: FixedWidthInteger & Codable> = EncodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
+@available(*, deprecated, renamed: "BoolAsIntegerEncoding")
+public typealias BoolAsIntegerEncodingMutable<ValueType: FixedWidthInteger & Codable> = EncodingUses<BoolAsIntegerStaticCoder<ValueType>>
 /// Decode this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
-public typealias BoolFromIntegerDecodingMutable<ValueType: FixedWidthInteger & Codable> = DecodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
+@available(*, deprecated, renamed: "BoolFromIntegerDecoding")
+public typealias BoolFromIntegerDecodingMutable<ValueType: FixedWidthInteger & Codable> = DecodingUses<BoolAsIntegerStaticCoder<ValueType>>
 /// (En/De)code this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
-public typealias BoolAsIntegerCodingMutable<ValueType: FixedWidthInteger & Codable> = CodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
+@available(*, deprecated, renamed: "BoolAsIntegerCoding")
+public typealias BoolAsIntegerCodingMutable<ValueType: FixedWidthInteger & Codable> = CodingUses<BoolAsIntegerStaticCoder<ValueType>>
 /// (En/De)code this immutable `Bool` Optional Property as passed Integer Type using 1 as true and 0 as false
-public typealias BoolAsIntegerOptionalCodingMutable<ValueType: FixedWidthInteger & Codable> = OptionalCoding<CodingUsesMutable<NonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>>
+@available(*, deprecated, message: "Use `OptionalCoding<BoolAsIntegerCoding<ValueType>>` instead")
+public typealias BoolAsIntegerOptionalCodingMutable<ValueType: FixedWidthInteger & Codable> = OptionalCoding<BoolAsIntegerCoding<ValueType>>
 
 
 //MARK: BoolAsInt
@@ -248,16 +297,21 @@ public typealias BoolFromIntDecoding = BoolFromIntegerDecoding<Int>
 /// (En/De)code this immutable `Bool` Property as an Int using 1 as true and 0 as false
 public typealias BoolAsIntCoding = BoolAsIntegerCoding<Int>
 /// (En/De)code this immutable `Bool` Optional Property as an Int using 1 as true and 0 as false
-public typealias BoolAsIntOptionalCoding = BoolAsIntegerOptionalCodingMutable<Int>
+@available(*, deprecated, message: "Use `OptionalCoding<BoolAsIntCoding>` instead")
+public typealias BoolAsIntOptionalCoding = OptionalCoding<BoolAsIntCoding>
 
 /// Encode this immutable `Bool` Property as an Int using 1 as true and 0 as false
+@available(*, deprecated, renamed: "BoolAsIntEncoding")
 public typealias BoolAsIntEncodingMutable = BoolAsIntegerEncodingMutable<Int>
 /// Decode this immutable `Bool` Property as an Int using 1 as true and 0 as false
+@available(*, deprecated, renamed: "BoolFromIntDecoding")
 public typealias BoolFromIntDecodingMutable = BoolFromIntegerDecodingMutable<Int>
 /// (En/De)code this immutable `Bool` Property as an Int using 1 as true and 0 as false
+@available(*, deprecated, renamed: "BoolAsIntCoding")
 public typealias BoolAsIntCodingMutable = BoolAsIntegerCodingMutable<Int>
 /// (En/De)code this immutable `Bool` Optional Property as an Int using 1 as true and 0 as false
-public typealias BoolAsIntOptionalCodingMutable = OptionalCoding<BoolAsIntegerCodingMutable<Int>>
+@available(*, deprecated, message: "Use `OptionalCoding<BoolAsIntCoding>` instead")
+public typealias BoolAsIntOptionalCodingMutable = OptionalCoding<BoolAsIntCoding>
 
 /// Convenience typealias
 public typealias BoolAsStringStaticCoder = NonConformingBoolStaticCoder<BoolAsStringValueProvider>
@@ -269,13 +323,18 @@ public typealias BoolFromStringDecoding = DecodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
 public typealias BoolAsStringCoding = CodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Optional Property a String using "true" for true and "false" for false
-public typealias BoolAsStringOptionalCoding = OptionalCoding<CodingUses<NonConformingBoolStaticCoder<BoolAsStringValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<BoolAsStringCoding>` instead")
+public typealias BoolAsStringOptionalCoding = OptionalCoding<BoolAsStringCoding>
 
 /// Encode this immutable `Bool` Property a String using "true" for true and "false" for false
-public typealias BoolAsStringEncodingMutable = EncodingUsesMutable<BoolAsStringStaticCoder>
+@available(*, deprecated, renamed: "BoolAsStringEncoding")
+public typealias BoolAsStringEncodingMutable = EncodingUses<BoolAsStringStaticCoder>
 /// Decode this immutable `Bool` Property a String using "true" for true and "false" for false
-public typealias BoolFromStringDecodingMutable = DecodingUsesMutable<BoolAsStringStaticCoder>
+@available(*, deprecated, renamed: "BoolFromStringDecoding")
+public typealias BoolFromStringDecodingMutable = DecodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
-public typealias BoolAsStringCodingMutable = CodingUsesMutable<BoolAsStringStaticCoder>
+@available(*, deprecated, renamed: "BoolAsStringCoding")
+public typealias BoolAsStringCodingMutable = CodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Optional Property a String using "true" for true and "false" for false
-public typealias BoolAsStringOptionalCodingMutable = OptionalCoding<CodingUsesMutable<NonConformingBoolStaticCoder<BoolAsStringValueProvider>>>
+@available(*, deprecated, message: "Use `OptionalCoding<BoolAsStringCoding>` instead")
+public typealias BoolAsStringOptionalCodingMutable = OptionalCoding<BoolAsStringCoding>

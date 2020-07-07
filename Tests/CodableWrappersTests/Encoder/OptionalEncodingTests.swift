@@ -218,7 +218,7 @@ private let noWrapperTestInstance = NoWrapperModel(value: nil)
 
 //MARK: - Seconds Since 1970 Mock Data
 private struct SecondsSince1970TestModel: Codable, Equatable {
-    @SecondsSince1970DateOptionalCoding
+    @OptionalCoding<SecondsSince1970DateCoding>
     var secondsSince1970Date: Date?
 }
 private let secondsSince1970TestEmptyInstance = SecondsSince1970TestModel(secondsSince1970Date: nil)
@@ -228,6 +228,7 @@ private let secondsSince1970JSON = """
     "secondsSince1970Date" : 590277534
 }
 """
+
 private let secondsSince1970XML = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

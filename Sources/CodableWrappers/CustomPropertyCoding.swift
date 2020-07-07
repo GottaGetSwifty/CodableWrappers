@@ -142,35 +142,35 @@ public struct CodingUses<CustomCoder: StaticCoder>: StaticCodingWrapper {
 
 //MARK: - Mutable Custom Coding Property Wrappers
 
-/// Customize the encoding of a mutable property using the `CustomEncoder`
-@propertyWrapper
-public struct EncodingUsesMutable<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
-    public var wrappedValue: CustomEncoder.OriginalType
-    public init(wrappedValue: CustomEncoder.OriginalType) {
-        self.wrappedValue = wrappedValue
-    }
-}
-
-/// Customize the decoding of a mutable property using the `CustomDecoder`
-@propertyWrapper
-public struct DecodingUsesMutable<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
-    public var wrappedValue: CustomDecoder.DecodedType
-    public init(wrappedValue: CustomDecoder.DecodedType) {
-        self.wrappedValue = wrappedValue
-    }
-}
-
-/// Customize the encoding and decoding of a mutable property using the `CustomCoder`
-@propertyWrapper
-public struct CodingUsesMutable<CustomCoder: StaticCoder>: StaticCodingWrapper {
-    public typealias CustomEncoder = CustomCoder
-    public typealias CustomDecoder = CustomCoder
-
-    public var wrappedValue: CustomCoder.CodingType
-    public init(wrappedValue: CustomCoder.CodingType) {
-        self.wrappedValue = wrappedValue
-    }
-}
+///// Customize the encoding of a mutable property using the `CustomEncoder`
+//@propertyWrapper
+//public struct EncodingUsesMutable<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
+//    public var wrappedValue: CustomEncoder.OriginalType
+//    public init(wrappedValue: CustomEncoder.OriginalType) {
+//        self.wrappedValue = wrappedValue
+//    }
+//}
+//
+///// Customize the decoding of a mutable property using the `CustomDecoder`
+//@propertyWrapper
+//public struct DecodingUsesMutable<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
+//    public var wrappedValue: CustomDecoder.DecodedType
+//    public init(wrappedValue: CustomDecoder.DecodedType) {
+//        self.wrappedValue = wrappedValue
+//    }
+//}
+//
+///// Customize the encoding and decoding of a mutable property using the `CustomCoder`
+//@propertyWrapper
+//public struct CodingUsesMutable<CustomCoder: StaticCoder>: StaticCodingWrapper {
+//    public typealias CustomEncoder = CustomCoder
+//    public typealias CustomDecoder = CustomCoder
+//
+//    public var wrappedValue: CustomCoder.CodingType
+//    public init(wrappedValue: CustomCoder.CodingType) {
+//        self.wrappedValue = wrappedValue
+//    }
+//}
 
 //MARK: Enable Customizing one direction
 
@@ -187,18 +187,18 @@ extension DecodingUses: Encodable where CustomDecoder.DecodedType: Encodable {
     }
 }
 
-extension EncodingUsesMutable: Decodable where CustomEncoder.OriginalType: Decodable {
-    /// Ensures there isn't an extra level added
-    public init(from decoder: Decoder) throws {
-        self.init(wrappedValue: try CustomEncoder.OriginalType(from: decoder))
-    }
-}
-extension DecodingUsesMutable: Encodable where CustomDecoder.DecodedType: Encodable {
-    /// Ensures there isn't an extra level added
-    public func encode(to encoder: Encoder) throws {
-        try wrappedValue.encode(to: encoder)
-    }
-}
+//extension EncodingUsesMutable: Decodable where CustomEncoder.OriginalType: Decodable {
+//    /// Ensures there isn't an extra level added
+//    public init(from decoder: Decoder) throws {
+//        self.init(wrappedValue: try CustomEncoder.OriginalType(from: decoder))
+//    }
+//}
+//extension DecodingUsesMutable: Encodable where CustomDecoder.DecodedType: Encodable {
+//    /// Ensures there isn't an extra level added
+//    public func encode(to encoder: Encoder) throws {
+//        try wrappedValue.encode(to: encoder)
+//    }
+//}
 
 //MARK: Equatable Conformance
 
@@ -206,8 +206,8 @@ extension EncodingUses: Equatable where CustomEncoder.OriginalType: Equatable {}
 extension DecodingUses: Equatable where CustomDecoder.DecodedType: Equatable {}
 extension CodingUses: Equatable where CustomCoder.CodingType: Equatable {}
 
-extension EncodingUsesMutable: Equatable where CustomEncoder.OriginalType: Equatable {}
-extension DecodingUsesMutable: Equatable where CustomDecoder.DecodedType: Equatable {}
-extension CodingUsesMutable: Equatable where CustomCoder.CodingType: Equatable {}
+//extension EncodingUsesMutable: Equatable where CustomEncoder.OriginalType: Equatable {}
+//extension DecodingUsesMutable: Equatable where CustomDecoder.DecodedType: Equatable {}
+//extension CodingUsesMutable: Equatable where CustomCoder.CodingType: Equatable {}
 
 
