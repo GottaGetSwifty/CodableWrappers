@@ -5,7 +5,7 @@
 //  Created by Paul Fechner on 10/21/19.
 //
 
-@testable import CodableWrappers
+import CodableWrappers
 import Foundation
 import Quick
 import Nimble
@@ -42,7 +42,7 @@ class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec 
 }
 
 struct DecodingModel: Codable {
-    @SecondsSince1970DateDecoding
+    @ImmutableDecodable @SecondsSince1970DateDecoding
     var time: Date
 }
 

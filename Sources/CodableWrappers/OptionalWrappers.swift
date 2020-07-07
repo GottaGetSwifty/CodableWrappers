@@ -104,30 +104,196 @@ extension OmitCoding: Equatable where WrappedType: Equatable { }
 
 //MARK: - OmitCodingWhenNil (prototype)
 
+/// Basic Coder to simplify interface for composition-intended wrappers
 private struct EmptyStaticCoder<T: Codable>: StaticCoder {
     static func decode(from decoder: Decoder) throws -> T { try T(from: decoder) }
     static func encode(value: T, to encoder: Encoder) throws { try value.encode(to: encoder) }
 }
 
-/// Prototype Wrapper, goal is to be usable once Wrapper composition is possible.
-@propertyWrapper
-internal struct OmitCodingWhenNil<WrappedType: Codable>: Codable, OptionalCodingWrapper {
+//extension OptionalCoding: Equatable where WrappedType: Equatable { }
+//
+///// Goal is to be usable once Wrapper composition is possible.
+//@propertyWrapper
+//public struct OptionalCoding<WrappedType: Codable>: Codable, OptionalCodingWrapper {
+//
+//    public let wrappedValue: WrappedType?
+//    public init(wrappedValue: WrappedType?) {
+//        self.wrappedValue = wrappedValue
+//    }
+//
+//    /// Decodes the `wrappedValue`  using the `CustomDecoder`
+//    public init(from decoder: Decoder) throws {
+//        let value: WrappedType = try EmptyStaticCoder.decode(from: decoder)
+//        self.init(wrappedValue: value)
+//    }
+//
+//    /// Encodes the `wrappedValue` using the `CustomEncoder`
+//    public func encode(to encoder: Encoder) throws {
+//        try EmptyStaticCoder.encode(value: wrappedValue, to: encoder)
+//    }
+//}
 
-    public let wrappedValue: WrappedType?
-    public init(wrappedValue: WrappedType?) {
-        self.wrappedValue = wrappedValue
-    }
+public protocol OptionalEncoder: Encodable {
+    associatedtype EncoderWrapper: StaticEncoderWrapper
 
-    /// Decodes the `wrappedValue`  using the `CustomDecoder`
-    public init(from decoder: Decoder) throws {
-        let value: WrappedType = try EmptyStaticCoder.decode(from: decoder)
-        self.init(wrappedValue: value)
-    }
+    var wrappedValue: EncoderWrapper.CustomEncoder.OriginalType? { get }
+}
 
-    /// Encodes the `wrappedValue` using the `CustomEncoder`
-    public func encode(to encoder: Encoder) throws {
-        try EmptyStaticCoder.encode(value: wrappedValue, to: encoder)
+public extension OptionalEncoder {
+    func encode(to encoder: Encoder) throws {
+        if let wrappedValue = wrappedValue {
+            try EncoderWrapper.CustomEncoder.encode(value: wrappedValue, to: encoder)
+        }
     }
 }
 
-extension OmitCodingWhenNil: Equatable where WrappedType: Equatable { }
+public protocol OptionalDecoder: Decodable {
+    associatedtype DecoderWrapper: StaticDecoderWrapper
+    init(wrappedValue: DecoderWrapper.CustomDecoder.DecodedType?)
+}
+
+extension OptionalDecoder {
+    public init(from decoder: Decoder) throws {
+        self.init(wrappedValue: try? DecoderWrapper.CustomDecoder.decode(from: decoder))
+    }
+}
+
+public protocol OptionalCoder: OptionalDecoder, OptionalEncoder where DecoderWrapper.CustomDecoder.DecodedType == EncoderWrapper.CustomEncoder.OriginalType {
+
+}
+
+@propertyWrapper
+public struct OptionalEncoding<CustomDecoderWrapper: StaticEncoderWrapper>: OptionalEncoder {
+    public typealias EncoderWrapper = CustomDecoderWrapper
+
+    public var wrappedValue: CustomDecoderWrapper.CustomEncoder.OriginalType?
+    public init(wrappedValue: CustomDecoderWrapper.CustomEncoder.OriginalType?) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+/// Customize the decoding of an immuitable property using the `CustomDecoder`
+@propertyWrapper
+public struct OptionalDecoding<CustomDecoderWrapper: StaticDecoderWrapper>: OptionalDecoder {
+    public typealias DecoderWrapper = CustomDecoderWrapper
+
+    public var wrappedValue: CustomDecoderWrapper.CustomDecoder.DecodedType?
+    public init(wrappedValue: CustomDecoderWrapper.CustomDecoder.DecodedType?) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+/// Customize the encoding and decoding of an immuitable property using the `CustomCoder`
+@propertyWrapper
+public struct OptionalCoding<CustomCoderWrapper: StaticCodingWrapper>: OptionalCoder, OptionalCodingWrapper {
+
+    public typealias DecoderWrapper = CustomCoderWrapper
+    public typealias EncoderWrapper = CustomCoderWrapper
+
+    public var wrappedValue: CustomCoderWrapper.CustomEncoder.OriginalType?
+    public init(wrappedValue: CustomCoderWrapper.CustomDecoder.DecodedType?) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+extension OptionalCoding: Equatable where CustomCoderWrapper.CustomEncoder.OriginalType: Equatable {}
+
+public protocol TransientCodable: TransientEncodable, TransientDecodable where ValueType == InitType { }
+
+public protocol TransientEncodable: Encodable {
+    associatedtype ValueType: Encodable
+    var wrappedValue: ValueType { get }
+}
+public extension TransientEncodable {
+    func encode(to encoder: Encoder) throws {
+        try wrappedValue.encode(to: encoder)
+    }
+}
+
+public protocol TransientDecodable: Decodable {
+    associatedtype InitType: Decodable
+    init(wrappedValue: InitType)
+}
+public extension TransientDecodable {
+    init(from decoder: Decoder) throws {
+        self.init(wrappedValue: try InitType(from: decoder))
+    }
+}
+
+@propertyWrapper
+public struct TransientEncoding<T:Codable>: TransientEncodable {
+    public let wrappedValue: T
+
+    public init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+}
+extension TransientEncoding: Decodable where T: Decodable {
+    public init(from decoder: Decoder) throws {
+        wrappedValue = try T(from: decoder)
+    }
+}
+
+@propertyWrapper
+public struct TransientDecoding<T:Codable>: TransientDecodable {
+    public let wrappedValue: T
+
+    public init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+}
+extension TransientDecoding: Encodable where T: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        try wrappedValue.encode(to: encoder)
+    }
+}
+
+@propertyWrapper
+public struct TransientCoding<T:Codable>: TransientCodable {
+    public let wrappedValue: T
+
+    public init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+extension TransientCoding: OptionalCodingWrapper where T: ExpressibleByNilLiteral { }
+extension TransientCoding: Equatable where T: Equatable {} 
+
+@propertyWrapper
+public struct ImmutableCodable<T: Codable>: TransientCodable {
+    public let wrappedValue: T
+
+    public init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+@propertyWrapper
+public struct ImmutableEncodable<T: Encodable>: TransientEncodable {
+    public let wrappedValue: T
+
+    public init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+}
+extension ImmutableEncodable: Decodable where T: Decodable {
+    public init(from decoder: Decoder) throws {
+        wrappedValue = try T(from: decoder)
+    }
+}
+
+@propertyWrapper
+public struct ImmutableDecodable<T: Decodable>: TransientDecodable {
+    public let wrappedValue: T
+
+    public init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+extension ImmutableDecodable: Encodable where T: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        try wrappedValue.encode(to: encoder)
+    }
+}

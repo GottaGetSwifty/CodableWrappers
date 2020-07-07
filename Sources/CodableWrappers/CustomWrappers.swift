@@ -18,7 +18,7 @@ public typealias NonConformingFloatDecoding<ValueProvider: NonConformingDecimalV
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingFloatCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingFloatStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingFloatOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<OptionalNonConformingFloatStaticCoder<ValueProvider>>
+public typealias NonConformingFloatOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUses<NonConformingFloatStaticCoder<ValueProvider>>>
 
 /// Use the values in `ValueProvider` when encoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingFloatEncodingMutable<ValueProvider: NonConformingDecimalValueProvider> = EncodingUsesMutable<NonConformingFloatStaticCoder<ValueProvider>>
@@ -27,7 +27,7 @@ public typealias NonConformingFloatDecodingMutable<ValueProvider: NonConformingD
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingFloatCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUsesMutable<NonConformingFloatStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingFloatOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUsesMutable<OptionalNonConformingFloatStaticCoder<ValueProvider>>
+public typealias NonConformingFloatOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUsesMutable<NonConformingFloatStaticCoder<ValueProvider>>>
 
 //MARK: Double
 
@@ -38,7 +38,7 @@ public typealias NonConformingDoubleDecoding<ValueProvider: NonConformingDecimal
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingDoubleCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingDoubleOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<OptionalNonConformingDoubleStaticCoder<ValueProvider>>
+public typealias NonConformingDoubleOptionalCoding<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUses<NonConformingDoubleStaticCoder<ValueProvider>>>
 
 /// Use the values in `ValueProvider` when encoding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingDoubleEncodingMutable<ValueProvider: NonConformingDecimalValueProvider> = EncodingUsesMutable<NonConformingDoubleStaticCoder<ValueProvider>>
@@ -47,7 +47,7 @@ public typealias NonConformingDoubleDecodingMutable<ValueProvider: NonConforming
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingDoubleCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUsesMutable<NonConformingDoubleStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this mutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
-public typealias NonConformingDoubleOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = CodingUsesMutable<OptionalNonConformingDoubleStaticCoder<ValueProvider>>
+public typealias NonConformingDoubleOptionalCodingMutable<ValueProvider: NonConformingDecimalValueProvider> = OptionalCoding<CodingUsesMutable<NonConformingDoubleStaticCoder<ValueProvider>>>
 
 //MARK: - Data
 
@@ -60,16 +60,18 @@ public typealias Base64Decoding = DecodingUses<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Property as a Base64 encoded String
 public typealias Base64Coding = CodingUses<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Optional Property as a Base64 encoded String
-public typealias Base64OptionalCoding = CodingUses<OptionalBase64DataStaticCoder>
+public typealias Base64OptionalCoding = OptionalCoding<CodingUses<Base64DataStaticCoder>>
 
 /// Encode this immutable `Data` Property as a Base64 encoded String
+@available(*, deprecated, renamed: "Base64Encoding")
 public typealias Base64EncodingMutable = EncodingUsesMutable<Base64DataStaticCoder>
 /// Decode this immutable `Data` Property as a Base64 encoded String
 public typealias Base64DecodingMutable = DecodingUsesMutable<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Property as a Base64 encoded String
 public typealias Base64CodingMutable = CodingUsesMutable<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Optional Property as a Base64 encoded String
-public typealias Base64OptionalCodingMutable = CodingUsesMutable<OptionalBase64DataStaticCoder>
+@available(*, deprecated, renamed: "Base64OptionalCoding")
+public typealias Base64OptionalCodingMutable = OptionalCoding<CodingUsesMutable<Base64DataStaticCoder>>
 
 //MARK: - Date
 
@@ -82,7 +84,7 @@ public typealias MillisecondsSince1970DateDecoding = DecodingUses<MillisecondsSi
 /// (En/De)code this immutable `Date` Property using millisecondsSince1970
 public typealias MillisecondsSince1970DateCoding = CodingUses<MillisecondsSince1970DateStaticCoder>
 /// (En/De)code this immutable `Date` Optional Property using millisecondsSince1970
-public typealias MillisecondsSince1970DateOptionalCoding = CodingUses<OptionalMillisecondsSince1970DateStaticCoder>
+public typealias MillisecondsSince1970DateOptionalCoding = OptionalCoding<CodingUses<MillisecondsSince1970DateStaticCoder>>
 
 
 /// Encode this mutable `Date` Property using millisecondsSince1970
@@ -92,7 +94,7 @@ public typealias MillisecondsSince1970DateDecodingMutable = DecodingUsesMutable<
 /// (En/De)code this mutable `Date` Property using millisecondsSince1970
 public typealias MillisecondsSince1970DateCodingMutable = CodingUsesMutable<MillisecondsSince1970DateStaticCoder>
 /// (En/De)code this mutable `Date` Optional Property using millisecondsSince1970
-public typealias MillisecondsSince1970DateOptionalCodingMutable = CodingUsesMutable<OptionalMillisecondsSince1970DateStaticCoder>
+public typealias MillisecondsSince1970DateOptionalCodingMutable = OptionalCoding<CodingUsesMutable<MillisecondsSince1970DateStaticCoder>>
 
 //MARK: secondsSince1970
 
@@ -103,7 +105,7 @@ public typealias SecondsSince1970DateDecoding = DecodingUses<SecondsSince1970Dat
 /// (En/De)code this immutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateCoding = CodingUses<SecondsSince1970DateStaticCoder>
 /// (En/De)code this immutable `Date` Optional Property using secondsSince1970
-public typealias SecondsSince1970DateOptionalCoding = CodingUses<OptionalSecondsSince1970DateStaticCoder>
+public typealias SecondsSince1970DateOptionalCoding = OptionalCoding<CodingUses<SecondsSince1970DateStaticCoder>>
 
 /// Encode this mutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateEncodingMutable = EncodingUsesMutable<SecondsSince1970DateStaticCoder>
@@ -112,7 +114,7 @@ public typealias SecondsSince1970DateDecodingMutable = DecodingUsesMutable<Secon
 /// (En/De)code this mutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateCodingMutable = CodingUsesMutable<SecondsSince1970DateStaticCoder>
 /// (En/De)code this mutable `Date` Optional Property using secondsSince1970
-public typealias SecondsSince1970DateOptionalCodingMutable = CodingUsesMutable<OptionalSecondsSince1970DateStaticCoder>
+public typealias SecondsSince1970DateOptionalCodingMutable = OptionalCoding<CodingUsesMutable<SecondsSince1970DateStaticCoder>>
 
 //MARK: ISO8601Date
 
@@ -127,7 +129,7 @@ public typealias ISO8601DateDecoding = DecodingUses<ISO8601DateStaticCoder>
 public typealias ISO8601DateCoding = CodingUses<ISO8601DateStaticCoder>
 /// (En/De) this immutable `Date` Optional Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateOptionalCoding = CodingUses<OptionalISO8601DateStaticCoder>
+public typealias ISO8601DateOptionalCoding = OptionalCoding<CodingUses<ISO8601DateStaticCoder>>
 
 /// Encode this mutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
@@ -140,7 +142,7 @@ public typealias ISO8601DateDecodingMutable = DecodingUsesMutable<ISO8601DateSta
 public typealias ISO8601DateCodingMutable = CodingUsesMutable<ISO8601DateStaticCoder>
 /// (En/De) this mutable `Date` Optional Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateOptionalCodingMutable = CodingUsesMutable<OptionalISO8601DateStaticCoder>
+public typealias ISO8601DateOptionalCodingMutable = OptionalCoding<CodingUsesMutable<ISO8601DateStaticCoder>>
 
 //MARK: CustomISO8601Date
 
@@ -156,7 +158,7 @@ public typealias ISO8601DateFormatterDecoding<CustomDecoder: ISO8601DateFormatte
 public typealias ISO8601DateFormatterCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUses<CustomCoder>
 /// (En/De)code this immutable `Date` Optional Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterOptionalCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUses<OptionalStaticCoder<CustomCoder>>
+public typealias ISO8601DateFormatterOptionalCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = OptionalCoding<CodingUses<CustomCoder>>
 
 /// Encode this mutable `Date` Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
@@ -169,7 +171,7 @@ public typealias ISO8601DateFormatterDecodingMutable<CustomDecoder: ISO8601DateF
 public typealias ISO8601DateFormatterCodingMutable<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUsesMutable<CustomCoder>
 /// (En/De)code this mutable `Date` Optional Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterOptionalCodingMutable<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUsesMutable<OptionalStaticCoder<CustomCoder>>
+public typealias ISO8601DateFormatterOptionalCodingMutable<CustomCoder: ISO8601DateFormatterStaticCoder> = OptionalCoding<CodingUsesMutable<CustomCoder>>
 
 //MARK: DateFormatter
 
@@ -180,7 +182,7 @@ public typealias DateFormatterDecoding<CustomDecoder: DateFormatterStaticDecoder
 /// (En/De)code this immutable `Date` Property using the passed formatter
 public typealias DateFormatterCoding<CustomCoder: DateFormatterStaticCoder> = CodingUses<CustomCoder>
 /// (En/De)code this immutable `Date` Optional Property using the passed formatter
-public typealias DateFormatterOptionalCoding<CustomCoder: DateFormatterStaticCoder> = CodingUses<OptionalStaticCoder<CustomCoder>>
+public typealias DateFormatterOptionalCoding<CustomCoder: DateFormatterStaticCoder> = OptionalCoding<CodingUses<CustomCoder>>
 
 /// Encode this mutable `Date` Property using the passed formatter
 public typealias DateFormatterEncodingMutable<CustomEncoder: DateFormatterStaticEncoder> = EncodingUsesMutable<CustomEncoder>
@@ -189,7 +191,7 @@ public typealias DateFormatterDecodingMutable<CustomDecoder: DateFormatterStatic
 /// (En/De)code this mutable `Date` Property using the passed formatter
 public typealias DateFormatterCodingMutable<CustomCoder: DateFormatterStaticCoder> = CodingUsesMutable<CustomCoder>
 /// (En/De)code this mutable `Date` Optional Property using the passed formatter
-public typealias DateFormatterOptionalCodingMutable<CustomCoder: DateFormatterStaticCoder> = CodingUsesMutable<OptionalStaticCoder<CustomCoder>>
+public typealias DateFormatterOptionalCodingMutable<CustomCoder: DateFormatterStaticCoder> = OptionalCoding<CodingUsesMutable<CustomCoder>>
 
 //MARK: - Bool
 
@@ -202,7 +204,7 @@ public typealias NonConformingBoolDecoding<ValueProvider: NonConformingBoolValue
 /// (En/De)code this immutable `Bool` Property using the passed NonConformingBoolValueProvider
 public typealias NonConformingBoolCoding<ValueProvider: NonConformingBoolValueProvider> = CodingUses<NonConformingBoolStaticCoder<ValueProvider>>
 /// (En/De)code this immutable `Bool` Property using the passed NonConformingBoolValueProvider
-public typealias NonConformingBoolOptionalCoding<ValueProvider: NonConformingBoolValueProvider> = CodingUses<OptionalNonConformingBoolStaticCoder<ValueProvider>>
+public typealias NonConformingBoolOptionalCoding<ValueProvider: NonConformingBoolValueProvider> = OptionalCoding<CodingUses<NonConformingBoolStaticCoder<ValueProvider>>>
 
 /// Encode this mutable `Bool` Property using the passed NonConformingBoolValueProvider
 public typealias NonConformingBoolEncodingMutable<ValueProvider: NonConformingBoolValueProvider> = EncodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
@@ -211,7 +213,7 @@ public typealias NonConformingBoolDecodingMutable<ValueProvider: NonConformingBo
 /// (En/De)code this mutable `Bool` Property using the passed NonConformingBoolValueProvider
 public typealias NonConformingBoolCodingMutable<ValueProvider: NonConformingBoolValueProvider> = CodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>
 /// (En/De)code this mutable `Bool` Property using the passed NonConformingBoolValueProvider
-public typealias NonConformingBoolOptionalCodingMutable<ValueProvider: NonConformingBoolValueProvider> = CodingUsesMutable<OptionalNonConformingBoolStaticCoder<ValueProvider>>
+public typealias NonConformingBoolOptionalCodingMutable<ValueProvider: NonConformingBoolValueProvider> = OptionalCoding<CodingUsesMutable<NonConformingBoolStaticCoder<ValueProvider>>>
 
 //MARK: BoolAsInteger
 
@@ -225,7 +227,7 @@ public typealias BoolFromIntegerDecoding<ValueType: FixedWidthInteger & Codable>
 /// (En/De)code this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
 public typealias BoolAsIntegerCoding<ValueType: FixedWidthInteger & Codable> = CodingUses<BoolAsIntegerStaticCoder<ValueType>>
 /// (En/De)code this immutable `Bool` Optional Property as passed Integer Type using 1 as true and 0 as false
-public typealias BoolAsIntegerOptionalCoding<ValueType: FixedWidthInteger & Codable> = CodingUses<OptionalNonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>
+public typealias BoolAsIntegerOptionalCoding<ValueType: FixedWidthInteger & Codable> = OptionalCoding<CodingUses<NonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>>
 
 /// Encode this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
 public typealias BoolAsIntegerEncodingMutable<ValueType: FixedWidthInteger & Codable> = EncodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
@@ -234,7 +236,7 @@ public typealias BoolFromIntegerDecodingMutable<ValueType: FixedWidthInteger & C
 /// (En/De)code this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
 public typealias BoolAsIntegerCodingMutable<ValueType: FixedWidthInteger & Codable> = CodingUsesMutable<BoolAsIntegerStaticCoder<ValueType>>
 /// (En/De)code this immutable `Bool` Optional Property as passed Integer Type using 1 as true and 0 as false
-public typealias BoolAsIntegerOptionalCodingMutable<ValueType: FixedWidthInteger & Codable> = CodingUsesMutable<OptionalNonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>
+public typealias BoolAsIntegerOptionalCodingMutable<ValueType: FixedWidthInteger & Codable> = OptionalCoding<CodingUsesMutable<NonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>>>
 
 
 //MARK: BoolAsInt
@@ -255,9 +257,7 @@ public typealias BoolFromIntDecodingMutable = BoolFromIntegerDecodingMutable<Int
 /// (En/De)code this immutable `Bool` Property as an Int using 1 as true and 0 as false
 public typealias BoolAsIntCodingMutable = BoolAsIntegerCodingMutable<Int>
 /// (En/De)code this immutable `Bool` Optional Property as an Int using 1 as true and 0 as false
-public typealias BoolAsIntOptionalCodingMutable = BoolAsIntegerOptionalCodingMutable<Int>
-
-//MARK: BoolAsString
+public typealias BoolAsIntOptionalCodingMutable = OptionalCoding<BoolAsIntegerCodingMutable<Int>>
 
 /// Convenience typealias
 public typealias BoolAsStringStaticCoder = NonConformingBoolStaticCoder<BoolAsStringValueProvider>
@@ -269,7 +269,7 @@ public typealias BoolFromStringDecoding = DecodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
 public typealias BoolAsStringCoding = CodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Optional Property a String using "true" for true and "false" for false
-public typealias BoolAsStringOptionalCoding = CodingUses<OptionalNonConformingBoolStaticCoder<BoolAsStringValueProvider>>
+public typealias BoolAsStringOptionalCoding = OptionalCoding<CodingUses<NonConformingBoolStaticCoder<BoolAsStringValueProvider>>>
 
 /// Encode this immutable `Bool` Property a String using "true" for true and "false" for false
 public typealias BoolAsStringEncodingMutable = EncodingUsesMutable<BoolAsStringStaticCoder>
@@ -278,4 +278,4 @@ public typealias BoolFromStringDecodingMutable = DecodingUsesMutable<BoolAsStrin
 /// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
 public typealias BoolAsStringCodingMutable = CodingUsesMutable<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Optional Property a String using "true" for true and "false" for false
-public typealias BoolAsStringOptionalCodingMutable = CodingUsesMutable<OptionalNonConformingBoolStaticCoder<BoolAsStringValueProvider>>
+public typealias BoolAsStringOptionalCodingMutable = OptionalCoding<CodingUsesMutable<NonConformingBoolStaticCoder<BoolAsStringValueProvider>>>

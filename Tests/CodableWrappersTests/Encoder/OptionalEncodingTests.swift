@@ -4,7 +4,7 @@
 //  Created by PJ Fechner on 10/13/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
-@testable import CodableWrappers
+import CodableWrappers
 import Foundation
 import Quick
 import Nimble
@@ -16,7 +16,7 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec {
             //MARK: - JSONEncoder
             context("JSONEncoder") {
                 //MARK: Base64
-                describe("OmitCodingWhenNil") {
+                describe("OptionalCoding") {
                     it("HasNoValue") {
                         expect {_ = try self.jsonEncoder.encode(emptyTestInstance)}.toNot(throwError())
                         let encodedOptional = try? self.jsonEncoder.encode(emptyTestInstance)
@@ -188,7 +188,7 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec {
 
 
 private struct EmptyModel: Codable, Equatable {
-    @OmitCodingWhenNil
+    @TransientCoding
     var value: String?
 }
 private let emptyTestInstance = EmptyModel(value: nil)
@@ -242,7 +242,7 @@ private let secondsSince1970XML = """
 //MARK: - OmitCoding Mock Data
 
 private struct OmitCodingTestModel: Codable, Equatable {
-    @OmitCodingWhenNil
+    @TransientCoding
     var value: String? = "Oh Hai!"
 }
 private let omitCodingEmptyTestInstance = OmitCodingTestModel(value: nil)

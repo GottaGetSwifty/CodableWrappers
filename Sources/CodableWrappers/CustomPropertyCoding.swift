@@ -13,7 +13,7 @@ import Foundation
 /// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticEncoder {
     /// The Type this encodes
-    associatedtype OriginalType
+    associatedtype OriginalType: Encodable
 
     /// Mirror of `Encodable`'s `encode(to: Encoder)` but in a static context
     static func encode(value: OriginalType, to encoder: Encoder) throws
@@ -23,7 +23,7 @@ public protocol StaticEncoder {
 /// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticDecoder {
     /// The Type this will decode
-    associatedtype DecodedType
+    associatedtype DecodedType: Decodable
 
     /// Mirror of `Decodable`'s `init(from: Decoder)` but in a static context
     static func decode(from decoder: Decoder) throws -> DecodedType
@@ -34,6 +34,41 @@ public protocol StaticDecoder {
 public protocol StaticCoder: StaticDecoder & StaticEncoder where DecodedType == OriginalType {
     /// `StaticDecoder.DecodedType` & `StaticEncoder.OriginalType`
     typealias CodingType = DecodedType
+}
+
+
+
+protocol TypeConvertable {
+    associatedtype ConvertedType
+    var converted: ConvertedType { get }
+}
+
+@propertyWrapper struct TestWrapper<Subject>: TypeConvertable  {
+
+    public var wrappedValue: Subject
+    public init(wrappedValue: Subject) {
+        self.wrappedValue = wrappedValue
+    }
+
+    var converted: Subject { wrappedValue }
+}
+
+public protocol TransformingStaticCoder: StaticCoder {
+
+    /// Mirror of `Decodable`'s `init(from: Decoder)` but in a static context
+    static func decode<SubjectType>(from decoder: Decoder, transform: (CodingType) -> SubjectType) throws -> SubjectType
+    /// Mirror of `Encodable`'s `encode(to: Encoder)` but in a static context
+    static func encode<SubjectType>(value: SubjectType, to encoder: Encoder, transform: (SubjectType) -> CodingType) throws
+}
+
+extension TransformingStaticCoder {
+    public static func decode<SubjectType>(from decoder: Decoder, transform: (CodingType) -> SubjectType) throws -> SubjectType {
+        transform(try decode(from: decoder))
+    }
+
+    public static func encode<SubjectType>(value: SubjectType, to encoder: Encoder, transform: (SubjectType) -> CodingType) throws {
+        try encode(value: transform(value), to: encoder)
+    }
 }
 
 //MARK: - Static Coding Wrapper Protocols
@@ -68,7 +103,7 @@ extension StaticDecoderWrapper {
 }
 
 /// Combines `StaticEncoderWrapper` and `StaticDecoderWrapper`
-public protocol StaticCodingWrapper: StaticEncoderWrapper & StaticDecoderWrapper {
+public protocol StaticCodingWrapper: StaticEncoderWrapper & StaticDecoderWrapper where CustomEncoder.OriginalType == CustomDecoder.DecodedType {
     associatedtype CustomCoder: StaticCoder
 }
 
@@ -77,16 +112,17 @@ public protocol StaticCodingWrapper: StaticEncoderWrapper & StaticDecoderWrapper
 /// Customize the encoding of an immuitable property using the `CustomEncoder`
 @propertyWrapper
 public struct EncodingUses<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
-    public let wrappedValue: CustomEncoder.OriginalType
+    public var wrappedValue: CustomEncoder.OriginalType
     public init(wrappedValue: CustomEncoder.OriginalType) {
         self.wrappedValue = wrappedValue
     }
 }
 
+
 /// Customize the decoding of an immuitable property using the `CustomDecoder`
 @propertyWrapper
 public struct DecodingUses<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
-    public let wrappedValue: CustomDecoder.DecodedType
+    public var wrappedValue: CustomDecoder.DecodedType
     public init(wrappedValue: CustomDecoder.DecodedType) {
         self.wrappedValue = wrappedValue
     }
@@ -98,7 +134,7 @@ public struct CodingUses<CustomCoder: StaticCoder>: StaticCodingWrapper {
     public typealias CustomEncoder = CustomCoder
     public typealias CustomDecoder = CustomCoder
 
-    public let wrappedValue: CustomCoder.CodingType
+    public var wrappedValue: CustomCoder.CodingType
     public init(wrappedValue: CustomCoder.CodingType) {
         self.wrappedValue = wrappedValue
     }
