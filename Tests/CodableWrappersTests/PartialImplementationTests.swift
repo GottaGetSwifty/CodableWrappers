@@ -42,7 +42,7 @@ class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec 
 }
 
 struct DecodingModel: Codable {
-    @ImmutableDecodable @SecondsSince1970DateDecoding
+    @Immutable @SecondsSince1970DateDecoding
     var time: Date
 }
 

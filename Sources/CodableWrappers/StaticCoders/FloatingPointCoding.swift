@@ -18,8 +18,6 @@ public protocol NonConformingDecimalValueProvider {
     static var nan: String { get }
 }
 
-/// A provider for the data needed for (de)serializing non conforming floating point values
-public typealias OptionalNonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalValueProvider> = OptionalStaticCoder<NonConformingFloatStaticCoder<ValueProvider>>
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Float`
 public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
     private init() { }
@@ -59,8 +57,7 @@ public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalV
     }
 }
 
-/// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
-public typealias OptionalNonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimalValueProvider> = OptionalStaticCoder<NonConformingDoubleStaticCoder<ValueProvider>>
+
 
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
 public struct NonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {

@@ -7,8 +7,7 @@
 
 import Foundation
 
-/// Uses Base64 for (de)serialization of `Data?`
-public typealias OptionalBase64DataStaticCoder = OptionalStaticCoder<Base64DataStaticCoder>
+
 /// Uses Base64 for (de)serailization of `Data`
 public struct Base64DataStaticCoder: StaticCoder {
 
