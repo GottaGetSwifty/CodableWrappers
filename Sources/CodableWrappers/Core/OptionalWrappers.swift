@@ -5,6 +5,32 @@
 
 import Foundation
 
+//MARK: - EncodeNulls
+
+/// Used to still encode nil values for the wrapped Property, e.g. in JSON will encode "null"
+@propertyWrapper
+public struct EncodeNulls<T: Encodable>: Encodable where T: ExpressibleByNilLiteral {
+
+    public var wrappedValue: T
+    public init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        let mirror = Mirror(reflecting: wrappedValue)
+        guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
+            var container = encoder.singleValueContainer()
+            try container.encodeNil()
+            return
+        }
+        try wrappedValue.encode(to: encoder)
+    }
+}
+
+/// Ensures there isn't an extra level added
+extension EncodeNulls: Decodable, TransientDecodable where T: Decodable { }
+
+
 //MARK: - OptionalWrapper
 
 /// Protocol for a PropertyWrapper to properly handle Coding when the wrappedValue is Optional
@@ -24,6 +50,7 @@ extension KeyedDecodingContainer {
 extension KeyedEncodingContainer {
     // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
     public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: OptionalWrapper {
+
         // Currently uses Mirror...this should really be avoided, but I'm not sure there's another way to do it cleanly/safely.
         let mirror = Mirror(reflecting: value.wrappedValue)
         guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
