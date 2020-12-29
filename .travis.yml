@@ -7,4 +7,6 @@ language: generic
 sudo: required
 dist: trusty
 script:
-  - swift test
+  - swift test --enable-code-coverage
+after_success:
+  - bash < (curl -s https://codecov.io/bash)
