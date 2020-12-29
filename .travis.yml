@@ -8,6 +8,6 @@ sudo: required
 dist: trusty
 script:
   - swift package generate-xcodeproj
-  - xcodebuild test -scheme CodableWrappers -destination platform="macOS" -enableCodeCoverage YES -derivedDataPath .build/derivedData
+  - xcodebuild test -scheme CodableWrappers-Package -destination platform="macOS" -enableCodeCoverage YES -derivedDataPath .build/derivedData
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -J '^CodableWrappers$' -D .build/derivedData
+  - bash <(curl -s https://codecov.io/bash) -J '^CodableWrappers-Package$' -D .build/derivedData
