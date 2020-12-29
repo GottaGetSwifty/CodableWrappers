@@ -12,87 +12,87 @@ import UIKit
 
 // MARK: - Convenience Defaults
 
-/// Empty DefaultValueProvider for String: ""
-public struct EmptyString: DefaultValueProvider {
+/// Empty FallbackValueProvider for String: ""
+public struct EmptyString: FallbackValueProvider {
     public static var defaultValue: String { "" }
 }
 
-/// Empty DefaultValueProvider for Int: 0
-public struct EmptyInt: DefaultValueProvider {
+/// Empty FallbackValueProvider for Int: 0
+public struct EmptyInt: FallbackValueProvider {
     public static var defaultValue: Int { 0 }
 }
-/// Empty DefaultValueProvider for Int16: 0
-public struct EmptyInt16: DefaultValueProvider {
+/// Empty FallbackValueProvider for Int16: 0
+public struct EmptyInt16: FallbackValueProvider {
     public static var defaultValue: Int16 { 0 }
 }
-/// Empty DefaultValueProvider for Int32: 0
-public struct EmptyInt32: DefaultValueProvider {
+/// Empty FallbackValueProvider for Int32: 0
+public struct EmptyInt32: FallbackValueProvider {
     public static var defaultValue: Int32 { 0 }
 }
-/// Empty DefaultValueProvider for Int64: 0
-public struct EmptyInt64: DefaultValueProvider {
+/// Empty FallbackValueProvider for Int64: 0
+public struct EmptyInt64: FallbackValueProvider {
     public static var defaultValue: Int64 { 0 }
 }
-/// Empty DefaultValueProvider for Int8: 0
-public struct EmptyInt8: DefaultValueProvider {
+/// Empty FallbackValueProvider for Int8: 0
+public struct EmptyInt8: FallbackValueProvider {
     public static var defaultValue: Int8 { 0 }
 }
-/// Empty DefaultValueProvider for UInt: 0
-public struct EmptyUInt: DefaultValueProvider {
+/// Empty FallbackValueProvider for UInt: 0
+public struct EmptyUInt: FallbackValueProvider {
     public static var defaultValue: UInt { 0 }
 }
-/// Empty DefaultValueProvider for UInt16: 0
-public struct EmptyUInt16: DefaultValueProvider {
+/// Empty FallbackValueProvider for UInt16: 0
+public struct EmptyUInt16: FallbackValueProvider {
     public static var defaultValue: UInt16 { 0 }
 }
-/// Empty DefaultValueProvider for UInt32: 0
-public struct EmptyUInt32: DefaultValueProvider {
+/// Empty FallbackValueProvider for UInt32: 0
+public struct EmptyUInt32: FallbackValueProvider {
     public static var defaultValue: UInt32 { 0 }
 }
-/// Empty DefaultValueProvider for UInt64: 0
-public struct EmptyUInt64: DefaultValueProvider {
+/// Empty FallbackValueProvider for UInt64: 0
+public struct EmptyUInt64: FallbackValueProvider {
     public static var defaultValue: UInt64 { 0 }
 }
-/// Empty DefaultValueProvider for UInt8: 0
-public struct EmptyUInt8: DefaultValueProvider {
+/// Empty FallbackValueProvider for UInt8: 0
+public struct EmptyUInt8: FallbackValueProvider {
     public static var defaultValue: UInt8 { 0 }
 }
 
 #if canImport(UIKit)
 
-/// Empty DefaultValueProvider for CGFloat: 0
-public struct EmptyCGFloat: DefaultValueProvider {
+/// Empty FallbackValueProvider for CGFloat: 0
+public struct EmptyCGFloat: FallbackValueProvider {
     public static var defaultValue: CGFloat { 0 }
 }
 #endif
 
-/// Empty DefaultValueProvider for Double: 0
-public struct EmptyDouble: DefaultValueProvider {
+/// Empty FallbackValueProvider for Double: 0
+public struct EmptyDouble: FallbackValueProvider {
     public static var defaultValue: Double { 0 }
 }
-/// Empty DefaultValueProvider for Float: 0
-public struct EmptyFloat: DefaultValueProvider {
+/// Empty FallbackValueProvider for Float: 0
+public struct EmptyFloat: FallbackValueProvider {
     public static var defaultValue: Float { 0 }
 }
 
 #if swift(>=5.3) && !os(macOS)
-/// Empty DefaultValueProvider for Float16: 0
+/// Empty FallbackValueProvider for Float16: 0
 @available(iOS, introduced: 14)
-public struct EmptyFloat16: DefaultValueProvider {
+public struct EmptyFloat16: FallbackValueProvider {
     public static var defaultValue: Float16 { 0 }
 }
 #endif
 
-/// Empty DefaultValueProvider for Array: []
-public struct EmptyArray<T>: DefaultValueProvider {
+/// Empty FallbackValueProvider for Array: []
+public struct EmptyArray<T>: FallbackValueProvider {
     public static var defaultValue: Array<T> { [] }
 }
-/// Empty DefaultValueProvider for Dictionary: [:]
-public struct EmptyDictionary<Key: Hashable, Value>: DefaultValueProvider {
+/// Empty FallbackValueProvider for Dictionary: [:]
+public struct EmptyDictionary<Key: Hashable, Value>: FallbackValueProvider {
     public static var defaultValue: Dictionary<Key, Value> { [:] }
 }
-/// Empty DefaultValueProvider for Set: []
-public struct EmptySet<T: Hashable>: DefaultValueProvider {
+/// Empty FallbackValueProvider for Set: []
+public struct EmptySet<T: Hashable>: FallbackValueProvider {
     public static var defaultValue: Set<T> { [] }
 }
 

@@ -12,14 +12,14 @@ import Foundation
 //MARK: Protocols
 
 /// Contract for a Type that provides a default value of a Type
-public protocol DefaultValueProvider {
+public protocol FallbackValueProvider {
     associatedtype ValueType
     static var defaultValue: ValueType { get }
 }
 
 /// Contract for an Encoding Fallback Wrapper. Used to unify logic for Encodable/Codable version
 public protocol FallbackEncodingWrapper: Encodable {
-    associatedtype ValueProvider: DefaultValueProvider where ValueProvider.ValueType: Encodable
+    associatedtype ValueProvider: FallbackValueProvider where ValueProvider.ValueType: Encodable
     var wrappedValue: ValueProvider.ValueType? { get }
 }
 
@@ -36,7 +36,7 @@ extension FallbackEncodingWrapper {
 
 /// Contract for an Decoding Fallback Wrapper. Used to unify logic for Decodable/Codable version
 public protocol FallbackDecodingWrapper: Decodable {
-    associatedtype ValueProvider: DefaultValueProvider where ValueProvider.ValueType: Decodable
+    associatedtype ValueProvider: FallbackValueProvider where ValueProvider.ValueType: Decodable
     init(wrappedValue: ValueProvider.ValueType)
 }
 
@@ -56,7 +56,7 @@ public typealias FallbackCodingWrapper = FallbackEncodingWrapper & FallbackDecod
 /// If `wrappedValue` is nil encodes the `ValueProvider.defaultValue` value.
 /// - Note: WrappedType must be Optional or encoding is irrelevant. Use`FallbackDecoding` for decoding-only cases
 @propertyWrapper
-public struct FallbackEncoding<ValueProvider: DefaultValueProvider>: FallbackEncodingWrapper where ValueProvider.ValueType: Encodable {
+public struct FallbackEncoding<ValueProvider: FallbackValueProvider>: FallbackEncodingWrapper where ValueProvider.ValueType: Encodable {
 
     public var wrappedValue: ValueProvider.ValueType?
 
@@ -67,7 +67,7 @@ public struct FallbackEncoding<ValueProvider: DefaultValueProvider>: FallbackEnc
 
 /// If a value is not found while decoding, will be initialized with the `ValueProvider.defaultValue` value.
 @propertyWrapper
-public struct FallbackDecoding<ValueProvider: DefaultValueProvider>: FallbackDecodingWrapper where ValueProvider.ValueType: Decodable {
+public struct FallbackDecoding<ValueProvider: FallbackValueProvider>: FallbackDecodingWrapper where ValueProvider.ValueType: Decodable {
 
     public var wrappedValue: ValueProvider.ValueType
 
@@ -80,7 +80,7 @@ public struct FallbackDecoding<ValueProvider: DefaultValueProvider>: FallbackDec
 /// Decoding: If a value is not found, will be initialized with the `ValueProvider.defaultValue` value.
 /// - Note: WrappedType must be Optional or encoding is irrelevant. `FallbackDecoding` is available for decoding-only cases
 @propertyWrapper
-public struct FallbackCoding<ValueProvider: DefaultValueProvider>: FallbackCodingWrapper, Codable where ValueProvider.ValueType: Codable {
+public struct FallbackCoding<ValueProvider: FallbackValueProvider>: FallbackCodingWrapper, Codable where ValueProvider.ValueType: Codable {
 
     public var wrappedValue: ValueProvider.ValueType?
 

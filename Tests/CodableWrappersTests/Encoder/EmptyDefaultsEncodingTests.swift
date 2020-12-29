@@ -194,7 +194,7 @@ private let emptyTestingJSON = """
 }
 """
 
-private struct BasicDefaultProvider: DefaultValueProvider {
+private struct BasicDefaultProvider: FallbackValueProvider {
     public static var defaultValue: String { "..." }
 }
 
