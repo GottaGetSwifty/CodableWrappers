@@ -2,7 +2,7 @@ matrix:
   include:
     - os: osx
       osx_image: xcode11
-      env: SWIFT_VERSION=5.1
+      env: SWIFT_VERSION=5.2
 language: generic
 sudo: required
 dist: trusty
