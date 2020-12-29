@@ -5,32 +5,6 @@
 
 import Foundation
 
-//MARK: - EncodeNulls
-
-/// Used to still encode nil values for the wrapped Property, e.g. in JSON will encode "null"
-@propertyWrapper
-public struct EncodeNulls<T: Encodable>: Encodable where T: ExpressibleByNilLiteral {
-
-    public var wrappedValue: T
-    public init(wrappedValue: T) {
-        self.wrappedValue = wrappedValue
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        let mirror = Mirror(reflecting: wrappedValue)
-        guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
-            var container = encoder.singleValueContainer()
-            try container.encodeNil()
-            return
-        }
-        try wrappedValue.encode(to: encoder)
-    }
-}
-
-/// Ensures there isn't an extra level added
-extension EncodeNulls: Decodable, TransientDecodable where T: Decodable { }
-
-
 //MARK: - OptionalWrapper
 
 /// Protocol for a PropertyWrapper to properly handle Coding when the wrappedValue is Optional
@@ -41,7 +15,7 @@ public protocol OptionalWrapper {
 }
 
 extension KeyedDecodingContainer {
-    // This is used to override the default decoding behavior for OptionalCodingWrapper to allow a value to avoid a missing key Error
+    // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
     public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: OptionalWrapper {
         return try decodeIfPresent(T.self, forKey: key) ?? T(wrappedValue: nil)
     }
@@ -64,11 +38,11 @@ extension KeyedEncodingContainer {
 //MARK: - OptionalCoding and Wrapper
 
 /// Contract for a Type that wraps a StaticEncoder and makes it usable when the WrappedType is Optional
-public protocol OptionalStaticEncoding: Encodable, OptionalWrapper where WrappedType == EncoderWrapper.CustomEncoder.OriginalType? {
+public protocol OptionalEncodable: Encodable, OptionalWrapper where WrappedType == EncoderWrapper.CustomEncoder.OriginalType? {
     associatedtype EncoderWrapper: StaticEncoderWrapper
 }
 
-public extension OptionalStaticEncoding {
+public extension OptionalEncodable {
     // Encodes the wrappedValue using the CustomEncoder if the value exists
     func encode(to encoder: Encoder) throws {
         if let wrappedValue = wrappedValue {
@@ -78,23 +52,24 @@ public extension OptionalStaticEncoding {
 }
 
 /// Contract for a Type that wraps a StaticDecoder and makes it usable the WrappedType is Optional
-public protocol OptionalStaticDecoding: Decodable, OptionalWrapper where WrappedType == DecoderWrapper.CustomDecoder.DecodedType? {
+public protocol OptionalDecodable: Decodable, OptionalWrapper where WrappedType == DecoderWrapper.CustomDecoder.DecodedType? {
     associatedtype DecoderWrapper: StaticDecoderWrapper
 }
 
-extension OptionalStaticDecoding {
+extension OptionalDecodable {
     // Decodes using the DecoderWrapper's CustomDecoder
+    // This should never be called due to KeyedDecodingContainer.decode overriding it.
     public init(from decoder: Decoder) throws {
         self.init(wrappedValue: try? DecoderWrapper.CustomDecoder.decode(from: decoder))
     }
 }
 
 /// Combination of OptionalStaticDecoding and OptionalStaticEncoding
-public protocol OptionalStaticCoding: OptionalStaticDecoding, OptionalStaticEncoding { }
+public typealias OptionalCodable = OptionalDecodable & OptionalEncodable
 
 /// Wraps `StaticEncoderWrapper` generically to allow the wrapped property to be Optional
 @propertyWrapper
-public struct OptionalEncoding<CustomDecoderWrapper: StaticEncoderWrapper>: OptionalStaticEncoding {
+public struct OptionalEncoding<CustomDecoderWrapper: StaticEncoderWrapper>: OptionalEncodable {
     public typealias EncoderWrapper = CustomDecoderWrapper
 
     public var wrappedValue: CustomDecoderWrapper.CustomEncoder.OriginalType?
@@ -105,7 +80,7 @@ public struct OptionalEncoding<CustomDecoderWrapper: StaticEncoderWrapper>: Opti
 
 /// Wraps `StaticDecoderWrapper` generically to allow the wrapped property to be Optional
 @propertyWrapper
-public struct OptionalDecoding<CustomDecoderWrapper: StaticDecoderWrapper>: OptionalStaticDecoding {
+public struct OptionalDecoding<CustomDecoderWrapper: StaticDecoderWrapper>: OptionalDecodable {
     public typealias DecoderWrapper = CustomDecoderWrapper
 
     public var wrappedValue: CustomDecoderWrapper.CustomDecoder.DecodedType?
@@ -116,7 +91,7 @@ public struct OptionalDecoding<CustomDecoderWrapper: StaticDecoderWrapper>: Opti
 
 /// Wraps `StaticCodingWrapper` generically to allow the wrapped property to be Optional
 @propertyWrapper
-public struct OptionalCoding<CustomCoderWrapper: StaticCodingWrapper>: OptionalStaticCoding {
+public struct OptionalCoding<CustomCoderWrapper: StaticCodingWrapper>: OptionalCodable {
 
     public typealias DecoderWrapper = CustomCoderWrapper
     public typealias EncoderWrapper = CustomCoderWrapper
@@ -139,4 +114,10 @@ extension OptionalDecoding: Encodable, TransientEncodable where CustomDecoderWra
 extension OptionalEncoding: Equatable where CustomDecoderWrapper.CustomEncoder.OriginalType: Equatable {}
 extension OptionalDecoding: Equatable where CustomDecoderWrapper.CustomDecoder.DecodedType: Equatable {}
 extension OptionalCoding: Equatable where CustomCoderWrapper.CustomEncoder.OriginalType: Equatable {}
+
+//MARK: Conditional Hashable Conformance
+
+extension OptionalEncoding: Hashable where CustomDecoderWrapper.CustomEncoder.OriginalType: Hashable {}
+extension OptionalDecoding: Hashable where CustomDecoderWrapper.CustomDecoder.DecodedType: Hashable {}
+extension OptionalCoding: Hashable where CustomCoderWrapper.CustomEncoder.OriginalType: Hashable {}
 

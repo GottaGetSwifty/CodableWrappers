@@ -1,8 +1,8 @@
 //
-//  ImmutableWrappers.swift
+//  ImmutableWrapper.swift
 //  
 //
-//  Created by Paul Fechner on 7/7/20.
+//  Created by PJ Fechner on 7/7/20.
 //
 
 import Foundation
@@ -19,10 +19,14 @@ public struct Immutable<T> {
     }
 }
 
-// TransientCodable will handle the (en/de)coding here when needed
+//MARK: - Conditional Equatable Conformances
+
+// TransientCodable will handle the (en/de)coding here when needed without adding additional layers
 
 extension Immutable: Encodable, TransientEncodable where T: Encodable {}
 extension Immutable: Decodable, TransientDecodable where T: Decodable {}
 extension Immutable: TransientCodable where T: Codable {}
 
 extension Immutable: Equatable where T: Equatable { }
+extension Immutable: Hashable where T: Hashable { }
+

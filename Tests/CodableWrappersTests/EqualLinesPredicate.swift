@@ -2,7 +2,7 @@
 //  File.swift
 //  
 //
-//  Created by Paul Fechner on 9/26/19.
+//  Created by PJ Fechner on 9/26/19.
 //
 
 import Quick
@@ -29,7 +29,7 @@ public func haveEqualLines(to expectedValue: String, trimWhitespace: Bool = true
                                         have \(expectedLines.count) lines
 
                                         \(expectedValue)
-                                        """, """
+                                        """, actual: """
                                         \(actualLines.count) lines
 
                                         \(actualValue)
@@ -43,7 +43,7 @@ public func haveEqualLines(to expectedValue: String, trimWhitespace: Bool = true
             if !isEqual {
                 return PredicateResult(status: .fail,
                                        message: ExpectationMessage
-                                        .expectedCustomValueTo("have line \(i) be \(expectedLines[i]) ", "\(actualLines[i])"))
+                                        .expectedCustomValueTo("have line \(i) be \(expectedLines[i]) ", actual: "\(actualLines[i])"))
             }
         }
 

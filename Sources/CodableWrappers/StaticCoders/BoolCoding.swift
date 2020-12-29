@@ -2,7 +2,7 @@
 //  BoolCoding.swift
 //  
 //
-//  Created by Paul Fechner on 12/8/19.
+//  Created by PJ Fechner on 12/8/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
 import Foundation

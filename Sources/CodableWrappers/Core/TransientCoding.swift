@@ -1,44 +1,11 @@
 //
-//  File.swift
+//  TransientCoding.swift
 //  
 //
-//  Created by Paul Fechner on 7/7/20.
+//  Created by PJ Fechner on 7/7/20.
 //
 
 import Foundation
-
-//MARK: - Transient Protocols
-
-
-/// Contract for a Type that encodes it's value directly rather than encoding an extra level for itself.
-public protocol TransientEncodable: Encodable {
-    associatedtype ValueType: Encodable
-    /// The value to be encoded
-    var wrappedValue: ValueType { get }
-}
-
-public extension TransientEncodable {
-    /// Encodes the wrapped value directly at the current level
-    func encode(to encoder: Encoder) throws {
-        try wrappedValue.encode(to: encoder)
-    }
-}
-
-/// Contract for Type that decodes it's value at the currently level of the encoding rather than from a nested container
-public protocol TransientDecodable: Decodable {
-    associatedtype InitType: Decodable
-    /// The init to use when decoding
-    init(wrappedValue: InitType)
-}
-public extension TransientDecodable {
-    /// Decodes the value directly at the current level of encoding
-    init(from decoder: Decoder) throws {
-        self.init(wrappedValue: try InitType(from: decoder))
-    }
-}
-/// Combination of TransientEncodable & TransientEncodable
-public protocol TransientCodable: TransientEncodable, TransientDecodable where ValueType == InitType { }
-
 
 //MARK: - Transient Property Wrappers
 
@@ -74,17 +41,50 @@ public struct TransientCoding<T:Codable>: TransientCodable {
     }
 }
 
+
+//MARK: - Transient Protocols
+
+/// Contract for a Type that encodes it's value directly rather than encoding an extra level for itself.
+public protocol TransientEncodable: Encodable {
+    associatedtype ValueType: Encodable
+    // The value to be encoded
+    var wrappedValue: ValueType { get }
+}
+
+public extension TransientEncodable {
+    // Encodes the wrapped value directly at the current level
+    func encode(to encoder: Encoder) throws {
+        try wrappedValue.encode(to: encoder)
+    }
+}
+
+/// Contract for Type that decodes it's value at the currently level of the encoding rather than from a nested container
+public protocol TransientDecodable: Decodable {
+    associatedtype InitType: Decodable
+    // The init to use when decoding
+    init(wrappedValue: InitType)
+}
+public extension TransientDecodable {
+    // Decodes the value directly at the current level of encoding
+    init(from decoder: Decoder) throws {
+        self.init(wrappedValue: try InitType(from: decoder))
+    }
+}
+/// Combination of TransientEncodable & TransientEncodable
+public protocol TransientCodable: TransientEncodable, TransientDecodable where ValueType == InitType { }
+
+
 //MARK: Enable Customizing one direction
 
 extension TransientEncoding: Decodable where T: Decodable {
-    ///Ensures there isn't an extra level added
+    //Ensures there isn't an extra level added
     public init(from decoder: Decoder) throws {
         wrappedValue = try T(from: decoder)
     }
 }
 
 extension TransientDecoding: Encodable where T: Encodable {
-    ///Ensures there isn't an extra level added
+    //Ensures there isn't an extra level added
     public func encode(to encoder: Encoder) throws {
         try wrappedValue.encode(to: encoder)
     }

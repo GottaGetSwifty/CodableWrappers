@@ -1,13 +1,47 @@
 //
-//  File.swift
+//  OmitCodingWrappers.swift
 //  
 //
-//  Created by Paul Fechner on 7/7/20.
+//  Created by PJ Fechner on 7/7/20.
 //
 
 import Foundation
 
-//MARK: - OmitCoding
+//MARK: - OmitWrappers
+
+
+/// Add this to an Optional Property to not included it when Encoding or Decoding
+@propertyWrapper
+public struct OmitEncoding<WrappedType: Encodable>: OmitableFromEncoding {
+
+    public var wrappedValue: WrappedType?
+    public init(wrappedValue: WrappedType?) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+/// Add this to an Optional Property to not included it when Encoding or Decoding
+@propertyWrapper
+public struct OmitDecoding<WrappedType: Decodable>: OmitableFromDecoding {
+
+    public var wrappedValue: WrappedType?
+    public init(wrappedValue: WrappedType?) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+/// Add this to an Optional Property to not included it when Encoding or Decoding
+@propertyWrapper
+public struct OmitCoding<WrappedType: Codable>: OmitableFromCoding {
+
+    public var wrappedValue: WrappedType?
+    public init(wrappedValue: WrappedType?) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+
+//MARK: - OmitCoding protocols
 
 /// Protocol to indicate instances should be skipped when encoding
 public protocol OmitableFromEncoding: Encodable { }
@@ -27,7 +61,7 @@ extension KeyedEncodingContainer {
 }
 
 extension OmitableFromEncoding {
-    // This shoudln't ever be called since KeyedEncodingContainer should skip it due to the included extension
+    // This shoudldn't ever be called since KeyedEncodingContainer should skip it due to the included extension
     public func encode(to encoder: Encoder) throws { return }
 }
 
@@ -47,46 +81,23 @@ extension OmitableFromDecoding {
 /// Combination of OmitableFromEncoding and OmitableFromDecoding
 typealias OmitableFromCoding = OmitableFromEncoding & OmitableFromDecoding
 
-
-/// Add this to an Optional Property to not included it when Encoding or Decoding
-@propertyWrapper
-public struct OmitEncoding<WrappedType: Encodable>: OmitableFromEncoding {
-
-    public var wrappedValue: WrappedType?
-    public init(wrappedValue: WrappedType?) {
-        self.wrappedValue = wrappedValue
-    }
-}
-
 /// This makes sure the decoding isn't altered by adding this Wrapper
 extension OmitEncoding: Decodable, TransientDecodable where WrappedType: Decodable { }
-
-/// Add this to an Optional Property to not included it when Encoding or Decoding
-@propertyWrapper
-public struct OmitDecoding<WrappedType: Decodable>: OmitableFromDecoding {
-
-    public var wrappedValue: WrappedType?
-    public init(wrappedValue: WrappedType?) {
-        self.wrappedValue = wrappedValue
-    }
-}
 
 /// This makes sure the encoding isn't altered by adding this Wrapper
 extension OmitDecoding: Encodable, TransientEncodable where WrappedType: Encodable { }
 
-/// Add this to an Optional Property to not included it when Encoding or Decoding
-@propertyWrapper
-public struct OmitCoding<WrappedType: Codable>: OmitableFromCoding {
 
-    public var wrappedValue: WrappedType?
-    public init(wrappedValue: WrappedType?) {
-        self.wrappedValue = wrappedValue
-    }
-}
 
 //MARK: - Conditional Equatable Conformance
 
 extension OmitEncoding: Equatable where WrappedType: Equatable { }
 extension OmitDecoding: Equatable where WrappedType: Equatable { }
 extension OmitCoding: Equatable where WrappedType: Equatable { }
+
+//MARK: - Conditional Hashable Conformance
+
+extension OmitEncoding: Hashable where WrappedType: Hashable { }
+extension OmitDecoding: Hashable where WrappedType: Hashable { }
+extension OmitCoding: Hashable where WrappedType: Hashable { }
 

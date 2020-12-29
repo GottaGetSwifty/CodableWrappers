@@ -12,8 +12,8 @@ let package = Package(
             targets: ["CodableWrappers"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Quick/Nimble.git", .exact( "8.0.5")),
-        .package(url: "https://github.com/Quick/Quick.git", .exact("2.2.0")),
+        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "9.0.0")),
+        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

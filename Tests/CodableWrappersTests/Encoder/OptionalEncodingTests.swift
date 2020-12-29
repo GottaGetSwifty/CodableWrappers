@@ -9,13 +9,13 @@ import Foundation
 import Quick
 import Nimble
 
-class OptionalEncodingTests: QuickSpec, EncodingTestSpec {
+class OptionalEncodingTests: QuickSpec, EncodingTestSpec, DecodingTestSpec {
 
     override func spec() {
         describe("OptionalEncoding") {
             //MARK: - JSONEncoder
             context("JSONEncoder") {
-                //MARK: Base64
+                //MARK: OptionalCoding
                 describe("OptionalCoding") {
                     it("HasNoValue") {
                         expect {_ = try self.jsonEncoder.encode(emptyTestInstance)}.toNot(throwError())
@@ -70,6 +70,34 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec {
                         }
                     }
                 }
+                describe("TransientCoding") {
+                    it("HasNoValue") {
+                        expect {_ = try self.jsonEncoder.encode(transientCodingEmptyTestInstance)}.toNot(throwError())
+                        let encodedOptional = try? self.jsonEncoder.encode(transientCodingEmptyTestInstance)
+                        let encodedString = encodedOptional.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedOptional).toNot(beNil())
+                        expect(encodedString).toNot(beNil())
+
+                        if let actualString = encodedString {
+                            expect(actualString).to(haveEqualLines(to: Self.emptyJSON))
+                        }
+                        let encodedWithoutWrapper = try? self.jsonEncoder.encode(noWrapperTestInstance)
+                        let encodedWithoutWrapperString = encodedWithoutWrapper.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedString) == encodedWithoutWrapperString
+                    }
+                    it("HasAValue") {
+                        expect {_ = try self.jsonEncoder.encode(transientCodingEmptyTestWithDataInstance)}.toNot(throwError())
+                        let encodedOptional = try? self.jsonEncoder.encode(transientCodingEmptyTestWithDataInstance)
+                        let encodedString = encodedOptional.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedOptional).toNot(beNil())
+                        expect(encodedString).toNot(beNil())
+
+                        if let actualString = encodedString {
+                            expect(actualString).to(haveEqualLines(to: transientCodingEmptyTestWithDataJSON))
+                        }
+                    }
+                }
+
                 describe("OmitCoding") {
                     it("HasNoValue") {
                         expect {_ = try self.jsonEncoder.encode(omitCodingEmptyTestInstance)}.toNot(throwError())
@@ -93,7 +121,42 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec {
                         expect(encodedString).toNot(beNil())
 
                         if let actualString = encodedString {
-                            expect(actualString).to(haveEqualLines(to: omitCodingEmptyTestWithDataJSON))
+                            expect(actualString).to(haveEqualLines(to: Self.emptyJSON))
+                        }
+                    }
+                }
+                describe("OmitOnlyEncoding") {
+                    it("HasNoValue") {
+                        expect {_ = try self.jsonEncoder.encode(omitEncodingEmptyTestInstance)}.toNot(throwError())
+                        let encodedOptional = try? self.jsonEncoder.encode(omitEncodingEmptyTestInstance)
+                        let encodedString = encodedOptional.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedOptional).toNot(beNil())
+                        expect(encodedString).toNot(beNil())
+
+                        if let actualString = encodedString {
+                            expect(actualString).to(haveEqualLines(to: Self.emptyJSON))
+                        }
+                        let encodedWithoutWrapper = try? self.jsonEncoder.encode(noWrapperTestInstance)
+                        let encodedWithoutWrapperString = encodedWithoutWrapper.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedString) == encodedWithoutWrapperString
+                    }
+                    it("HasAValue") {
+                        expect {_ = try self.jsonEncoder.encode(omitEncodingEmptyTestWithDataInstance)}.toNot(throwError())
+                        let encodedOptional = try? self.jsonEncoder.encode(omitEncodingEmptyTestWithDataInstance)
+                        let encodedString = encodedOptional.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedOptional).toNot(beNil())
+                        expect(encodedString).toNot(beNil())
+
+                        if let actualString = encodedString {
+                            expect(actualString).to(haveEqualLines(to: Self.emptyJSON))
+                        }
+                    }
+                    it("StillDecodes") {
+                        expect {_ = try self.jsonDecoder.decode(OmitEncodingTestModel.self, from: transientCodingEmptyTestWithDataJSON.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.jsonDecoder.decode(OmitEncodingTestModel.self, from: transientCodingEmptyTestWithDataJSON.data(using: .utf8)!)
+                        expect(decodedModel).toNot(beNil())
+                        if let actualModel = decodedModel {
+                            expect(actualModel) == omitEncodingEmptyTestWithDataInstance
                         }
                     }
                 }
@@ -175,7 +238,42 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec {
                         expect(encodedString).toNot(beNil())
 
                         if let actualString = encodedString {
-                            expect(actualString).to(haveEqualLines(to: omitCodingEmptyTestWithDataXML))
+                            expect(actualString).to(haveEqualLines(to: Self.emptyPList))
+                        }
+                    }
+                }
+                describe("OmitOnlyEncoding") {
+                    it("HasNoValue") {
+                        expect {_ = try self.plistEncoder.encode(omitEncodingEmptyTestInstance)}.toNot(throwError())
+                        let encodedOptional = try? self.plistEncoder.encode(omitEncodingEmptyTestInstance)
+                        let encodedString = encodedOptional.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedOptional).toNot(beNil())
+                        expect(encodedString).toNot(beNil())
+
+                        if let actualString = encodedString {
+                            expect(actualString).to(haveEqualLines(to: Self.emptyPList))
+                        }
+                        let encodedWithoutWrapper = try? self.plistEncoder.encode(noWrapperTestInstance)
+                        let encodedWithoutWrapperString = encodedWithoutWrapper.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedString) == encodedWithoutWrapperString
+                    }
+                    it("HasAValue") {
+                        expect {_ = try self.plistEncoder.encode(omitEncodingEmptyTestWithDataInstance)}.toNot(throwError())
+                        let encodedOptional = try? self.plistEncoder.encode(omitEncodingEmptyTestWithDataInstance)
+                        let encodedString = encodedOptional.map { String(data: $0, encoding: .utf8)!}
+                        expect(encodedOptional).toNot(beNil())
+                        expect(encodedString).toNot(beNil())
+
+                        if let actualString = encodedString {
+                            expect(actualString).to(haveEqualLines(to: Self.emptyPList))
+                        }
+                    }
+                    it("StillDecodes") {
+                        expect {_ = try self.plistDecoder.decode(OmitEncodingTestModel.self, from: transientCodingEmptyTestWithDataXML.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.plistDecoder.decode(OmitEncodingTestModel.self, from: transientCodingEmptyTestWithDataXML.data(using: .utf8)!)
+                        expect(decodedModel).toNot(beNil())
+                        if let actualModel = decodedModel {
+                            expect(actualModel) == omitEncodingEmptyTestWithDataInstance
                         }
                     }
                 }
@@ -240,10 +338,35 @@ private let secondsSince1970XML = """
 </plist>
 """
 
+//MARK: - TransientCoding Mock Data
+
+private struct TransientCodingTestModel: Codable, Equatable {
+    @TransientCoding
+    var value: String? = "Oh Hai!"
+}
+private let transientCodingEmptyTestInstance = TransientCodingTestModel(value: nil)
+private let transientCodingEmptyTestWithDataInstance = TransientCodingTestModel(value: "hi")
+private let transientCodingEmptyTestWithDataJSON = """
+{
+    "value" : "hi"
+}
+"""
+private let transientCodingEmptyTestWithDataXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>value</key>
+    <string>hi</string>
+</dict>
+</plist>
+"""
+
+
 //MARK: - OmitCoding Mock Data
 
 private struct OmitCodingTestModel: Codable, Equatable {
-    @TransientCoding
+    @OmitCoding
     var value: String? = "Oh Hai!"
 }
 private let omitCodingEmptyTestInstance = OmitCodingTestModel(value: nil)
@@ -263,3 +386,30 @@ private let omitCodingEmptyTestWithDataXML = """
 </dict>
 </plist>
 """
+
+private let omitCodingEmptyTestWithNullJSON = """
+{
+    "value" : null
+}
+"""
+
+private let omitCodingEmptyTestWithNullXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>value</key>
+    <string>$null</string>
+</dict>
+</plist>
+"""
+
+
+//MARK: - OmitDecoding Mock Data
+
+private struct OmitEncodingTestModel: Codable, Equatable {
+    @OmitEncoding
+    var value: String? = "Oh Hai!"
+}
+private let omitEncodingEmptyTestInstance = OmitEncodingTestModel(value: nil)
+private let omitEncodingEmptyTestWithDataInstance = OmitEncodingTestModel(value: "hi")

@@ -2,7 +2,7 @@
 //  CustomWrappers.swift
 //  
 //
-//  Created by Paul Fechner on 10/13/19.
+//  Created by PJ Fechner on 10/13/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
 import Foundation
@@ -125,7 +125,6 @@ public typealias BoolFromIntegerDecoding<ValueType: FixedWidthInteger & Codable>
 public typealias BoolAsIntegerCoding<ValueType: FixedWidthInteger & Codable> = CodingUses<BoolAsIntegerStaticCoder<ValueType>>
 
 
-
 //MARK: BoolAsInt
 
 /// Encode this immutable `Bool` Property as an Int using 1 as true and 0 as false
@@ -145,3 +144,22 @@ public typealias BoolAsStringEncoding = EncodingUses<BoolAsStringStaticCoder>
 public typealias BoolFromStringDecoding = DecodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
 public typealias BoolAsStringCoding = CodingUses<BoolAsStringStaticCoder>
+
+
+//MARK: NilFiltering
+
+/// Filters any nil values when decoding
+public typealias LossyArrayDecoding<T: Decodable> = DecodingUses<ArrayNilFilteringStaticDecoder<T>>
+
+/// Filters any nil values when decoding
+public typealias LossySetDecoding<T: Decodable & Hashable> = DecodingUses<SetNilFilteringStaticDecoder<T>>
+
+/// Filters any nil values when decoding
+public typealias LossyDictionaryDecoding<T: Decodable, Key: Decodable & Hashable> = DecodingUses<DictionaryNilFilteringStaticDecoder<T, Key>>
+
+
+//MARK: NullEncoding
+
+/// Encodes a nil value in a singleValueContainer using `encodeNil` rather than it being omitted.
+/// - note This uses Mirror to check for nil so should not be used in high performance scenarios. This is done in order to check for nil without short circuiting nested Error handling. If there is a better way please submit a pull request / issue :)
+public typealias EncodeNulls<T: Encodable & ExpressibleByNilLiteral> = EncodingUses<NullStaticEncoder<T>>

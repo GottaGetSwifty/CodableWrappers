@@ -2,10 +2,44 @@
 //  CustomPropertyCoding.swift
 //  
 //
-//  Created by Paul Fechner on 9/26/19.
+//  Created by PJ Fechner on 9/26/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
 import Foundation
+
+//MARK: - Custom Coding Property Wrappers
+
+/// Customize the encoding of a property using the `CustomEncoder`
+@propertyWrapper
+public struct EncodingUses<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
+
+    public var wrappedValue: CustomEncoder.OriginalType
+    public init(wrappedValue: CustomEncoder.OriginalType) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+/// Customize the decoding of a property using the `CustomDecoder`
+@propertyWrapper
+public struct DecodingUses<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
+
+    public var wrappedValue: CustomDecoder.DecodedType
+    public init(wrappedValue: CustomDecoder.DecodedType) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+/// Customize the encoding and decoding of a property using the `CustomCoder`
+@propertyWrapper
+public struct CodingUses<CustomCoder: StaticCoder>: StaticCodingWrapper {
+    public typealias CustomEncoder = CustomCoder
+    public typealias CustomDecoder = CustomCoder
+
+    public var wrappedValue: CustomCoder.CodingType
+    public init(wrappedValue: CustomCoder.CodingType) {
+        self.wrappedValue = wrappedValue
+    }
+}
 
 //MARK: - Static Coding Wrapper Protocols
 
@@ -43,40 +77,6 @@ public protocol StaticCodingWrapper: StaticEncoderWrapper & StaticDecoderWrapper
     associatedtype CustomCoder: StaticCoder
 }
 
-//MARK: - Custom Coding Property Wrappers
-
-/// Customize the encoding of a property using the `CustomEncoder`
-@propertyWrapper
-public struct EncodingUses<CustomEncoder: StaticEncoder>: StaticEncoderWrapper {
-
-    public var wrappedValue: CustomEncoder.OriginalType
-    public init(wrappedValue: CustomEncoder.OriginalType) {
-        self.wrappedValue = wrappedValue
-    }
-}
-
-/// Customize the decoding of a property using the `CustomDecoder`
-@propertyWrapper
-public struct DecodingUses<CustomDecoder: StaticDecoder>: StaticDecoderWrapper {
-
-    public var wrappedValue: CustomDecoder.DecodedType
-    public init(wrappedValue: CustomDecoder.DecodedType) {
-        self.wrappedValue = wrappedValue
-    }
-}
-
-/// Customize the encoding and decoding of a property using the `CustomCoder`
-@propertyWrapper
-public struct CodingUses<CustomCoder: StaticCoder>: StaticCodingWrapper {
-    public typealias CustomEncoder = CustomCoder
-    public typealias CustomDecoder = CustomCoder
-
-    public var wrappedValue: CustomCoder.CodingType
-    public init(wrappedValue: CustomCoder.CodingType) {
-        self.wrappedValue = wrappedValue
-    }
-}
-
 //MARK: Enable Customizing one direction
 
 /// Ensures there isn't an extra level added
@@ -90,3 +90,9 @@ extension DecodingUses: Encodable, TransientEncodable where CustomDecoder.Decode
 extension EncodingUses: Equatable where CustomEncoder.OriginalType: Equatable {}
 extension DecodingUses: Equatable where CustomDecoder.DecodedType: Equatable {}
 extension CodingUses: Equatable where CustomCoder.CodingType: Equatable {}
+
+//MARK: - Conditional Hashable Conformance
+
+extension EncodingUses: Hashable where CustomEncoder.OriginalType: Hashable {}
+extension DecodingUses: Hashable where CustomDecoder.DecodedType: Hashable {}
+extension CodingUses: Hashable where CustomCoder.CodingType: Hashable {}
