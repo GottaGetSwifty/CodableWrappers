@@ -6,17 +6,13 @@ matrix:
 language: generic
 sudo: required
 dist: trusty
-before_install:
-  - brew install python
-  - pip install requests
 script:
-  - swift build
-  - cd Build/Build/ProfileData
-  - cd $(ls -d */|head -n 1)
-  - directory=${PWD##*/} 
-  - pathCoverage=Build/Build/ProfileData/${directory}/Coverage.profdata
-  - cd ../../../../
-  - swift test --enable-code-coverage
-  - xcrun llvm-cov export -format="lcov" -instr-profile $pathCoverage Build/Build/Products/Debug-iphonesimulator/standard-swift.app/standard-swift > info.lcov
+  - swift package generate-xcodeproj
+  - xcodebuild test \
+            -scheme Rester \
+            -destination platform="macOS" \
+            -enableCodeCoverage YES \
+            -derivedDataPath .build/derivedData
 after_success:
-  - bash < (curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -J '^ResterCore$' \
+        -D .build/derivedData
