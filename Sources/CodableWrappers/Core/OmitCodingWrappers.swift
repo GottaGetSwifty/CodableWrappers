@@ -61,7 +61,7 @@ extension KeyedEncodingContainer {
 }
 
 extension OmitableFromEncoding {
-    // This shoudldn't ever be called since KeyedEncodingContainer should skip it due to the included extension
+    // This shouldn't ever be called since KeyedEncodingContainer should skip it due to the included extension
     public func encode(to encoder: Encoder) throws { return }
 }
 

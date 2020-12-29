@@ -20,6 +20,7 @@ The major goal for this release is to reduce API surface level by unifying Prope
 - `@FallbackCoding<FallbackValueProvider>`: A combination of the above two. e.g. `@FallbackCoding<EmptyString>`
 - `FallbackValueProvider`: A Protocol to provide a value. Implementations included for typical Empty Types (.e.g `EmptyString`)
 - `@EncodeNulls`: Encodes a `nil` value with an Encoder's `singleValueContainer.encodeNil()`, so e.g. in JSON; `"key": null`
+- `@Lossy(Array/Dictionary/Set)Decoding`: Filters any nil items from the collection
 
 ### Deprecated
 
