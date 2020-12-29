@@ -7,6 +7,8 @@ language: generic
 sudo: required
 dist: trusty
 script:
+  - swift build
   - swift test --enable-code-coverage
+  - xcrun llvm-cov export -format="lcov" -instr-profile $pathCoverage Build/Build/Products/Debug-iphonesimulator/standard-swift.app/standard-swift > info.lcov
 after_success:
   - bash < (curl -s https://codecov.io/bash)
