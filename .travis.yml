@@ -7,7 +7,6 @@ language: generic
 sudo: required
 dist: trusty
 script:
-  - swift package generate-xcodeproj
-  - xcodebuild test -scheme CodableWrappers-Package -destination platform="macOS" -enableCodeCoverage YES -derivedDataPath .build/derivedData
+  - swift test --enable-code-coverage
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -J '^CodableWrappers-Package$' -D .build/derivedData
+  - bash <(curl -s https://codecov.io/bash) -D .build/debug/codecov
