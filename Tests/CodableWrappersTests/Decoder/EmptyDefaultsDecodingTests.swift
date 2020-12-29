@@ -8,6 +8,9 @@ import CodableWrappers
 import Foundation
 import Quick
 import Nimble
+#if canImport(UIKit)
+import UIKit
+#endif
 
 class EmptyDefaultsDecodingTests: QuickSpec, DecodingTestSpec {
 
@@ -88,7 +91,7 @@ private struct DefaultDecodingModel: Codable, Equatable {
 
     #if canImport(UIKit)
     @FallbackDecoding<EmptyCGFloat>
-    var cgFloat: Float
+    var cgFloat: CGFloat
     #else
     @FallbackDecoding<EmptyFloat>
     var cgFloat: Float
@@ -99,7 +102,7 @@ private struct DefaultDecodingModel: Codable, Equatable {
     @FallbackDecoding<EmptyFloat>
     var float: Float
 
-    #if swift(>=5.3) && os(iOS)
+    #if swift(>=5.4) && !os(macOS)
     @FallbackDecoding<EmptyFloat16>
     var float16: Float16
     #else
