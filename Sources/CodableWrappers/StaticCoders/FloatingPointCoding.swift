@@ -2,7 +2,7 @@
 //  FloatingPointCoding.swift
 //  
 //
-//  Created by Paul Fechner on 10/16/19.
+//  Created by PJ Fechner on 10/16/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
 import Foundation
@@ -18,8 +18,6 @@ public protocol NonConformingDecimalValueProvider {
     static var nan: String { get }
 }
 
-/// A provider for the data needed for (de)serializing non conforming floating point values
-public typealias OptionalNonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalValueProvider> = OptionalStaticCoder<NonConformingFloatStaticCoder<ValueProvider>>
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Float`
 public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
     private init() { }
@@ -43,7 +41,7 @@ public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalV
 
     public static func encode(value: Float, to encoder: Encoder) throws {
 
-        //For some reason the switch with nan doesn't work
+        //For some reason the switch with nan doesn't work 🤷‍♂️ as of Swift 5.2
         if value.isNaN {
             return try ValueProvider.nan.encode(to: encoder)
         }
@@ -59,8 +57,7 @@ public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalV
     }
 }
 
-/// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
-public typealias OptionalNonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimalValueProvider> = OptionalStaticCoder<NonConformingDoubleStaticCoder<ValueProvider>>
+
 
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
 public struct NonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
@@ -85,7 +82,7 @@ public struct NonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimal
 
     public static func encode(value: Double, to encoder: Encoder) throws {
 
-        //For some reason the switch with nan doesn't work
+        //For some reason the switch with nan doesn't work 🤷‍♂️ as of Swift 5.2
         if value.isNaN {
             return try ValueProvider.nan.encode(to: encoder)
         }

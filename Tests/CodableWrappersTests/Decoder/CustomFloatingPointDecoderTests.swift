@@ -2,10 +2,10 @@
 //  CustomFloatingPointDecoderTests.swift
 //  
 //
-//  Created by Paul Fechner on 10/13/19.
+//  Created by PJ Fechner on 10/13/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
-@testable import CodableWrappers
+import CodableWrappers
 import Foundation
 import Quick
 import Nimble

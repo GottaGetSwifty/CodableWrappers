@@ -4,7 +4,7 @@
 //  Created by PJ Fechner on 12/08/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
-@testable import CodableWrappers
+import CodableWrappers
 import Foundation
 import Quick
 import Nimble
@@ -156,7 +156,7 @@ private func boolAsIntTestXML(intValue: Int) -> String { """
 private let boolTrueAsStringTestModel = BoolAsStringTextModel(boolValue: true)
 private let boolFalseAsStringTestModel = BoolAsStringTextModel(boolValue: false)
 private struct BoolAsStringTextModel: Codable, Equatable {
-    @BoolAsStringCoding
+    @BoolAsStringEncoding
     var boolValue: Bool
 }
 

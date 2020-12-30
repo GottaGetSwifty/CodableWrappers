@@ -4,96 +4,239 @@
 ////  Created by PJ Fechner on 10/13/19.
 ////  Copyright © 2019 PJ Fechner. All rights reserved.
 //
-//import CodableWrappers
-//import Foundation
-//import Quick
-//import Nimble
-//
-//class OtherTests: QuickSpec {
+import CodableWrappers
+import Foundation
+import Quick
+import Nimble
+
+//class OtherTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
 //
 //    override func spec() {
 //        describe("Decoder") {
 //            it("Stuff") {
-//                let testJSON = #"{ "myText" : "1" }"#
-////                let testJSON = #"{  }"#
-//
-////                let jsonData = testJSON.data(using: .utf8)!
-//                do {
-////                    let decoded = try JSONDecoder().decode(TestType.self, from: jsonData)
-////                    print(decoded)
-//                    let encoded = try JSONEncoder().encode(ContainerTest(internalType: TestType(myText: "hi")))
-//                    let json = String(data: encoded, encoding: .utf8)!
-//                    print(json)
-//                }
-//                catch let error {
-//                    print(error)
-//                }
+//                let data = try! self.jsonEncoder.encode(TestThing(testString: "Hi"))
+//                let json = String(data: data, encoding: .utf8)!
+//                print(json)
+//                let decoded = try! self.jsonDecoder.decode(TestThing.self, from: data)
+//                print(decoded)
 //            }
 //        }
 //    }
 //}
 //
-//struct IntAsBoolStaticCoder: StaticCoder {
+//struct TestThing: Codable {
+//    let testString: String
 //
-//    static func decode(from decoder: Decoder) throws -> Bool {
-//        let intValue = try Int(from: decoder)
-//        return intValue > 0 ? true : false
-//    }
-//
-//    static func encode(value: Bool, to encoder: Encoder) throws {
-//        try (value ? 1 : 0).encode(to: encoder)
+//    enum CodingKeys: String, SnakeCaseCodingKey {
+//        case testString
 //    }
 //}
 //
-//typealias IntAsBoolOptionalCoding = CodingUses<OptionalStaticCoder<IntAsBoolStaticCoder>>
+//protocol SnakeCaseCodingKey: CodingKey where Self: RawRepresentable, Self.RawValue == String {
 //
-//class MyType: Codable {
-//    @IntAsBoolOptionalCoding
-//    var myBool: Bool?
-//    @OmitCoding
-//    var myStringNotToBeSerialized: String?
 //}
 //
-//
-//public struct ContainerTest: Codable {
-//    let internalType: TestType
-//}
-//
-//public struct TestType: Codable {
-//
-//    @MyWrapper
-//    var myText: String
-//}
-//
-//@propertyWrapper public struct MyWrapper: TestCodingWrapper {
-//    public let wrappedValue: String
-//    public init(wrappedValue: String) {
-//        self.wrappedValue = wrappedValue
+//extension SnakeCaseCodingKey {
+//    var stringValue: String {
+//        Self.convertToSnakeCase(rawValue)
 //    }
 //
-//    public init(from decoder: Decoder) throws {
-//        self.wrappedValue = try String(from: decoder)
+//    fileprivate static func convertToSnakeCase(_ stringKey: String) -> String {
+//        guard !stringKey.isEmpty else { return stringKey }
+//
+//        var words : [Range<String.Index>] = []
+//        // The general idea of this algorithm is to split words on transition from lower to upper case, then on transition of >1 upper case characters to lowercase
+//        //
+//        // myProperty -> my_property
+//        // myURLProperty -> my_url_property
+//        //
+//        // We assume, per Swift naming conventions, that the first character of the key is lowercase.
+//        var wordStart = stringKey.startIndex
+//        var searchRange = stringKey.index(after: wordStart)..<stringKey.endIndex
+//
+//        // Find next uppercase character
+//        while let upperCaseRange = stringKey.rangeOfCharacter(from: CharacterSet.uppercaseLetters, options: [], range: searchRange) {
+//            let untilUpperCase = wordStart..<upperCaseRange.lowerBound
+//            words.append(untilUpperCase)
+//
+//            // Find next lowercase character
+//            searchRange = upperCaseRange.lowerBound..<searchRange.upperBound
+//            guard let lowerCaseRange = stringKey.rangeOfCharacter(from: CharacterSet.lowercaseLetters, options: [], range: searchRange) else {
+//                // There are no more lower case letters. Just end here.
+//                wordStart = searchRange.lowerBound
+//                break
+//            }
+//
+//            // Is the next lowercase letter more than 1 after the uppercase? If so, we encountered a group of uppercase letters that we should treat as its own word
+//            let nextCharacterAfterCapital = stringKey.index(after: upperCaseRange.lowerBound)
+//            if lowerCaseRange.lowerBound == nextCharacterAfterCapital {
+//                // The next character after capital is a lower case character and therefore not a word boundary.
+//                // Continue searching for the next upper case for the boundary.
+//                wordStart = upperCaseRange.lowerBound
+//            } else {
+//                // There was a range of >1 capital letters. Turn those into a word, stopping at the capital before the lower case character.
+//                let beforeLowerIndex = stringKey.index(before: lowerCaseRange.lowerBound)
+//                words.append(upperCaseRange.lowerBound..<beforeLowerIndex)
+//
+//                // Next word starts at the capital before the lowercase we just found
+//                wordStart = beforeLowerIndex
+//            }
+//            searchRange = lowerCaseRange.upperBound..<searchRange.upperBound
+//        }
+//        words.append(wordStart..<searchRange.upperBound)
+//        let result = words.map({ (range) in
+//            return stringKey[range].lowercased()
+//        }).joined(separator: "_")
+//        return result
+//    }
+//}
+
+//
+//protocol TransientCoding: Codable {
+//    associatedtype T: Codable
+//    var wrappedValue: T { get }
+//    init(wrappedValue: T)
+//}
+//
+//extension TransientCoding {
+//
+//    init(from decoder: Decoder) throws {
+//        self.init(wrappedValue: try T(from: decoder))
 //    }
 //
-//    public func encode(to encoder: Encoder) throws {
+//    func encode(to encoder: Encoder) throws {
 //        try wrappedValue.encode(to: encoder)
 //    }
+//}
 //
-//    struct CodingKeys: CodingKey {
-//        var stringValue: String
+//@propertyWrapper
+//struct VarWrapper<T: Codable>: Codable {
+//    var wrappedValue: T
 //
-//        init?(stringValue: String) {
-//            self.stringValue = stringValue
+//    init(wrappedValue: T) {
+//        self.wrappedValue = wrappedValue
+//    }
+//}
+//
+//@propertyWrapper
+//struct Immutable<T:Codable>: TransientCoding {
+//    let wrappedValue: T
+//
+//    init(wrappedValue: T) {
+//        self.wrappedValue = wrappedValue
+//    }
+//}
+//
+//extension Immutable: Equatable where T: Equatable {
+//
+//}
+//
+//class Test {
+//
+//    @VarWrapper var test: String
+//
+//    init(test: String) {
+//        self.test = test
+////        self._test = .init(wrappedValue: .init(wrappedValue: test))
+////        self.test =
+////        self.test = LetWrapper(wrappedValue: test)
+//    }
+//    func doAThing() {
+////        self._test = .init(wrappedValue: .init(wrappedValue: test))
+//    }
+//
+////    func test()
+//}
+//
+//@propertyWrapper
+//struct EncUses<SEncoder: StaticEncoder, T: Encodable> {
+//    let wrappedValue: T
+//
+//    init(wrappedValue: T) {
+//        self.wrappedValue = wrappedValue
+//    }
+//}
+//
+//extension EncUses: Encodable {
+//
+//    func encode(to encoder: Encoder) throws {
+//        if let thing = wrappedValue as? StaticEncoder.OriginalType? {
+//            print("hi")
 //        }
+//        if let moreSpecific = self as? MoreSpecific {
+//            try moreSpecific.encode(to: encoder)
+//        }
+//        print("hi")
+//    }
+//}
 //
-//        var intValue: Int?
+//protocol MoreSpecific: Encodable {}
+//extension EncUses: MoreSpecific where T == SEncoder.OriginalType {
+//    func encode(to encoder: Encoder) throws {
+//        print("here")
+//        try SEncoder.encode(value: wrappedValue, to: encoder)
+//    }
+//}
 //
-//        init?(intValue: Int) {
-//            self.intValue = intValue
-//            self.stringValue = String(intValue)
+//extension EncUses where T == SEncoder.OriginalType? {
+//
+//    func encode(to encoder: Encoder) throws {
+//        print("OrHere")
+//        if let value = wrappedValue {
+//            try SEncoder.encode(value: value, to: encoder)
 //        }
 //    }
 //}
+//
+//
+//struct MyTestType: Encodable {
+//    @EncUses<SecondsSince1970DateStaticCoder, Date>
+//    var realTest: Date
+//
+////    @EncUses<SecondsSince1970DateStaticCoder, Date?>
+//    var otherTest: Date?
+//}
+//
+//
+////public struct ContainerTest: Codable {
+////    let internalType: TestType
+////}
+//
+////public struct TestType: Codable {
+////
+////    @MyWrapper
+////    var myText: String
+////}
+////
+////@propertyWrapper public struct MyWrapper: TestCodingWrapper {
+////    public let wrappedValue: String
+////    public init(wrappedValue: String) {
+////        self.wrappedValue = wrappedValue
+////    }
+////
+////    public init(from decoder: Decoder) throws {
+////        self.wrappedValue = try String(from: decoder)
+////    }
+////
+////    public func encode(to encoder: Encoder) throws {
+////        try wrappedValue.encode(to: encoder)
+////    }
+////
+////    struct CodingKeys: CodingKey {
+////        var stringValue: String
+////
+////        init?(stringValue: String) {
+////            self.stringValue = stringValue
+////        }
+////
+////        var intValue: Int?
+////
+////        init?(intValue: Int) {
+////            self.intValue = intValue
+////            self.stringValue = String(intValue)
+////        }
+////    }
+////}
 //
 ////extension KeyedEncodingContainer {
 ////    // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.

@@ -2,7 +2,7 @@
 //  BoolCoding.swift
 //  
 //
-//  Created by Paul Fechner on 12/8/19.
+//  Created by PJ Fechner on 12/8/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
 import Foundation
@@ -38,8 +38,7 @@ public struct BoolAsStringValueProvider: NonConformingBoolValueProvider {
     static public func value(for boolean: Bool) -> String { boolean ? "true" : "false"}
 }
 
-/// Uses the passed ValueProvider for (de)serailization of `Bool?`
-public typealias OptionalNonConformingBoolStaticCoder<ValueProvider: NonConformingBoolValueProvider> = OptionalStaticCoder<NonConformingBoolStaticCoder<ValueProvider>>
+
 /// Uses the passed ValueProvider for (de)serailization of `Bool?`
 public struct NonConformingBoolStaticCoder<ValueProvider: NonConformingBoolValueProvider>: StaticCoder {
 
@@ -58,4 +57,3 @@ public struct NonConformingBoolStaticCoder<ValueProvider: NonConformingBoolValue
         try ValueProvider.value(for: value).encode(to: encoder)
     }
 }
-

@@ -2,13 +2,12 @@
 //  DataCoding.swift
 //  
 //
-//  Created by Paul Fechner on 10/16/19.
+//  Created by PJ Fechner on 10/16/19.
 //  Copyright © 2019 PJ Fechner. All rights reserved.
 
 import Foundation
 
-/// Uses Base64 for (de)serialization of `Data?`
-public typealias OptionalBase64DataStaticCoder = OptionalStaticCoder<Base64DataStaticCoder>
+
 /// Uses Base64 for (de)serailization of `Data`
 public struct Base64DataStaticCoder: StaticCoder {
 

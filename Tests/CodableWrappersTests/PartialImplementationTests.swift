@@ -2,15 +2,15 @@
 //  File.swift
 //  
 //
-//  Created by Paul Fechner on 10/21/19.
+//  Created by PJ Fechner on 10/21/19.
 //
 
-@testable import CodableWrappers
+import CodableWrappers
 import Foundation
 import Quick
 import Nimble
 
-class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
+class CompositionTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
     override func spec() {
         describe("StaticCoder") {
             context("OnlyCustomDecoding") {
@@ -41,12 +41,12 @@ class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec 
     }
 }
 
-struct DecodingModel: Codable {
-    @SecondsSince1970DateDecoding
+private struct DecodingModel: Codable {
+    @Immutable @SecondsSince1970DateDecoding
     var time: Date
 }
 
-struct EncodingModel: Codable {
+private struct EncodingModel: Codable {
     @SecondsSince1970DateEncoding
     var time: Date
 }
