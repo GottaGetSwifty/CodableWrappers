@@ -35,7 +35,7 @@ Manifest:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/GottaGetSwifty/CodableWrappers.git", .upToNextMajor(from: "1.1.0" )),
+    .package(url: "https://github.com/GottaGetSwifty/CodableWrappers.git", .upToNextMajor(from: "2.0.0" )),
 ]
 ```
 
