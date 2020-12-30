@@ -37,6 +37,10 @@ dependencies: [
 ]
 ```
 
+### CocoaPods
+
+pod 'CodableWrappers', '~> 2.0.0'
+
 ---
 
 ## Info
