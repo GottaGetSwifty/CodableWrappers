@@ -1,5 +1,5 @@
 //
-//  DefaultCoding.swift
+//  FallbackCoding.swift
 //  
 //
 //  Created by PJ Fechner on 7/7/20.
@@ -11,7 +11,7 @@ import Foundation
 
 //MARK: Protocols
 
-/// Contract for a Type that provides a default value of a Type
+/// Contract for providing a default value of a Type
 public protocol FallbackValueProvider {
     associatedtype ValueType
     static var defaultValue: ValueType { get }

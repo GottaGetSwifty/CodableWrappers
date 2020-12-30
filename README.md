@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/GottaGetSwifty/CodableWrappers.svg?branch=master)](https://travis-ci.org/GottaGetSwifty/CodableWrappers)
 [![Coverage](https://img.shields.io/codecov/c/github/GottaGetSwifty/CodableWrappers/master.svg?style=flat)](https://codecov.io/gh/GottaGetSwifty/CodableWrappers)
 
-## A collection of [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) for custom serialization of Swift Codable Types
+## Simplified Serialization with [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md)
 
 Move your Codable and (En/De)coder customization to annotations!
 
@@ -20,26 +20,17 @@ struct YourType: Codable {
 }
 ```
 
-Check out [this blog post](https://www.getswifty.blog/blog/making-custom-serialization-a-breeze-in-swift-51-with-property-wrappers) for a more detailed overview.
+2.0's released! [Release Notes](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/ReleaseNotes.md)
 
-### Advantages
-
-- Declarative
-- Extendable
-- Declare once for all Encoders and Decoders. (e.g. JSONEncoder and PropertyListEncoder)
-- Custom (de/en)coding without overriding `encode(to: Encoder)` or `init(with decoder)` for your whole Type
-- Multiple (de/en)coding strategies within the same and child Types
-- Cross Platform
-
-## Compatibility
-
-**Swift 5.1+** is required to build Property Wrappers (Xcode 11) which are [Backwards Deployable](https://forums.swift.org/t/which-of-swift-5-1-features-are-backwards-deployable/25610/3)
+---
 
 ## Installation
 
-### Swift Package Manager
+### Swift Package Manager \***Preferred***
 
-If you're working directly in a Package, add CodableWrappers to your Package.swift file
+URL: `https://github.com/GottaGetSwifty/CodableWrappers.git`
+
+Manifest:
 
 ```swift
 dependencies: [
@@ -47,18 +38,19 @@ dependencies: [
 ]
 ```
 
-If working in an Xcode project select `File->Swift Packages->Add Package Dependency...` and search for the package name: `CodableWrappers` or the git url:
-
-`https://github.com/GottaGetSwifty/CodableWrappers.git`
-
-### **Note**
-
-Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swift 5.1 is used, there are currently no plans to support other dependency management tools. If SPM in unavailable, [Git-Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) is an option. Or feel free to submit a pull request with support added for your preference! ️️😊
-
 ---
+
+## Info
+
+- [Advantages](#Advantages)
+- [Compatibility](#Compatibility)
 
 ## Available Property Wrappers
 
+- [@EncodeNulls](#EncodeNulls) \*New in 2.0*
+- [Lossy Collections](#Lossy-Collections) \*New in 2.0*
+- [Empty Defaults](#Empty-Defaults) \*New in 2.0*
+- [Other Fallbacks](#Other-Fallbacks) \*New in 2.0*
 - [@OmitCoding](#OmitCoding)
 - [@Base64Coding](#base64coding)
 - [@SecondsSince1970DateCoding](#secondssince1970datecoding)
@@ -68,7 +60,7 @@ Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swif
 - [@ISO8601DateFormatterCoding\<ISO8601DateFormatterStaticCoder>](#ISO8601DateFormatterCoding\<ISO8601DateFormatterStaticCoder>)
 - [@NonConformingFloatCoding\<ValueProvider>](#nonconformingfloatcodingvalueprovider)
 - [@NonConformingDoubleCoding\<ValueProvider>](#nonconformingdoublecodingvalueprovider)
-- [BoolCoding](#BoolCoding)
+- [Bool Coding](#Bool-Coding)
 - [Additional Customization](#Additional-Customization)
 - [Property Mutability](#property-mutability)
 - [Only Encoding or Decoding](#only-encoding-or-decoding)
@@ -87,6 +79,117 @@ Since [SPM](https://swift.org/package-manager/) is now supported everywhere Swif
 - [Design Footnotes](https://www.getswifty.blog/blog/design-footnotes-for-codablewrappers)
 
 ---
+
+## Advantages
+
+- Declarative
+- Extendable
+- Declare once for all Encoders and Decoders. (e.g. JSONEncoder and PropertyListEncoder)
+- Custom (de/en)coding without overriding `encode(to: Encoder)` or `init(with decoder)` for your whole Type
+- Multiple (de/en)coding strategies within the same and child Types
+- Cross Platform
+
+## Compatibility
+
+2.0 Minimum Deployment target is Swift 5.3
+
+---
+
+## @EncodeNulls
+
+For a Property that should encode `null` for `nil` values
+
+```swift
+struct MyType: Codable {
+    @EncodeNulls
+    var myText: String? // Will not be omitted when nil, e.g. will encode to `null` in JSON and `$null` in PLISTs
+}
+```
+
+## Lossy Collections
+
+```swift
+@LossyArrayDecoding
+@LossyDictionaryDecoding
+@LossySetDecoding
+```
+
+Filters null values during decoding without throwing an Error
+
+```swift
+private struct LossyCollectionModel: Codable, Equatable {
+    @LossyArrayDecoding
+    var array: [String] // Ignores null values without throwing an Error
+    @LossyDictionaryDecoding
+    var dictionary: [String:String] // Ignores null values without throwing an Error
+    @LossySetDecoding
+    var set: Set<String> // Ignores null values without throwing an Error
+}
+```
+
+## Empty Defaults
+
+When you want to encode/decode an empty value rather than decoding nil or omitting encoding
+
+```swift
+struct MyType: Codable {
+    @FallbackEncoding<EmptyInt>
+    var int: Int? // will encode `0` when nil
+    @FallbackDecoding<EmptyString>
+    var string: String // will decode to "" when value was missing/nil
+    @FallbackCoding<EmptyArray>
+    var array: [Int]? // will encode/decode to [] when missing/nil
+}
+```
+
+
+
+<details>
+<summary>All Empty Values</summary>
+
+</br>
+
+```swift
+EmptyBool
+EmptyString
+EmptyInt
+EmptyInt16
+EmptyInt32
+EmptyInt64
+EmptyInt8
+EmptyUInt
+EmptyUInt16
+EmptyUInt32
+EmptyUInt64
+EmptyUInt8
+EmptyCGFloat
+EmptyDouble
+EmptyFloat
+EmptyFloat16
+EmptyArray
+EmptyDictionary
+EmptySet
+```
+
+</details>
+
+`Empty` defaults are available for most typical Foundation Types
+
+## Other Fallbacks
+
+Any other kind of default can be provided by a custom `FallbackValueProvider`
+
+```swift
+public struct DistantFutureDateProvider: FallbackValueProvider {
+    public static var defaultValue: Date { Date.distantFuture }
+}
+
+struct MyType: Codable {
+    @FallbackEncoding<DistantFutureDateProvider>
+    var updatedDate: Date?
+}
+
+```
 
 ## @OmitCoding
 
@@ -217,7 +320,7 @@ struct MyType: Codable {
 }
 ```
 
-## BoolCoding
+## Bool Coding
 
 Sometimes an API uses an `Int` or `String` for a booleans.
 
@@ -283,56 +386,17 @@ Take a look at [these other examples](https://github.com/GottaGetSwifty/CodableW
 
 ---
 
-## Optional Properties
-
-### Issues
-
-Due to the constraints of generics / property wrappers, the same StaticCoder cannot handle both Optional and non-Optional Properties.
-
-Also the current implementation of Codable generation for a PropertyWrapper results in a MissingKey Error if the value doesn't exist when Decoding, and always encodes with a "null" object.
-
-### Solution
-
-To handle this identically to a typical Optional Property, an `OptionalStaticCoder` wrapper is available.
-
-**\*NOTE\*** Once Property Wrapper composition is available a Composable wrapper will likely be added to handle this in a more general way.
-
-```swift
-struct MyType: Codable {
-    @CodingUses<OptionalStaticCoder<Base64DataStaticCoder>>
-    var myData: Data?
-}
-```
-
-A set of convenience Property Wrappers are also available.
-E.g. `@MillisecondsSince1970DateOptionalCoding`, `@Base64OptionalCodingMutable`, etc.
-
-```swift
-struct MyType: Codable {
-    @Base64OptionalCoding
-    var myData: Data?
-}
-```
-
-### Performance Implications
-
-One additional note is that as of version 1.1.0 the custom encoding override uses Reflection to check if the value is nil. The performance hit should be negligible in most cases but if using an Optional Wrapper for large types or if encoding very large data sets you may see a meaningful performance hit.
-
 ## Property Mutability
 
-The Property a Property Wrapper wraps must be declared as a `var` and the ability to mutate is defined by the Property Wrapper.
-
-To allow flexibility all of the included Property Wrappers have a Mutable variant.
-
-**Add `Mutable` to the end to access the Mutable Property Wrapper, making the Property mutable**
-E.g. `@Base64CodingMutable`, `@SecondsSince1970DateCoding`, `@CustomCodingMutable<ACustomCoder>`, etc.
+In 2.0 all wrappers are Mutable by default and can be made Immutable via Property Wrapper Composition
 
 ```swift
 struct MyType: Codable {
-    @SecondsSince1970DateCodingMutable
-    var updatedAt: Date
-    @SecondsSince1970DateCoding
+    @Immutable @SecondsSince1970DateCoding
     var createdAt: Date
+
+    @SecondsSince1970DateCoding
+    var updatedAt: Date
 
     mutating func update() {
         createdAt = Date() // ERROR - Cannot assign to property: 'createdAt' is a get-only property
@@ -341,11 +405,25 @@ struct MyType: Codable {
 }
 ```
 
+## Optionals
+
+2.0 introduces `@OptionalCoding<StaticCodingWrapper>` to enable Optionals for a property.
+
+```swift
+struct MyType: Codable {
+    @SecondsSince1970DateCoding
+    var createdAt: Date
+
+    @OptionalCoding<SecondsSince1970DateCoding>
+    var updatedAt: Date
+}
+```
+
 ## Only Encoding or Decoding
 
 Sometimes you are only able/wanting to implement Encoding or Decoding.
 
-To enable this all of the included Wrappers have Encoding and Decoding variants
+To enable this, (where practical/possible), all of the included Wrappers have Encoding and Decoding variants
 
 **Change Coder to Encoder/Decoder or Coding to Encoding/Decoding to implement only one**
 E.g. `@Base64Encoding`, `@SecondsSince1970DateDecoding`, `@EncodingUses<ACustomEncoder>`, etc.
@@ -365,4 +443,4 @@ struct MyType: Decodable {
 
 ## Contributions
 
-If there's a standard Serialization strategy that could be added, please open an issue requesting it and/or submit a pull request with passing tests.
+If there is a standard Serialization strategy that could be added feel free to open an issue requesting it and/or submit a pull request with the new option.
