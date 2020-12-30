@@ -8,8 +8,5 @@ sudo: required
 dist: trusty
 script:
   - swift build
-  - swift test --enable-code-coverage
-  - xcrun llvm-cov export -format="lcov" .build/debug/CodableWrappersPackageTests.xctest -instr-profile .build/debug/codecov/default.profdata > info.lcov
-after_success:
-  - bash <(curl https://codecov.io/bash)
+  - swift test
 
