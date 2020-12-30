@@ -35,7 +35,9 @@ extension UnkeyedDecodingContainer {
     @inlinable mutating func filteringNils<T: Decodable>() throws -> [T] {
         var items: [T] = []
         while !isAtEnd {
-            if let item = try self.decodeIfPresent(T.self) {
+            // At least for PLists, `decodeIfPresent` seems to break when a value is `$null`.
+            // This is why `Optional<T>` is required
+            if let item = try decodeIfPresent(Optional<T>.self) as? T {
                 items.append(item)
             }
         }

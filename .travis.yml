@@ -9,4 +9,4 @@ dist: trusty
 script:
   - swift test --enable-code-coverage
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -D .build/debug/codecov
+  - bash <(curl -s https://codecov.io/bash)

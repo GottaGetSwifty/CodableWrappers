@@ -10,7 +10,7 @@ import Foundation
 import Quick
 import Nimble
 
-class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
+class CompositionTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
     override func spec() {
         describe("StaticCoder") {
             context("OnlyCustomDecoding") {
@@ -41,12 +41,12 @@ class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec 
     }
 }
 
-struct DecodingModel: Codable {
+private struct DecodingModel: Codable {
     @Immutable @SecondsSince1970DateDecoding
     var time: Date
 }
 
-struct EncodingModel: Codable {
+private struct EncodingModel: Codable {
     @SecondsSince1970DateEncoding
     var time: Date
 }

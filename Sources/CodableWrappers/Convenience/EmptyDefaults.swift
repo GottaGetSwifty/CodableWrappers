@@ -12,6 +12,11 @@ import UIKit
 
 // MARK: - Convenience Defaults
 
+/// Empty FallbackValueProvider for Bool: false
+public struct EmptyBool: FallbackValueProvider {
+    public static var defaultValue: Bool { false }
+}
+
 /// Empty FallbackValueProvider for String: ""
 public struct EmptyString: FallbackValueProvider {
     public static var defaultValue: String { "" }

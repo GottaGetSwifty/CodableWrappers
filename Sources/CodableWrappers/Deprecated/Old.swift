@@ -65,11 +65,11 @@ extension DecodingUsesMutable: Equatable where CustomDecoder.DecodedType: Equata
 extension CodingUsesMutable: Equatable where CustomCoder.CodingType: Equatable {}
 
 @available(*, deprecated)
-extension DecodingUsesMutable: OptionalWrapper where CustomDecoder.DecodedType: ExpressibleByNilLiteral { }
+extension DecodingUsesMutable: OptionalDecodingWrapper where CustomDecoder.DecodedType: ExpressibleByNilLiteral { }
 @available(*, deprecated)
-extension EncodingUsesMutable: OptionalWrapper where CustomEncoder.OriginalType: ExpressibleByNilLiteral { }
+extension EncodingUsesMutable: OptionalEncodingWrapper where CustomEncoder.OriginalType: ExpressibleByNilLiteral { }
 @available(*, deprecated)
-extension CodingUsesMutable: OptionalWrapper where CustomCoder.CodingType: ExpressibleByNilLiteral { }
+extension CodingUsesMutable: OptionalCodingWrapper where CustomCoder.CodingType: ExpressibleByNilLiteral { }
 
 
 // MARK: - Optional Static Coders

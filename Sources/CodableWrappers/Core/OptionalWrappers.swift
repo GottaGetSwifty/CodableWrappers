@@ -7,23 +7,29 @@ import Foundation
 
 //MARK: - OptionalWrapper
 
-/// Protocol for a PropertyWrapper to properly handle Coding when the wrappedValue is Optional
-public protocol OptionalWrapper {
+public protocol OptionalEncodingWrapper {
     associatedtype WrappedType: ExpressibleByNilLiteral
     var wrappedValue: WrappedType { get }
+}
+
+public protocol OptionalDecodingWrapper {
+    associatedtype WrappedType: ExpressibleByNilLiteral
     init(wrappedValue: WrappedType)
 }
+/// Protocol for a PropertyWrapper to properly handle Coding when the wrappedValue is Optional
+public typealias OptionalCodingWrapper = OptionalEncodingWrapper & OptionalDecodingWrapper
+
 
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
-    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: OptionalWrapper {
+    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: OptionalDecodingWrapper {
         return try decodeIfPresent(T.self, forKey: key) ?? T(wrappedValue: nil)
     }
 }
 
 extension KeyedEncodingContainer {
     // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
-    public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: OptionalWrapper {
+    public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: OptionalEncodingWrapper {
 
         // Currently uses Mirror...this should really be avoided, but I'm not sure there's another way to do it cleanly/safely.
         let mirror = Mirror(reflecting: value.wrappedValue)
@@ -38,7 +44,7 @@ extension KeyedEncodingContainer {
 //MARK: - OptionalCoding and Wrapper
 
 /// Contract for a Type that wraps a StaticEncoder and makes it usable when the WrappedType is Optional
-public protocol OptionalEncodable: Encodable, OptionalWrapper where WrappedType == EncoderWrapper.CustomEncoder.OriginalType? {
+public protocol OptionalEncodable: Encodable, OptionalEncodingWrapper where WrappedType == EncoderWrapper.CustomEncoder.OriginalType? {
     associatedtype EncoderWrapper: StaticEncoderWrapper
 }
 
@@ -52,7 +58,7 @@ public extension OptionalEncodable {
 }
 
 /// Contract for a Type that wraps a StaticDecoder and makes it usable the WrappedType is Optional
-public protocol OptionalDecodable: Decodable, OptionalWrapper where WrappedType == DecoderWrapper.CustomDecoder.DecodedType? {
+public protocol OptionalDecodable: Decodable, OptionalDecodingWrapper where WrappedType == DecoderWrapper.CustomDecoder.DecodedType? {
     associatedtype DecoderWrapper: StaticDecoderWrapper
 }
 
