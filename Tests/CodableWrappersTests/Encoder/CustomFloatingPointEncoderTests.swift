@@ -51,7 +51,6 @@ class CustomFloatingPointEncoderTests: QuickSpec, EncodingTestSpec {
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        print(actualString)
                         expect(actualString).to(haveEqualLines(to: doubleTestXML))
                     }
                 }
