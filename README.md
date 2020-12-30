@@ -27,7 +27,9 @@ struct YourType: Codable {
 
 ### Swift Package Manager \***Preferred***
 
-URL: `https://github.com/GottaGetSwifty/CodableWrappers.git`
+URL:
+
+`https://github.com/GottaGetSwifty/CodableWrappers.git`
 
 Manifest:
 
@@ -39,7 +41,9 @@ dependencies: [
 
 ### CocoaPods
 
+```
 pod 'CodableWrappers', '~> 2.0.0'
+```
 
 ---
 
