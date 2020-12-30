@@ -7,6 +7,8 @@ language: generic
 sudo: required
 dist: trusty
 script:
+  - swift build
   - swift test --enable-code-coverage
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - llvm-cov export -format="lcov" .build/debug/CodableWrappersPackageTests.xctest -instr-profile .build/debug/codecov/default.profdata > info.lcov
+  - bash <(curl https://codecov.io/bash)
+

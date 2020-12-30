@@ -67,8 +67,8 @@ dependencies: [
 
 ## Other Customization
 
-- [Optional Properties](#Optional-Properties)
-- [Property Mutability](#Property-Mutability)
+- [Property Mutability](#Property-Mutability) \*New in 2.0*
+- [Optionals](#Optionals) \*New in 2.0*
 - [Only Encoding or Decoding](#Only-Encoding-or-Decoding)
 
 ## Additional Links
@@ -76,7 +76,6 @@ dependencies: [
 - [Introduction Blog Post](https://www.getswifty.blog/blog/making-custom-serialization-a-breeze-in-swift-51-with-property-wrappers)
 - [Custom Examples](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/CustomExamples.md)
 - [Release Notes](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/ReleaseNotes.md)
-- [Design Footnotes](https://www.getswifty.blog/blog/design-footnotes-for-codablewrappers)
 
 ---
 
@@ -86,12 +85,12 @@ dependencies: [
 - Extendable
 - Declare once for all Encoders and Decoders. (e.g. JSONEncoder and PropertyListEncoder)
 - Custom (de/en)coding without overriding `encode(to: Encoder)` or `init(with decoder)` for your whole Type
-- Multiple (de/en)coding strategies within the same and child Types
+- Varied (de/en)coding strategies allowed
 - Cross Platform
 
 ## Compatibility
 
-2.0 Minimum Deployment target is Swift 5.3
+2.x has a Swift 5.2 as it's minimum. 5.1 is available on 1.x
 
 ---
 
