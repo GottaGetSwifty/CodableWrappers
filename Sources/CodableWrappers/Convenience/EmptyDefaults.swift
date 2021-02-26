@@ -80,7 +80,7 @@ public struct EmptyFloat: FallbackValueProvider {
     public static var defaultValue: Float { 0 }
 }
 
-#if swift(>=5.4) && !os(macOS)
+#if swift(>=5.4) && !os(macOS) && !targetEnvironment(macCatalyst)
 /// Empty FallbackValueProvider for Float16: 0
 @available(iOS 14.0, *)
 public struct EmptyFloat16: FallbackValueProvider {
