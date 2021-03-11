@@ -54,8 +54,6 @@ class LossyCollectionDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpe
             context("PListDecoder") {
                 //MARK: LossyCollectionDecoding
                 it("DecodesCorrectly") {
-                    let value = try! self.plistEncoder.encode(fullTestModel)
-                    let stringValue = String(data: value, encoding: .utf8)!
                     expect {_ = try self.plistDecoder.decode(LossyCollectionModel.self, from: baseTestXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(LossyCollectionModel.self, from: baseTestXML.data(using: .utf8)!)
                     expect(decodedModel).toNot(beNil())

@@ -119,6 +119,9 @@ private struct CompositionTestModel: Codable, Equatable {
 
     @Immutable
     var plainOptionalImmutable: String?
+
+    @Immutable @FallbackDecoding<EmptyDouble>
+    var duration: Double
 }
 
 
@@ -127,22 +130,25 @@ private let basicModel = CompositionTestModel(mutableTime: Date(timeIntervalSinc
                                               optionalTime: Date(timeIntervalSince1970: 590277534.0),
                                               optionalImmutableTime: Date(timeIntervalSince1970: 590277534.0),
                                               plainImmutable: "Hi",
-                                              plainOptionalImmutable: "There")
+                                              plainOptionalImmutable: "There",
+                                              duration: 1)
 private let emptyModel = CompositionTestModel(mutableTime: Date(timeIntervalSince1970: 590277534.0),
                                               immutableTime: Date(timeIntervalSince1970: 590277534.0),
                                               optionalTime: nil,
                                               optionalImmutableTime: nil,
                                               plainImmutable: "",
-                                              plainOptionalImmutable: nil)
+                                              plainOptionalImmutable: nil,
+                                              duration: 0)
 
 private let basicJSON = """
 {
+    "immutableTime" : 590277534,
     "plainImmutable" : "Hi",
-    "optionalTime" : 590277534,
-    "mutableTime" : 590277534,
-    "plainOptionalImmutable" : "There",
     "optionalImmutableTime" : 590277534,
-    "immutableTime" : 590277534
+    "duration" : 1,
+    "mutableTime" : 590277534,
+    "optionalTime" : 590277534,
+    "plainOptionalImmutable" : "There"
 }
 """
 
@@ -151,6 +157,8 @@ private let basicXML = """
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>duration</key>
+    <real>1</real>
     <key>immutableTime</key>
     <real>590277534</real>
     <key>mutableTime</key>
@@ -170,6 +178,7 @@ private let basicXML = """
 private let missingOptionalJSON = """
 {
     "plainImmutable" : "",
+    "duration" : 0,
     "mutableTime" : 590277534,
     "immutableTime" : 590277534
 }
@@ -180,6 +189,8 @@ private let missingOptionalXML = """
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>duration</key>
+    <real>0.0</real>
     <key>immutableTime</key>
     <real>590277534</real>
     <key>mutableTime</key>

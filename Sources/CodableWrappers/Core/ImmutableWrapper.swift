@@ -37,6 +37,7 @@ extension Immutable: Equatable where T: Equatable { }
 extension Immutable: Hashable where T: Hashable { }
 
 // MARK: - Handling Immutable and Optional interaction
+
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
     public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: AnyImmutableWrapper, T.T: OptionalDecodingWrapper  {
@@ -59,6 +60,7 @@ extension KeyedEncodingContainer {
 }
 
 // MARK: - Handling Immutable and Optional interaction
+
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
     public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: AnyImmutableWrapper, T.T: ExpressibleByNilLiteral  {
@@ -80,4 +82,11 @@ extension KeyedEncodingContainer {
     }
 }
 
+// MARK: - Handling interaction with FallbackDecodingWrapper
 
+extension KeyedDecodingContainer {
+    // This is used to override the default decoding behavior for `EmptyFallbackDecodableWrapper` to allow a value to avoid a missing key Error
+    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: AnyImmutableWrapper, T.T: FallbackDecodingWrapper {
+        return try decodeIfPresent(T.self, forKey: key) ?? T(wrappedValue: T.T(wrappedValue: T.T.ValueProvider.defaultValue))
+    }
+}
