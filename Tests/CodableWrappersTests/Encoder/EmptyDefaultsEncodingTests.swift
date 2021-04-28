@@ -121,7 +121,8 @@ private struct DefaultEncodingModel: Codable, Equatable {
     @FallbackEncoding<EmptyFloat>
     var float: Float?
 
-    #if swift(>=5.4) && !os(macOS)
+    #if swift(>=5.4) && !arch(x86_64)
+    @available(iOS 14, macOS 11, tvOS 14.0, watchOS 7.0, macCatalyst 14.5, *)
     @FallbackEncoding<EmptyFloat16>
     var float16: Float16?
     #else
