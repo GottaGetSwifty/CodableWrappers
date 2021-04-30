@@ -163,3 +163,9 @@ public typealias LossyDictionaryDecoding<T: Decodable, Key: Decodable & Hashable
 /// Encodes a nil value in a singleValueContainer using `encodeNil` rather than it being omitted.
 /// - note This uses Mirror to check for nil so should not be used in high performance scenarios. This is done in order to check for nil without short circuiting nested Error handling. If there is a better way please submit a pull request / issue :)
 public typealias EncodeNulls<T: Encodable & ExpressibleByNilLiteral> = EncodingUses<NullStaticEncoder<T>>
+
+
+
+public typealias CurrentPathEncoding<T: Encodable> = EncodingUses<CurrentPathStaticEncoder<T>>
+public typealias CurrentPathDecoding<T: Decodable> = DecodingUses<CurrentPathStaticDecoder<T>>
+public typealias CurrentPathCoding<T: Codable> = CodingUses<CurrentPathStaticCoder<T>>
