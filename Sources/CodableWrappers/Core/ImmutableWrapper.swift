@@ -29,14 +29,17 @@ public struct Immutable<T>: AnyImmutableWrapper {
 
 // TransientCodable will handle the (en/de)coding here when needed without adding additional layers
 
-extension Immutable: Encodable, TransientEncodable where T: Encodable {}
-extension Immutable: Decodable, TransientDecodable where T: Decodable {}
-extension Immutable: TransientCodable where T: Codable {}
+extension Immutable: Encodable, TransientEncodable where T: Encodable { }
+extension Immutable: Decodable, TransientDecodable where T: Decodable { }
+extension Immutable: TransientCodable where T: Codable { }
 
 extension Immutable: Equatable where T: Equatable { }
 extension Immutable: Hashable where T: Hashable { }
 
 // MARK: - Handling Immutable and Optional interaction
+
+extension Immutable: OptionalDecodingWrapper where T: Decodable & ExpressibleByNilLiteral { }
+extension Immutable: OptionalEncodingWrapper where T: Encodable & ExpressibleByNilLiteral { }
 
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
@@ -51,29 +54,6 @@ extension KeyedEncodingContainer {
 
         // Currently uses Mirror...this should really be avoided, but I'm not sure there's another way to do it cleanly/safely.
         let mirror = Mirror(reflecting: value.wrappedValue.wrappedValue)
-        guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
-            return
-        }
-
-        try encodeIfPresent(value, forKey: key)
-    }
-}
-
-// MARK: - Handling Immutable and Optional interaction
-
-extension KeyedDecodingContainer {
-    // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
-    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: AnyImmutableWrapper, T.T: ExpressibleByNilLiteral  {
-        return try decodeIfPresent(T.self, forKey: key) ?? T(wrappedValue: nil)
-    }
-}
-
-extension KeyedEncodingContainer {
-    // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
-    public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: AnyImmutableWrapper, T.T: ExpressibleByNilLiteral  {
-
-        // Currently uses Mirror...this should really be avoided, but I'm not sure there's another way to do it cleanly/safely.
-        let mirror = Mirror(reflecting: value.wrappedValue)
         guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
             return
         }

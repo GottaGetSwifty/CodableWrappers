@@ -127,3 +127,4 @@ extension OptionalEncoding: Hashable where CustomDecoderWrapper.CustomEncoder.Or
 extension OptionalDecoding: Hashable where CustomDecoderWrapper.CustomDecoder.DecodedType: Hashable {}
 extension OptionalCoding: Hashable where CustomCoderWrapper.CustomEncoder.OriginalType: Hashable {}
 
+
