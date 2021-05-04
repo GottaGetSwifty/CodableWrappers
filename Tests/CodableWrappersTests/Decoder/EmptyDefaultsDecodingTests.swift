@@ -105,7 +105,7 @@ private struct DefaultDecodingModel: Codable, Equatable {
     @FallbackDecoding<EmptyFloat>
     var float: Float
 
-    #if swift(>=5.4) && (!os(macOS) && !arch(x86_64))
+    #if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
     @available(iOS 14, macOS 11, tvOS 14.0, watchOS 7.0, macCatalyst 14.5, *)
     @FallbackDecoding<EmptyFloat16>
     var float16: Float16
