@@ -421,7 +421,7 @@ struct MyType: Codable {
     var createdAt: Date
 
     @OptionalCoding<SecondsSince1970DateCoding>
-    var updatedAt: Date
+    var updatedAt: Date?
 }
 ```
 
