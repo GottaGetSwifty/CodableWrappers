@@ -162,7 +162,3 @@ public typealias LossyDictionaryDecoding<T: Decodable, Key: Decodable & Hashable
 
 /// Encodes a nil value in a singleValueContainer using `encodeNil` rather than it being omitted.
 public typealias EncodeNulls<T: Encodable & ExpressibleByNilLiteral> = EncodingUses<NullStaticEncoder<T>>
-
-public typealias CurrentPathEncoding<T: Encodable> = EncodingUses<CurrentPathStaticEncoder<T>>
-public typealias CurrentPathDecoding<T: Decodable> = DecodingUses<CurrentPathStaticDecoder<T>>
-public typealias CurrentPathCoding<T: Codable> = CodingUses<CurrentPathStaticCoder<T>>
