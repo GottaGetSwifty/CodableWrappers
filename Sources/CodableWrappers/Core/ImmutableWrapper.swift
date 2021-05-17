@@ -25,10 +25,11 @@ public struct Immutable<T>: AnyImmutableWrapper {
     }
 }
 
+
 //MARK: - Conditional Equatable Conformances
 
-// TransientCodable will handle the (en/de)coding here when needed without adding additional layers
 
+// TransientCodable will handle the (en/de)coding here when needed without adding additional layers
 extension Immutable: Encodable, TransientEncodable where T: Encodable { }
 extension Immutable: Decodable, TransientDecodable where T: Decodable { }
 extension Immutable: TransientCodable where T: Codable { }
@@ -52,13 +53,11 @@ extension KeyedEncodingContainer {
     // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
     public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: AnyImmutableWrapper, T.T: OptionalEncodingWrapper  {
 
-        // Currently uses Mirror...this should really be avoided, but I'm not sure there's another way to do it cleanly/safely.
-        let mirror = Mirror(reflecting: value.wrappedValue.wrappedValue)
-        guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
+        if case Optional<Any>.none = value.wrappedValue.wrappedValue as Any {
             return
+        } else {
+            try encodeIfPresent(value, forKey: key)
         }
-
-        try encodeIfPresent(value, forKey: key)
     }
 }
 

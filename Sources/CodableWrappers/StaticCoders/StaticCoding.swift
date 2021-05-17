@@ -9,7 +9,7 @@ import Foundation
 
 //MARK: - Static Coding Protocols
 
-/// Mirrors of `Encodable`'s functionality but in a static context
+/// Mirror of `Encodable`'s functionality but in a static context
 /// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticEncoder {
     /// The Type this encodes
@@ -19,7 +19,7 @@ public protocol StaticEncoder {
     static func encode(value: OriginalType, to encoder: Encoder) throws
 }
 
-/// Mirrors of `Decodable`'s functionality but in a static context
+/// Mirror of `Decodable`'s functionality but in a static context
 /// - Attention: When implementing ensure an additional level of nesting is not introduced
 public protocol StaticDecoder {
     /// The Type this will decode

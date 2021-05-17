@@ -14,11 +14,10 @@ public protocol AnyNullEncoder {
 }
 
 /// Encodes a nil value in a singleValueContainer using `encodeNil` rather than it being omitted.
-/// - note This uses Mirror to check for nil so should not be used in high performance scenarios. This is done in order to check for nil without short circuiting nested Error handling. If there is a better way please submit a pull request / issue :)
 public struct NullStaticEncoder<T: Encodable>: StaticEncoder, AnyNullEncoder where T: ExpressibleByNilLiteral {
     public static func encode(value: T, to encoder: Encoder) throws {
-        let mirror = Mirror(reflecting: value)
-        guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
+
+        if case Optional<Any>.none = value as Any {
             var container = encoder.singleValueContainer()
             try container.encodeNil()
             return
