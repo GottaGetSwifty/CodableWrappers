@@ -31,9 +31,7 @@ extension KeyedEncodingContainer {
     // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
     public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: OptionalEncodingWrapper {
 
-        // Currently uses Mirror...this should really be avoided, but I'm not sure there's another way to do it cleanly/safely.
-        let mirror = Mirror(reflecting: value.wrappedValue)
-        guard mirror.displayStyle != .optional || !mirror.children.isEmpty else {
+        if case Optional<Any>.none = value.wrappedValue as Any {
             return
         }
 
