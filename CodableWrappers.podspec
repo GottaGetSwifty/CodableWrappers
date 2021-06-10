@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CodableWrappers'
-  s.version          = '2.0.0'
+  s.version          = '2.0.6'
   s.swift_versions   = ['5.2']
   s.summary          = 'Simplified Serialization with Property Wrappers'
   s.description      = <<-DESC
