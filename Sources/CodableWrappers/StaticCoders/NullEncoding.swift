@@ -32,4 +32,9 @@ extension KeyedEncodingContainer {
     public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: OptionalEncodingWrapper & StaticEncoderWrapper, T.CustomEncoder: AnyNullEncoder {
         try T.CustomEncoder.encode(value: value.wrappedValue, to: superEncoder(forKey: key))
     }
+    
+    // Used to bybass the `OptionalCodingWrappers` when wrapped in an `Immutable`, which encodes no value when it's wrappedValue.wrappedValue is nil.
+    public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: AnyImmutableWrapper, T.T: OptionalEncodingWrapper & StaticEncoderWrapper, T.T.CustomEncoder: AnyNullEncoder {
+        try T.T.CustomEncoder.encode(value: value.wrappedValue.wrappedValue, to: superEncoder(forKey: key))
+    }
 }
