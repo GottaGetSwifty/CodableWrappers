@@ -41,6 +41,32 @@ class NullEncodingTests: QuickSpec, EncodingTestSpec {
             }
             //MARK: - PListEncoder
         }
+        describe("ImmutableNullEncodingTests") {
+            context("JSONEncoder") {
+                it("EncodesValues") {
+                    expect {_ = try self.jsonEncoder.encode(immutableNullEncodingBasicModel)}.toNot(throwError())
+                    let encodedData = try? self.jsonEncoder.encode(immutableNullEncodingBasicModel)
+                    let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
+                    expect(encodedData).toNot(beNil())
+                    expect(encodedString).toNot(beNil())
+
+                    if let actualString = encodedString {
+                        expect(actualString).to(haveEqualLines(to: basicTestJSON))
+                    }
+                }
+                it("EncodesNulls") {
+                    expect {_ = try self.jsonEncoder.encode(immutableNullEncodingEmptyModel)}.toNot(throwError())
+                    let encodedData = try? self.jsonEncoder.encode(immutableNullEncodingEmptyModel)
+                    let encodedString = encodedData.map { String(data: $0, encoding: .utf8)!}
+                    expect(encodedData).toNot(beNil())
+                    expect(encodedString).toNot(beNil())
+
+                    if let actualString = encodedString {
+                        expect(actualString).to(haveEqualLines(to: nullsTestJSON))
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -57,6 +83,20 @@ private struct NullEncodingModel: Codable, Equatable {
 
 private let nullEncodingBasicModel = NullEncodingModel(string: "hi", int: 1)
 private let nullEncodingEmptyModel = NullEncodingModel(string: nil, int: nil)
+
+private struct ImmutableNullEncodingModel: Codable, Equatable {
+
+    @Immutable
+    @EncodeNulls
+    var string: String?
+
+    @Immutable
+    @EncodeNulls
+    var int: Int?
+}
+
+private let immutableNullEncodingBasicModel = ImmutableNullEncodingModel(string: "hi", int: 1)
+private let immutableNullEncodingEmptyModel = ImmutableNullEncodingModel(string: nil, int: nil)
 
 private let basicTestJSON = """
 {
