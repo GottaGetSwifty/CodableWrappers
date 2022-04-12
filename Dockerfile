@@ -1,8 +1,8 @@
-FROM swift 
+ARG SWIFT_VERSION
+FROM swift:${SWIFT_VERSION}
 WORKDIR /app
-COPY Package.swift ./
-RUN swift package clean
-RUN swift package update
+COPY Package.swift Package.resolved ./
+RUN swift package --skip-update --force-resolved-versions resolve
 COPY ./ ./
 RUN swift build
 RUN swift test -v

@@ -3,10 +3,17 @@ matrix:
     - os: osx
       osx_image: xcode12
       env: SWIFT_VERSION=5.2
+    - os: osx
+      osx_image: xcode13.2
+      env: SWIFT_VERSION=5.6
+services:
+  - docker
 language: generic
 sudo: required
 dist: trusty
 script:
+  # Build & test with xcode-native tools
   - swift build
   - swift test
-
+  # Build & test with Docker
+  - docker build --build-arg SWIFT_VERSION=${SWIFT_VERSION} -t swifty:${SWIFT_VERSION} .
