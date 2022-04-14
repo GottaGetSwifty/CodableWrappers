@@ -25,6 +25,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build 5.2
-      run: SWIFT_VERSION=5.2 docker build --build-arg SWIFT_VERSION=${SWIFT_VERSION} -t swifty:${SWIFT_VERSION} .
+      run: export SWIFT_VERSION=5.2; podman build --build-arg SWIFT_VERSION=${SWIFT_VERSION} -t "swifty:${SWIFT_VERSION}" .;
     - name: Build 5.6
-      run: SWIFT_VERSION=5.6 docker build --build-arg SWIFT_VERSION=${SWIFT_VERSION} -t swifty:${SWIFT_VERSION} .
+      run: export SWIFT_VERSION=5.6; podman build --build-arg SWIFT_VERSION=${SWIFT_VERSION} -t "swifty:${SWIFT_VERSION}" .;
