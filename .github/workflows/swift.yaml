@@ -18,7 +18,7 @@ jobs:
     - name: Run tests
       run: swift test -v
 
-  build-docker:
+  build-docker-mssv:
 
     runs-on: ubuntu-latest
 
@@ -26,5 +26,12 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build 5.2
       run: export SWIFT_VERSION=5.2; podman build --build-arg SWIFT_VERSION=${SWIFT_VERSION} -t "swifty:${SWIFT_VERSION}" .;
+
+  build-docker-latest:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
     - name: Build 5.6
       run: export SWIFT_VERSION=5.6; podman build --build-arg SWIFT_VERSION=${SWIFT_VERSION} -t "swifty:${SWIFT_VERSION}" .;
