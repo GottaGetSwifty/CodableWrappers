@@ -11,11 +11,11 @@ import Nimble
 
 class DateDecodingTests: QuickSpec, DecodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("DateDecoding") {
-            //MARK: - JSONDecoder
+            // MARK: - JSONDecoder
             describe("JSONDecoder") {
-                //MARK: SecondsSince1970
+                // MARK: SecondsSince1970
                 it("SecondsSince1970") {
                     expect {_ = try self.jsonDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1790JSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1790JSON.data(using: .utf8)!)
@@ -24,7 +24,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         expect(actualModel) == secondsSince1790TestInstance
                     }
                 }
-                //MARK: SecondsSince1970
+                // MARK: SecondsSince1970
                 it("MillisecondsSince1970") {
                     expect {_ = try self.jsonDecoder.decode(MillisecondsSince1970TestModel.self, from: millisecondsSince1790JSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(MillisecondsSince1970TestModel.self, from: millisecondsSince1790JSON.data(using: .utf8)!)
@@ -33,7 +33,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         expect(actualModel) == millisecondsSince1790TestInstance
                     }
                 }
-                //MARK: ISO8601
+                // MARK: ISO8601
                 if #available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
                     it("ISO8601") {
                         expect {_ = try self.jsonDecoder.decode(ISO8601TestModel.self, from: iso8601JSON.data(using: .utf8)!)}.toNot(throwError())
@@ -52,7 +52,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         }
                     }
                 }
-                //MARK: CustomFormatter
+                // MARK: CustomFormatter
                 it("CustomFormatter") {
                     expect {_ = try self.jsonDecoder.decode(CustomFormatterTestModel.self, from: customFormatterJSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(CustomFormatterTestModel.self, from: customFormatterJSON.data(using: .utf8)!)
@@ -62,9 +62,9 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListDecoder
+            // MARK: - PListDecoder
             describe("PListDecoder") {
-                //MARK: SecondsSince1970
+                // MARK: SecondsSince1970
                 it("SecondsSince1970") {
                     expect {_ = try self.plistDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1790XML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1790XML.data(using: .utf8)!)
@@ -73,7 +73,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         expect(actualModel) == secondsSince1790TestInstance
                     }
                 }
-                //MARK: MillisecondsSince1970
+                // MARK: MillisecondsSince1970
                 it("MillisecondsSince1970") {
                     expect {_ = try self.plistDecoder.decode(MillisecondsSince1970TestModel.self, from: millisecondsSince1790XML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(MillisecondsSince1970TestModel.self, from: millisecondsSince1790XML.data(using: .utf8)!)
@@ -82,7 +82,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         expect(actualModel) == millisecondsSince1790TestInstance
                     }
                 }
-                //MARK: ISO8601
+                // MARK: ISO8601
                 if #available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
                     it("ISO8601") {
                         expect {_ = try self.plistDecoder.decode(ISO8601TestModel.self, from: iso8601XML.data(using: .utf8)!)}.toNot(throwError())
@@ -101,7 +101,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         }
                     }
                 }
-                //MARK: CustomFormatter
+                // MARK: CustomFormatter
                 it("CustomFormatter") {
                     expect {_ = try self.plistDecoder.decode(CustomFormatterTestModel.self, from: customFormatterXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(CustomFormatterTestModel.self, from: customFormatterXML.data(using: .utf8)!)
@@ -115,7 +115,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
     }
 }
 
-//MARK: - Seconds Since 1970 Mock Data
+// MARK: - Seconds Since 1970 Mock Data
 private struct SecondsSince1970TestModel: Codable, Equatable {
     @SecondsSince1970DateCoding
     var secondsSince1970Date: Date
@@ -137,7 +137,7 @@ private let secondsSince1790XML = """
 </plist>
 """
 
-//MARK: - Milliseconds Since 1970 Mock Data
+// MARK: - Milliseconds Since 1970 Mock Data
 private struct MillisecondsSince1970TestModel: Codable, Equatable {
 
     @MillisecondsSince1970DateCoding
@@ -161,7 +161,7 @@ private let millisecondsSince1790XML = """
 </plist>
 """
 
-//MARK: - ISO8601 Mock Data
+// MARK: - ISO8601 Mock Data
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 private struct ISO8601TestModel: Codable, Equatable {
     @ISO8601DateCoding
@@ -187,7 +187,7 @@ private let iso8601XML = """
 </plist>
 """
 
-//MARK: - Custom Mock Data
+// MARK: - Custom Mock Data
 private struct CustomFormatterTestModel: Codable, Equatable {
     @DateFormatterCoding<TestCustomDateFormatter>
     var customFormatDate: Date
@@ -209,7 +209,7 @@ private let customFormatterXML = """
 </plist>
 """
 
-//MARK: - Custom Formatter
+// MARK: - Custom Formatter
 private struct TestCustomDateFormatter: DateFormatterStaticCoder {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -218,7 +218,7 @@ private struct TestCustomDateFormatter: DateFormatterStaticCoder {
     }()
 }
 
-//MARK: - Custom ISO8601 Mock Data
+// MARK: - Custom ISO8601 Mock Data
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 private struct CustomISO8601FormatterTestModel: Codable, Equatable {
@@ -243,7 +243,7 @@ private let iso8601customFormatterXML = """
 </plist>
 """
 
-//MARK: - Custom ISO8601 Formatter
+// MARK: - Custom ISO8601 Formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 private struct TestCustomISO8601DateFormatter: ISO8601DateFormatterStaticCoder {
     static let iso8601DateFormatter: ISO8601DateFormatter = {

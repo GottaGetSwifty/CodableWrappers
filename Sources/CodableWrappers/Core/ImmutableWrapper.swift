@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - Immutable Wrapper
+// MARK: - Immutable Wrapper
 
 public protocol AnyImmutableWrapper {
     associatedtype T
@@ -25,9 +25,7 @@ public struct Immutable<T>: AnyImmutableWrapper {
     }
 }
 
-
-//MARK: - Conditional Equatable Conformances
-
+// MARK: - Conditional Equatable Conformances
 
 // TransientCodable will handle the (en/de)coding here when needed without adding additional layers
 extension Immutable: Encodable, TransientEncodable where T: Encodable { }
@@ -44,15 +42,16 @@ extension Immutable: OptionalEncodingWrapper where T: Encodable & ExpressibleByN
 
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
-    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: AnyImmutableWrapper, T.T: OptionalDecodingWrapper  {
+    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T
+                where T : Decodable, T: AnyImmutableWrapper, T.T: OptionalDecodingWrapper {
         return try decodeIfPresent(T.self, forKey: key) ?? T(wrappedValue: .init(wrappedValue: nil))
     }
 }
 
 extension KeyedEncodingContainer {
     // Used to make make sure OptionalCodingWrappers encode no value when it's wrappedValue is nil.
-    public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws where T: Encodable, T: AnyImmutableWrapper, T.T: OptionalEncodingWrapper  {
-
+    public mutating func encode<T>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws
+                where T: Encodable, T: AnyImmutableWrapper, T.T: OptionalEncodingWrapper {
         if case Optional<Any>.none = value.wrappedValue.wrappedValue as Any {
             return
         } else {
@@ -65,7 +64,8 @@ extension KeyedEncodingContainer {
 
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for `EmptyFallbackDecodableWrapper` to allow a value to avoid a missing key Error
-    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T where T : Decodable, T: AnyImmutableWrapper, T.T: FallbackDecodingWrapper {
+    public func decode<T>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> T
+            where T : Decodable, T: AnyImmutableWrapper, T.T: FallbackDecodingWrapper {
         return try decodeIfPresent(T.self, forKey: key) ?? T(wrappedValue: T.T(wrappedValue: T.T.ValueProvider.defaultValue))
     }
 }

@@ -7,9 +7,9 @@
 
 import Foundation
 
-//MARK: - Non-Conforming Floating Point
+// MARK: - Non-Conforming Floating Point
 
-//MARK: Float
+// MARK: Float
 
 /// Use the values in `ValueProvider` when encoding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingFloatEncoding<ValueProvider: NonConformingDecimalValueProvider> = EncodingUses<NonConformingFloatStaticCoder<ValueProvider>>
@@ -17,10 +17,8 @@ public typealias NonConformingFloatEncoding<ValueProvider: NonConformingDecimalV
 public typealias NonConformingFloatDecoding<ValueProvider: NonConformingDecimalValueProvider> = DecodingUses<NonConformingFloatStaticCoder<ValueProvider>>
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingFloatCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingFloatStaticCoder<ValueProvider>>
-/// Use the values in `ValueProvider` when (en/de)coding this immutable Optional Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 
-
-//MARK: Double
+// MARK: Double
 
 /// Use the values in `ValueProvider` when encoding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingDoubleEncoding<ValueProvider: NonConformingDecimalValueProvider> = EncodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
@@ -29,10 +27,9 @@ public typealias NonConformingDoubleDecoding<ValueProvider: NonConformingDecimal
 /// Use the values in `ValueProvider` when (en/de)coding this immutable Property with non-conforming numbers, also known as IEEE 754 exceptional values.
 public typealias NonConformingDoubleCoding<ValueProvider: NonConformingDecimalValueProvider> = CodingUses<NonConformingDoubleStaticCoder<ValueProvider>>
 
+// MARK: - Data
 
-//MARK: - Data
-
-//MARK: Base64
+// MARK: Base64
 
 /// Encode this immutable `Data` Property as a Base64 encoded String
 public typealias Base64Encoding = EncodingUses<Base64DataStaticCoder>
@@ -41,10 +38,9 @@ public typealias Base64Decoding = DecodingUses<Base64DataStaticCoder>
 /// (En/De)code this immutable `Data` Property as a Base64 encoded String
 public typealias Base64Coding = CodingUses<Base64DataStaticCoder>
 
+// MARK: - Date
 
-//MARK: - Date
-
-//MARK: millisecondsSince1970
+// MARK: millisecondsSince1970
 
 /// Encode this immutable `Date` Property using millisecondsSince1970
 public typealias MillisecondsSince1970DateEncoding = EncodingUses<MillisecondsSince1970DateStaticCoder>
@@ -53,8 +49,7 @@ public typealias MillisecondsSince1970DateDecoding = DecodingUses<MillisecondsSi
 /// (En/De)code this immutable `Date` Property using millisecondsSince1970
 public typealias MillisecondsSince1970DateCoding = CodingUses<MillisecondsSince1970DateStaticCoder>
 
-
-//MARK: secondsSince1970
+// MARK: secondsSince1970
 
 /// Encode this immutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateEncoding = EncodingUses<SecondsSince1970DateStaticCoder>
@@ -63,7 +58,7 @@ public typealias SecondsSince1970DateDecoding = DecodingUses<SecondsSince1970Dat
 /// (En/De)code this immutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateCoding = CodingUses<SecondsSince1970DateStaticCoder>
 
-//MARK: ISO8601Date
+// MARK: ISO8601Date
 
 /// Encode this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
@@ -75,8 +70,7 @@ public typealias ISO8601DateDecoding = DecodingUses<ISO8601DateStaticCoder>
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public typealias ISO8601DateCoding = CodingUses<ISO8601DateStaticCoder>
 
-
-//MARK: CustomISO8601Date
+// MARK: CustomISO8601Date
 
 /// Encode this immutable `Date` Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
@@ -89,8 +83,7 @@ public typealias ISO8601DateFormatterDecoding<CustomDecoder: ISO8601DateFormatte
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public typealias ISO8601DateFormatterCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUses<CustomCoder>
 
-
-//MARK: DateFormatter
+// MARK: DateFormatter
 
 /// Encode this immutable `Date` Property using the passed formatter
 public typealias DateFormatterEncoding<CustomEncoder: DateFormatterStaticEncoder> = EncodingUses<CustomEncoder>
@@ -99,10 +92,9 @@ public typealias DateFormatterDecoding<CustomDecoder: DateFormatterStaticDecoder
 /// (En/De)code this immutable `Date` Property using the passed formatter
 public typealias DateFormatterCoding<CustomCoder: DateFormatterStaticCoder> = CodingUses<CustomCoder>
 
+// MARK: - Bool
 
-//MARK: - Bool
-
-//MARK: NonConformingBool
+// MARK: NonConformingBool
 
 /// Encode this immutable `Bool` Property using the passed NonConformingBoolValueProvider
 public typealias NonConformingBoolEncoding<ValueProvider: NonConformingBoolValueProvider> = EncodingUses<NonConformingBoolStaticCoder<ValueProvider>>
@@ -111,8 +103,7 @@ public typealias NonConformingBoolDecoding<ValueProvider: NonConformingBoolValue
 /// (En/De)code this immutable `Bool` Property using the passed NonConformingBoolValueProvider
 public typealias NonConformingBoolCoding<ValueProvider: NonConformingBoolValueProvider> = CodingUses<NonConformingBoolStaticCoder<ValueProvider>>
 
-
-//MARK: BoolAsInteger
+// MARK: BoolAsInteger
 
 /// Convenience typealias
 public typealias BoolAsIntegerStaticCoder<ValueType: FixedWidthInteger & Codable> = NonConformingBoolStaticCoder<BoolAsIntegerValueProvider<ValueType>>
@@ -124,8 +115,7 @@ public typealias BoolFromIntegerDecoding<ValueType: FixedWidthInteger & Codable>
 /// (En/De)code this immutable `Bool` Property as passed Integer Type using 1 as true and 0 as false
 public typealias BoolAsIntegerCoding<ValueType: FixedWidthInteger & Codable> = CodingUses<BoolAsIntegerStaticCoder<ValueType>>
 
-
-//MARK: BoolAsInt
+// MARK: BoolAsInt
 
 /// Encode this immutable `Bool` Property as an Int using 1 as true and 0 as false
 public typealias BoolAsIntEncoding = BoolAsIntegerEncoding<Int>
@@ -133,7 +123,6 @@ public typealias BoolAsIntEncoding = BoolAsIntegerEncoding<Int>
 public typealias BoolFromIntDecoding = BoolFromIntegerDecoding<Int>
 /// (En/De)code this immutable `Bool` Property as an Int using 1 as true and 0 as false
 public typealias BoolAsIntCoding = BoolAsIntegerCoding<Int>
-
 
 /// Convenience typealias
 public typealias BoolAsStringStaticCoder = NonConformingBoolStaticCoder<BoolAsStringValueProvider>
@@ -145,8 +134,7 @@ public typealias BoolFromStringDecoding = DecodingUses<BoolAsStringStaticCoder>
 /// (En/De)code this immutable `Bool` Property a String using "true" for true and "false" for false
 public typealias BoolAsStringCoding = CodingUses<BoolAsStringStaticCoder>
 
-
-//MARK: NilFiltering
+// MARK: NilFiltering
 
 /// Filters any nil values when decoding
 public typealias LossyArrayDecoding<T: Decodable> = DecodingUses<ArrayNilFilteringStaticDecoder<T>>
@@ -157,8 +145,7 @@ public typealias LossySetDecoding<T: Decodable & Hashable> = DecodingUses<SetNil
 /// Filters any nil values when decoding
 public typealias LossyDictionaryDecoding<T: Decodable, Key: Decodable & Hashable> = DecodingUses<DictionaryNilFilteringStaticDecoder<T, Key>>
 
-
-//MARK: NullEncoding
+// MARK: NullEncoding
 
 /// Encodes a nil value in a singleValueContainer using `encodeNil` rather than it being omitted.
 public typealias EncodeNulls<T: Encodable & ExpressibleByNilLiteral> = EncodingUses<NullStaticEncoder<T>>

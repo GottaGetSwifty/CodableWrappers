@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /// A provider for the data needed for (de)serializing non conforming floating point values
 public protocol NonConformingDecimalValueProvider {
     /// The seralized `String` value to use when a number of `infiniti`
@@ -41,23 +40,18 @@ public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalV
 
     public static func encode(value: Float, to encoder: Encoder) throws {
 
-        //For some reason the switch with nan doesn't work 🤷‍♂️ as of Swift 5.2
+        // For some reason the switch with nan doesn't work 🤷‍♂️ as of Swift 5.2
         if value.isNaN {
             return try ValueProvider.nan.encode(to: encoder)
-        }
-        else if value == Float.infinity {
+        } else if value == Float.infinity {
             return try ValueProvider.positiveInfinity.encode(to: encoder)
-        }
-        else if value == -Float.infinity {
+        } else if value == -Float.infinity {
             return try ValueProvider.negativeInfinity.encode(to: encoder)
-        }
-        else {
+        } else {
             try value.encode(to: encoder)
         }
     }
 }
-
-
 
 /// Uses the `ValueProvider` for (de)serialization of a non-conforming `Double`
 public struct NonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimalValueProvider>: StaticCoder {
@@ -82,17 +76,14 @@ public struct NonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimal
 
     public static func encode(value: Double, to encoder: Encoder) throws {
 
-        //For some reason the switch with nan doesn't work 🤷‍♂️ as of Swift 5.2
+        // For some reason the switch with nan doesn't work 🤷‍♂️ as of Swift 5.2
         if value.isNaN {
             return try ValueProvider.nan.encode(to: encoder)
-        }
-        else if value == Double.infinity {
+        } else if value == Double.infinity {
             return try ValueProvider.positiveInfinity.encode(to: encoder)
-        }
-        else if value == -Double.infinity {
+        } else if value == -Double.infinity {
             return try ValueProvider.negativeInfinity.encode(to: encoder)
-        }
-        else {
+        } else {
             try value.encode(to: encoder)
         }
     }

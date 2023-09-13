@@ -7,8 +7,7 @@
 
 import Foundation
 
-//MARK: - OmitWrappers
-
+// MARK: - OmitWrappers
 
 /// Add this to an Optional Property to not included it when Encoding or Decoding
 @propertyWrapper
@@ -40,8 +39,7 @@ public struct OmitCoding<WrappedType: Codable>: OmitableFromCoding {
     }
 }
 
-
-//MARK: - OmitCoding protocols
+// MARK: - OmitCoding protocols
 
 /// Protocol to indicate instances should be skipped when encoding
 public protocol OmitableFromEncoding: Encodable { }
@@ -87,17 +85,14 @@ extension OmitEncoding: Decodable, TransientDecodable where WrappedType: Decodab
 /// This makes sure the encoding isn't altered by adding this Wrapper
 extension OmitDecoding: Encodable, TransientEncodable where WrappedType: Encodable { }
 
-
-
-//MARK: - Conditional Equatable Conformance
+// MARK: - Conditional Equatable Conformance
 
 extension OmitEncoding: Equatable where WrappedType: Equatable { }
 extension OmitDecoding: Equatable where WrappedType: Equatable { }
 extension OmitCoding: Equatable where WrappedType: Equatable { }
 
-//MARK: - Conditional Hashable Conformance
+// MARK: - Conditional Hashable Conformance
 
 extension OmitEncoding: Hashable where WrappedType: Hashable { }
 extension OmitDecoding: Hashable where WrappedType: Hashable { }
 extension OmitCoding: Hashable where WrappedType: Hashable { }
-

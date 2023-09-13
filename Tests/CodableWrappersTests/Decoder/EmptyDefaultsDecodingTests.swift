@@ -14,11 +14,11 @@ import UIKit
 @available(iOS 14.0, *)
 class EmptyDefaultsDecodingTests: QuickSpec, DecodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("DefaultDecoding") {
-            //MARK: - JSONDecoder
+            // MARK: - JSONDecoder
             context("JSONDecoder") {
-                //MARK: DefaultDecoder
+                // MARK: DefaultDecoder
                 describe("DefaultDecoder") {
                     describe("WhenJSONEmpty") {
                         it("DecodesDefault") {

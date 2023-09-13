@@ -27,18 +27,18 @@ extension CodingTestSpec {
 }
 
 protocol DecodingTestSpec: CodingTestSpec {
-    var jsonDecoder: JSONDecoder { get }
-    var plistDecoder: PropertyListDecoder { get }
+    static var jsonDecoder: JSONDecoder { get }
+    static var plistDecoder: PropertyListDecoder { get }
 }
 
 extension DecodingTestSpec {
-    var jsonDecoder: JSONDecoder {
+    static var jsonDecoder: JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         return decoder
     }
 
-    var plistDecoder: PropertyListDecoder {
+    static var plistDecoder: PropertyListDecoder {
         let decoder = PropertyListDecoder()
         return decoder
     }

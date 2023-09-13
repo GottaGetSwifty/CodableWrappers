@@ -12,11 +12,11 @@ import Nimble
 
 class CustomFloatingPointEncoderTests: QuickSpec, EncodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("CustomFloatingPointEncoding") {
-            //MARK: - JSONEncoder
+            // MARK: - JSONEncoder
             context("JSONEncoder") {
-                //MARK: CustomFloat
+                // MARK: CustomFloat
                 it("CustomFloat") {
                     expect {_ = try self.jsonEncoder.encode(floatTestModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(floatTestModel)
@@ -27,7 +27,7 @@ class CustomFloatingPointEncoderTests: QuickSpec, EncodingTestSpec {
                         expect(actualString).to(haveEqualLines(to: floatTestJSON))
                     }
                 }
-                //MARK: CustomDouble
+                // MARK: CustomDouble
                 it("CustomDouble") {
                     expect {_ = try self.jsonEncoder.encode(floatTestModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(floatTestModel)
@@ -40,9 +40,9 @@ class CustomFloatingPointEncoderTests: QuickSpec, EncodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListEncoder
+            // MARK: - PListEncoder
             context("PListEncoder") {
-                //MARK: CustomFloat
+                // MARK: CustomFloat
                 it("CustomFloat") {
                     expect {_ = try self.plistEncoder.encode(doubleTestModel)}.toNot(throwError())
                     let encodedData = try? self.plistEncoder.encode(doubleTestModel)
@@ -54,7 +54,7 @@ class CustomFloatingPointEncoderTests: QuickSpec, EncodingTestSpec {
                         expect(actualString).to(haveEqualLines(to: doubleTestXML))
                     }
                 }
-                //MARK: CustomDouble
+                // MARK: CustomDouble
                 it("CustomDouble") {
                     expect {_ = try self.plistEncoder.encode(doubleTestModel)}.toNot(throwError())
                     let encodedData = try? self.plistEncoder.encode(doubleTestModel)
@@ -87,10 +87,10 @@ private struct TestFloatModel: Codable, Equatable {
 
 private let floatTestJSON = """
 {
-    "nan" : "-1",
     "infinity" : "100",
-    "regular" : 5,
-    "negativeInfinity" : "-100"
+    "nan" : "-1",
+    "negativeInfinity" : "-100",
+    "regular" : 5
 }
 """
 
@@ -126,8 +126,8 @@ private struct TestDoubleModel: Codable, Equatable {
 
 private let doubleTestJSON = """
 {
-    "nan" : "-1,
     "infinity" : "100",
+    "nan" : "-1,
     "regular" : 5,
     "negativeInfinity" : "-100"
 }
@@ -150,7 +150,7 @@ private let doubleTestXML = """
 </plist>
 """
 
-//MARK: - FloatValueProvider
+// MARK: - FloatValueProvider
 
 private struct NonConformingValueProvider: NonConformingDecimalValueProvider {
     static var positiveInfinity: String = "100"

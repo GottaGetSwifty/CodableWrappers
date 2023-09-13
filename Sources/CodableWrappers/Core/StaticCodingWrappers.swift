@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - Custom Coding Property Wrappers
+// MARK: - Custom Coding Property Wrappers
 
 /// Customize the encoding of a property using the `CustomEncoder`
 @propertyWrapper
@@ -41,7 +41,7 @@ public struct CodingUses<CustomCoder: StaticCoder>: StaticCodingWrapper {
     }
 }
 
-//MARK: - Static Coding Wrapper Protocols
+// MARK: - Static Coding Wrapper Protocols
 
 /// Contract for a Static Encoding Property Wrapper
 /// This allows multiple wrappers to use the same `encode(to encoder: Encoder)` rather than reimplementing it.
@@ -77,21 +77,20 @@ public protocol StaticCodingWrapper: StaticEncoderWrapper & StaticDecoderWrapper
     associatedtype CustomCoder: StaticCoder
 }
 
-//MARK: Enable Customizing one direction
+// MARK: Enable Customizing one direction
 
 /// Ensures there isn't an extra level added
 extension EncodingUses: Decodable, TransientDecodable where CustomEncoder.OriginalType: Decodable { }
 /// Ensures there isn't an extra level added
 extension DecodingUses: Encodable, TransientEncodable where CustomDecoder.DecodedType: Encodable { }
 
-
-//MARK: - Conditional Equatable Conformance
+// MARK: - Conditional Equatable Conformance
 
 extension EncodingUses: Equatable where CustomEncoder.OriginalType: Equatable {}
 extension DecodingUses: Equatable where CustomDecoder.DecodedType: Equatable {}
 extension CodingUses: Equatable where CustomCoder.CodingType: Equatable {}
 
-//MARK: - Conditional Hashable Conformance
+// MARK: - Conditional Hashable Conformance
 
 extension EncodingUses: Hashable where CustomEncoder.OriginalType: Hashable {}
 extension DecodingUses: Hashable where CustomDecoder.DecodedType: Hashable {}

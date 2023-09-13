@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /// Uses Base64 for (de)serailization of `Data`
 public struct Base64DataStaticCoder: StaticCoder {
 
@@ -16,8 +15,9 @@ public struct Base64DataStaticCoder: StaticCoder {
         let stringValue = try String(from: decoder)
 
         guard let value = Data.init(base64Encoded: stringValue) else {
+            let debugDescription = "Expected \(Data.self) but could not convert \(stringValue) to Data"
             throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: "Expected \(Data.self) but could not convert \(stringValue) to Data"))
+                                                                           debugDescription: debugDescription))
         }
         return value
     }

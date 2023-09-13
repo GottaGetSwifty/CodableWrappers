@@ -38,7 +38,6 @@ public struct BoolAsStringValueProvider: NonConformingBoolValueProvider {
     static public func value(for boolean: Bool) -> String { boolean ? "true" : "false"}
 }
 
-
 /// Uses the passed ValueProvider for (de)serailization of `Bool?`
 public struct NonConformingBoolStaticCoder<ValueProvider: NonConformingBoolValueProvider>: StaticCoder {
 
@@ -46,8 +45,7 @@ public struct NonConformingBoolStaticCoder<ValueProvider: NonConformingBoolValue
         let encodedTypeValue = try ValueProvider.EncodedType(from: decoder)
         if let convertedValue = ValueProvider.value(for: encodedTypeValue) {
             return convertedValue
-        }
-        else {
+        } else {
             throw DecodingError.typeMismatch(Bool.self, DecodingError.Context(codingPath: decoder.codingPath,
                                                                               debugDescription: "Failed to convert \(ValueProvider.EncodedType.self) to Bool"))
         }

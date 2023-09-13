@@ -1,28 +1,66 @@
-// swift-tools-version:5.2
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
     name: "CodableWrappers",
+    platforms: [.macOS(.v11), .iOS(.v14), .tvOS(.v14), .watchOS(.v7), .macCatalyst(.v14), .visionOS(.v1)],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "CodableWrappers",
             targets: ["CodableWrappers"]),
+//        .library(
+//            name: "CodableMacros",
+//            targets: ["CodableMacros"]
+//        ),
+//        .executable(
+//            name: "TestClient",
+//            targets: ["TestClient"]
+//        ),
     ],
     dependencies: [
-        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "9.0.0")),
-        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
+        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "12.0.0")),
+        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "7.0.0")),
+        // swiftlint is kinda big to pull in and build right now...maybe later
+//        .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.52.0")),
+        // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.0-swift-DEVELOPMENT-SNAPSHOT-2023-08-15-a"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "CodableWrappers",
-            dependencies: []),
+            dependencies: ["CodableWrapperMacros"]),
+//            plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]),
+
         .testTarget(
             name: "CodableWrappersTests",
             dependencies: ["CodableWrappers", "Quick", "Nimble"]),
+
+        .macro(
+            name: "CodableWrapperMacros",
+            dependencies: [
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+            ]
+        ),
+
+        // This is really just one file. Keeping it separate for faster development/testing
+//        .target(name: "CodableMacros", dependencies: ["CodableWrapperMacros"]),
+
+        // A client of the library, which is able to use the macro in its own code.
+//        .executableTarget(name: "TestClient", dependencies: ["CodableMacros"]),
+
+        // A test target used to develop the macro implementation.
+        .testTarget(
+            name: "CodableWrapperMacrosTests",
+            dependencies: [
+                "CodableWrapperMacros",
+                "Quick", "Nimble",
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+            ]
+        ),
     ]
 )

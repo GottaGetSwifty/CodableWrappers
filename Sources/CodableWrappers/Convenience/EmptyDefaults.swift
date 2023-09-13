@@ -92,15 +92,13 @@ public struct EmptyFloat16: FallbackValueProvider {
 
 /// Empty FallbackValueProvider for Array: []
 public struct EmptyArray<T>: FallbackValueProvider {
-    public static var defaultValue: Array<T> { [] }
+    public static var defaultValue: [T] { [] }
 }
 /// Empty FallbackValueProvider for Dictionary: [:]
 public struct EmptyDictionary<Key: Hashable, Value>: FallbackValueProvider {
-    public static var defaultValue: Dictionary<Key, Value> { [:] }
+    public static var defaultValue: [Key: Value] { [:] }
 }
 /// Empty FallbackValueProvider for Set: []
 public struct EmptySet<T: Hashable>: FallbackValueProvider {
     public static var defaultValue: Set<T> { [] }
 }
-
-

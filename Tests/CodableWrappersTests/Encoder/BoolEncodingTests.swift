@@ -11,11 +11,11 @@ import Nimble
 
 class BoolEncodingTests: QuickSpec, EncodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("BoolEncoding") {
-            //MARK: - JSONEncoder
+            // MARK: - JSONEncoder
             context("JSONEncoder") {
-                //MARK: BoolAsInt
+                // MARK: BoolAsInt
                 describe("BoolAsInt") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.jsonEncoder.encode(boolTrueAsIntTestModel)}.toNot(throwError())
@@ -40,7 +40,7 @@ class BoolEncodingTests: QuickSpec, EncodingTestSpec {
                         }
                     }
                 }
-                //MARK: BoolAsString
+                // MARK: BoolAsString
                 describe("BoolAsString") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.jsonEncoder.encode(boolTrueAsStringTestModel)}.toNot(throwError())
@@ -66,9 +66,9 @@ class BoolEncodingTests: QuickSpec, EncodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListEncoder
+            // MARK: - PListEncoder
             context("PListEncoder") {
-                //MARK: BoolAsInt
+                // MARK: BoolAsInt
                 describe("BoolAsInt") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.plistEncoder.encode(boolTrueAsIntTestModel)}.toNot(throwError())
@@ -93,7 +93,7 @@ class BoolEncodingTests: QuickSpec, EncodingTestSpec {
                         }
                     }
                 }
-                //MARK: BoolAsString
+                // MARK: BoolAsString
                 describe("BoolAsString") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.plistEncoder.encode(boolTrueAsStringTestModel)}.toNot(throwError())

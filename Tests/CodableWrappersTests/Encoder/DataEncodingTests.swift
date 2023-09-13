@@ -11,11 +11,11 @@ import Nimble
 
 class DataEncodingTests: QuickSpec, EncodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("DataEncoding") {
-            //MARK: - JSONEncoder
+            // MARK: - JSONEncoder
             context("JSONEncoder") {
-                //MARK: Base64
+                // MARK: Base64
                 it("Base64") {
                     expect {_ = try self.jsonEncoder.encode(base64TestModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(base64TestModel)
@@ -27,7 +27,7 @@ class DataEncodingTests: QuickSpec, EncodingTestSpec {
                         expect(actualString).to(haveEqualLines(to: base64TestJSON))
                     }
                 }
-                //MARK: Custom
+                // MARK: Custom
                 it("CustomEncoder") {
                     expect {_ = try self.jsonEncoder.encode(customDataTestModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(customDataTestModel)
@@ -40,9 +40,9 @@ class DataEncodingTests: QuickSpec, EncodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListEncoder
+            // MARK: - PListEncoder
             context("PListEncoder") {
-                //MARK: Base64
+                // MARK: Base64
                 it("Base64") {
                     expect {_ = try self.plistEncoder.encode(base64TestModel)}.toNot(throwError())
                     let encodedData = try? self.plistEncoder.encode(base64TestModel)
@@ -54,7 +54,7 @@ class DataEncodingTests: QuickSpec, EncodingTestSpec {
                         expect(actualString).to(haveEqualLines(to: base64TestXML))
                     }
                 }
-                //MARK: Custom
+                // MARK: Custom
                 it("CustomEncoder") {
                     expect {_ = try self.plistEncoder.encode(customDataTestModel)}.toNot(throwError())
                     let encodedData = try? self.plistEncoder.encode(customDataTestModel)
@@ -120,7 +120,7 @@ private let customTestXML = """
 </plist>
 """
 
-//MARK: - Custom Coder
+// MARK: - Custom Coder
 private struct CustomBase64Coder: StaticCoder {
 
     static func decode(from decoder: Decoder) throws -> Data {
