@@ -72,11 +72,11 @@ public typealias OptionalCodable = OptionalDecodable & OptionalEncodable
 
 /// Wraps `StaticEncoderWrapper` generically to allow the wrapped property to be Optional
 @propertyWrapper
-public struct OptionalEncoding<CustomDecoderWrapper: StaticEncoderWrapper>: OptionalEncodable {
-    public typealias EncoderWrapper = CustomDecoderWrapper
+public struct OptionalEncoding<CustomEncoderWrapper: StaticEncoderWrapper>: OptionalEncodable {
+    public typealias EncoderWrapper = CustomEncoderWrapper
 
-    public var wrappedValue: CustomDecoderWrapper.CustomEncoder.OriginalType?
-    public init(wrappedValue: CustomDecoderWrapper.CustomEncoder.OriginalType?) {
+    public var wrappedValue: CustomEncoderWrapper.CustomEncoder.OriginalType?
+    public init(wrappedValue: CustomEncoderWrapper.CustomEncoder.OriginalType?) {
         self.wrappedValue = wrappedValue
     }
 }
@@ -108,18 +108,18 @@ public struct OptionalCoding<CustomCoderWrapper: StaticCodingWrapper>: OptionalC
 // MARK: Enable Customizing one direction
 
 /// Ensures there isn't an extra level added
-extension OptionalEncoding: Decodable, TransientDecodable where CustomDecoderWrapper.CustomEncoder.OriginalType: Decodable { }
+extension OptionalEncoding: Decodable, TransientDecodable where CustomEncoderWrapper.CustomEncoder.OriginalType: Decodable { }
 /// Ensures there isn't an extra level added
 extension OptionalDecoding: Encodable, TransientEncodable where CustomDecoderWrapper.CustomDecoder.DecodedType: Encodable { }
 
 // MARK: Conditional Equatable Conformance
 
-extension OptionalEncoding: Equatable where CustomDecoderWrapper.CustomEncoder.OriginalType: Equatable {}
+extension OptionalEncoding: Equatable where CustomEncoderWrapper.CustomEncoder.OriginalType: Equatable {}
 extension OptionalDecoding: Equatable where CustomDecoderWrapper.CustomDecoder.DecodedType: Equatable {}
 extension OptionalCoding: Equatable where CustomCoderWrapper.CustomEncoder.OriginalType: Equatable {}
 
 // MARK: Conditional Hashable Conformance
 
-extension OptionalEncoding: Hashable where CustomDecoderWrapper.CustomEncoder.OriginalType: Hashable {}
+extension OptionalEncoding: Hashable where CustomEncoderWrapper.CustomEncoder.OriginalType: Hashable {}
 extension OptionalDecoding: Hashable where CustomDecoderWrapper.CustomDecoder.DecodedType: Hashable {}
 extension OptionalCoding: Hashable where CustomCoderWrapper.CustomEncoder.OriginalType: Hashable {}

@@ -1,0 +1,8 @@
+version: 1
+metadata:
+  authors: “Written by PJ Fechner and other contributors.”
+swift_version: 5.9
+builder:
+  configs:
+    - documentation_targets: [CodableWrappers]
+      swift_version: 5.9

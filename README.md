@@ -1,8 +1,7 @@
 # CodableWrappers
 
-[![Swift Package Manager](https://img.shields.io/badge/swift%20package%20manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
-![Platforms](https://img.shields.io/static/v1?label=Platforms&message=iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux&color=brightgreen)
-[![Build Status](https://travis-ci.org/GottaGetSwifty/CodableWrappers.svg?branch=master)](https://travis-ci.org/GottaGetSwifty/CodableWrappers)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FGottaGetSwifty%2FCodableWrappers%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/GottaGetSwifty/CodableWrappers)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FGottaGetSwifty%2FCodableWrappers%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/GottaGetSwifty/CodableWrappers)
 
 ## Simplified Serialization with [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md)
 
