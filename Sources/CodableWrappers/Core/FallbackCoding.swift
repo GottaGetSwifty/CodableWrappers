@@ -7,9 +7,9 @@
 
 import Foundation
 
-//MARK: - FallbackWrappers
+// MARK: - FallbackWrappers
 
-//MARK: Protocols
+// MARK: Protocols
 
 /// Contract for providing a default value of a Type
 public protocol FallbackValueProvider {
@@ -50,8 +50,7 @@ extension FallbackDecodingWrapper {
 
 public typealias FallbackCodingWrapper = FallbackEncodingWrapper & FallbackDecodingWrapper
 
-//MARK: Wrappers
-
+// MARK: Wrappers
 
 /// If `wrappedValue` is nil encodes the `ValueProvider.defaultValue` value.
 /// - Note: WrappedType must be Optional or encoding is irrelevant. Use`FallbackDecoding` for decoding-only cases
@@ -101,24 +100,21 @@ extension KeyedDecodingContainer {
     }
 }
 
-//MARK: Enable Customizing one direction
+// MARK: Enable Customizing one direction
 
 /// Ensures there isn't an extra level added
 extension FallbackEncoding: Decodable, TransientDecodable where ValueProvider.ValueType: Decodable { }
 /// Ensures there isn't an extra level added
 extension FallbackDecoding: Encodable, TransientEncodable where ValueProvider.ValueType: Encodable { }
 
-
-//MARK: Conditional Equatable Conformance
+// MARK: Conditional Equatable Conformance
 
 extension FallbackEncoding: Equatable where ValueProvider.ValueType: Equatable {}
 extension FallbackDecoding: Equatable where ValueProvider.ValueType: Equatable {}
 extension FallbackCoding: Equatable where ValueProvider.ValueType: Equatable {}
 
-//MARK: Conditional Hashable Conformance
+// MARK: Conditional Hashable Conformance
 
 extension FallbackEncoding: Hashable where ValueProvider.ValueType: Hashable {}
 extension FallbackDecoding: Hashable where ValueProvider.ValueType: Hashable {}
 extension FallbackCoding: Hashable where ValueProvider.ValueType: Hashable {}
-
-

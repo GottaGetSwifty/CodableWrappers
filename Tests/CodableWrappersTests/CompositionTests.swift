@@ -11,7 +11,7 @@ import Quick
 import Nimble
 
 class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
-    override func spec() {
+    override class func spec() {
         describe("Composition") {
             context("JSONEncoding") {
                 it("WithBasicModel") {
@@ -142,12 +142,12 @@ private let emptyModel = CompositionTestModel(mutableTime: Date(timeIntervalSinc
 
 private let basicJSON = """
 {
-    "immutableTime" : 590277534,
-    "plainImmutable" : "Hi",
-    "optionalImmutableTime" : 590277534,
     "duration" : 1,
+    "immutableTime" : 590277534,
     "mutableTime" : 590277534,
+    "optionalImmutableTime" : 590277534,
     "optionalTime" : 590277534,
+    "plainImmutable" : "Hi",
     "plainOptionalImmutable" : "There"
 }
 """
@@ -177,10 +177,10 @@ private let basicXML = """
 
 private let missingOptionalJSON = """
 {
-    "plainImmutable" : "",
     "duration" : 0,
+    "immutableTime" : 590277534,
     "mutableTime" : 590277534,
-    "immutableTime" : 590277534
+    "plainImmutable" : ""
 }
 """
 

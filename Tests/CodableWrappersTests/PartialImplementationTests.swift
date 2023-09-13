@@ -11,7 +11,7 @@ import Quick
 import Nimble
 
 class CompositionTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
-    override func spec() {
+    override class func spec() {
         describe("StaticCoder") {
             context("OnlyCustomDecoding") {
                 it("EncodesWithDefault") {

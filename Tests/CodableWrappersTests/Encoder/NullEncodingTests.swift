@@ -11,11 +11,11 @@ import Nimble
 
 class NullEncodingTests: QuickSpec, EncodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("NullEncodingTests") {
-            //MARK: - JSONEncoder
+            // MARK: - JSONEncoder
             context("JSONEncoder") {
-                //MARK: BoolAsInt
+                // MARK: BoolAsInt
                 it("EncodesValues") {
                     expect {_ = try self.jsonEncoder.encode(nullEncodingBasicModel)}.toNot(throwError())
                     let encodedData = try? self.jsonEncoder.encode(nullEncodingBasicModel)
@@ -39,7 +39,7 @@ class NullEncodingTests: QuickSpec, EncodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListEncoder
+            // MARK: - PListEncoder
         }
         describe("ImmutableNullEncodingTests") {
             context("JSONEncoder") {
@@ -100,8 +100,8 @@ private let immutableNullEncodingEmptyModel = ImmutableNullEncodingModel(string:
 
 private let basicTestJSON = """
 {
-    "string" : "hi",
-    "int" : 1
+    "int" : 1,
+    "string" : "hi"
 }
 """
 
@@ -121,8 +121,8 @@ private let basicTextXML = """
 
 private let nullsTestJSON = """
 {
-"string" : null,
-"int" : null
+"int" : null,
+"string" : null
 }
 """
 

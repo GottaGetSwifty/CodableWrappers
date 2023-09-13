@@ -11,11 +11,11 @@ import Nimble
 
 class OptionalDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("OptionalDecoding") {
-            //MARK: - JSONDecoder
+            // MARK: - JSONDecoder
             context("JSONDecoder") {
-                //MARK: OmitCodingWhenNil
+                // MARK: OmitCodingWhenNil
                 describe("TransientCoding") {
                     it("HasNoValue") {
                         expect {_ = try self.jsonDecoder.decode(TransientModel.self, from: Self.emptyJSON.data(using: .utf8)!)}.toNot(throwError())
@@ -106,9 +106,9 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListDecoder
+            // MARK: - PListDecoder
             context("PListDecoder") {
-                //MARK: OmitCodingWhenNil
+                // MARK: OmitCodingWhenNil
                 describe("OmitCodingWhenNil") {
                     it("HasNoValue") {
                         expect {_ = try self.plistDecoder.decode(TransientModel.self, from: Self.emptyPList.data(using: .utf8)!)}.toNot(throwError())
@@ -247,7 +247,7 @@ private let emptyTestWithDataXML = """
 </plist>
 """
 
-//MARK: - OmitCoding Mock Data
+// MARK: - OmitCoding Mock Data
 
 private struct OmitCodingTestModel: Codable, Equatable {
     @OmitCoding
@@ -288,7 +288,7 @@ private let omitCodingEmptyTestWithNullXML = """
 </plist>
 """
 
-//MARK: - OmitDecding Mock Data
+// MARK: - OmitDecding Mock Data
 
 private struct OmitDecodingTestModel: Codable, Equatable {
     @OmitDecoding

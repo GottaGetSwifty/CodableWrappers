@@ -5,7 +5,7 @@
 
 import Foundation
 
-//MARK: - OptionalWrapper
+// MARK: - OptionalWrapper
 
 public protocol OptionalEncodingWrapper {
     associatedtype WrappedType: ExpressibleByNilLiteral
@@ -18,7 +18,6 @@ public protocol OptionalDecodingWrapper {
 }
 /// Protocol for a PropertyWrapper to properly handle Coding when the wrappedValue is Optional
 public typealias OptionalCodingWrapper = OptionalEncodingWrapper & OptionalDecodingWrapper
-
 
 extension KeyedDecodingContainer {
     // This is used to override the default decoding behavior for OptionalWrapper to avoid a missing key Error
@@ -39,7 +38,7 @@ extension KeyedEncodingContainer {
     }
 }
 
-//MARK: - OptionalCoding and Wrapper
+// MARK: - OptionalCoding and Wrapper
 
 /// Contract for a Type that wraps a StaticEncoder and makes it usable when the WrappedType is Optional
 public protocol OptionalEncodable: Encodable, OptionalEncodingWrapper where WrappedType == EncoderWrapper.CustomEncoder.OriginalType? {
@@ -106,23 +105,21 @@ public struct OptionalCoding<CustomCoderWrapper: StaticCodingWrapper>: OptionalC
     }
 }
 
-//MARK: Enable Customizing one direction
+// MARK: Enable Customizing one direction
 
 /// Ensures there isn't an extra level added
 extension OptionalEncoding: Decodable, TransientDecodable where CustomDecoderWrapper.CustomEncoder.OriginalType: Decodable { }
 /// Ensures there isn't an extra level added
 extension OptionalDecoding: Encodable, TransientEncodable where CustomDecoderWrapper.CustomDecoder.DecodedType: Encodable { }
 
-//MARK: Conditional Equatable Conformance
+// MARK: Conditional Equatable Conformance
 
 extension OptionalEncoding: Equatable where CustomDecoderWrapper.CustomEncoder.OriginalType: Equatable {}
 extension OptionalDecoding: Equatable where CustomDecoderWrapper.CustomDecoder.DecodedType: Equatable {}
 extension OptionalCoding: Equatable where CustomCoderWrapper.CustomEncoder.OriginalType: Equatable {}
 
-//MARK: Conditional Hashable Conformance
+// MARK: Conditional Hashable Conformance
 
 extension OptionalEncoding: Hashable where CustomDecoderWrapper.CustomEncoder.OriginalType: Hashable {}
 extension OptionalDecoding: Hashable where CustomDecoderWrapper.CustomDecoder.DecodedType: Hashable {}
 extension OptionalCoding: Hashable where CustomCoderWrapper.CustomEncoder.OriginalType: Hashable {}
-
-

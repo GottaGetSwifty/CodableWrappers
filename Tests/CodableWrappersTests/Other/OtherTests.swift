@@ -11,7 +11,7 @@ import Nimble
 
 //class OtherTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
 //
-//    override func spec() {
+//    override class func spec() {
 //        describe("Decoder") {
 //            it("Stuff") {
 //                let data = try! self.jsonEncoder.encode(TestThing(testString: "Hi"))

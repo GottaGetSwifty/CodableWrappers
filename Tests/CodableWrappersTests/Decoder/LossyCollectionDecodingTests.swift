@@ -11,11 +11,11 @@ import Nimble
 
 class LossyCollectionDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("LossyCollectionDecoding") {
-            //MARK: - JSONDecoder
+            // MARK: - JSONDecoder
             context("JSONDecoder") {
-                //MARK: LossyCollectionDecoding
+                // MARK: LossyCollectionDecoding
                 it("DecodesCorrectly") {
                     expect {_ = try self.jsonDecoder.decode(LossyCollectionModel.self, from: baseTestJSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(LossyCollectionModel.self, from: baseTestJSON.data(using: .utf8)!)
@@ -24,7 +24,7 @@ class LossyCollectionDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpe
                         expect(actualModel) == fullTestModel
                     }
                 }
-                //MARK: Custom
+                // MARK: Custom
                 it("DecodesWhenEmpty") {
                     expect {_ = try self.jsonDecoder.decode(LossyCollectionModel.self, from: emptyTestJSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(LossyCollectionModel.self, from: emptyTestJSON.data(using: .utf8)!)
@@ -50,9 +50,9 @@ class LossyCollectionDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpe
                     }
                 }
             }
-            //MARK: - PListDecoder
+            // MARK: - PListDecoder
             context("PListDecoder") {
-                //MARK: LossyCollectionDecoding
+                // MARK: LossyCollectionDecoding
                 it("DecodesCorrectly") {
                     expect {_ = try self.plistDecoder.decode(LossyCollectionModel.self, from: baseTestXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(LossyCollectionModel.self, from: baseTestXML.data(using: .utf8)!)
@@ -61,7 +61,7 @@ class LossyCollectionDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpe
                         expect(actualModel) == fullTestModel
                     }
                 }
-                //MARK: Custom
+                // MARK: Custom
                 it("DecodesWhenEmpty") {
                     expect {_ = try self.plistDecoder.decode(LossyCollectionModel.self, from: emptyTestXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(LossyCollectionModel.self, from: emptyTestXML.data(using: .utf8)!)

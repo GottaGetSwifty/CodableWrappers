@@ -37,7 +37,7 @@ public struct MillisecondsSince1970DateStaticCoder: StaticCoder {
     }
 }
 
-//MARK: - Custom DateFormatter
+// MARK: - Custom DateFormatter
 
 /// A `StaticDecoder` that uses a DateFormatter for decoding
 /// - Note: Implement to use a custom `DateFormatter` for deserialization in the `StaticDecoder` Property Wrapper
@@ -63,8 +63,9 @@ extension DateFormatterStaticDecoder {
         let stringValue = try String(from: decoder)
 
         guard let value = dateFormatter.date(from: stringValue) else {
+            let description = "Expected \(Data.self) but could not convert \(stringValue) to Data"
             throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: "Expected \(Data.self) but could not convert \(stringValue) to Data"))
+                                                                           debugDescription: description))
         }
         return value
     }
@@ -77,9 +78,7 @@ extension DateFormatterStaticEncoder {
     }
 }
 
-//MARK: - ISO8601
-
-
+// MARK: - ISO8601
 
 /// Uses `ISO8601DateFormatter` with `formatOptions` set to `.withInternetDateTime` for (de)serailization of `Date`
 /// - Note: Implement a `StaticCoder` to use a custom formatter
@@ -93,7 +92,7 @@ public struct ISO8601DateStaticCoder: ISO8601DateFormatterStaticCoder {
     }()
 }
 
-//MARK:  Custom
+// MARK: Custom
 
 /// A `StaticDecoder` that uses an ISO8601DateFormatter for decoding
 /// - Note: Implement to use a custom `ISO8601DateFormatter` for deserialization in the `StaticDecoder` Property Wrapper
@@ -123,8 +122,9 @@ extension ISO8601DateFormatterStaticDecoder {
         let stringValue = try String(from: decoder)
 
         guard let value = iso8601DateFormatter.date(from: stringValue) else {
+            let description = "Expected \(Data.self) but could not convert \(stringValue) to Data"
             throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: "Expected \(Data.self) but could not convert \(stringValue) to Data"))
+                                                                           debugDescription: description))
         }
         return value
     }

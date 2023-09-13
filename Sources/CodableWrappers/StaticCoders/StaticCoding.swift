@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - Static Coding Protocols
+// MARK: - Static Coding Protocols
 
 /// Mirror of `Encodable`'s functionality but in a static context
 /// - Attention: When implementing ensure an additional level of nesting is not introduced

@@ -11,11 +11,11 @@ import Nimble
 
 class OptionalEncodingTests: QuickSpec, EncodingTestSpec, DecodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("OptionalEncoding") {
-            //MARK: - JSONEncoder
+            // MARK: - JSONEncoder
             context("JSONEncoder") {
-                //MARK: OptionalCoding
+                // MARK: OptionalCoding
                 describe("OptionalCoding") {
                     it("HasNoValue") {
                         expect {_ = try self.jsonEncoder.encode(emptyTestInstance)}.toNot(throwError())
@@ -44,7 +44,7 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec, DecodingTestSpec {
                     }
                 }
                 describe("OptionalStaticCoder") {
-                    //MARK: SecondsSince1970
+                    // MARK: SecondsSince1970
                     describe("SecondsSince1970DateOptionalCoding") {
                         it("HasNoValue") {
                             expect {_ = try self.jsonEncoder.encode(secondsSince1970TestEmptyInstance)}.toNot(throwError())
@@ -161,9 +161,9 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec, DecodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListEncoder
+            // MARK: - PListEncoder
             context("PListEncoder") {
-                //MARK: Base64
+                // MARK: Base64
                 describe("OmitCodingWhenNil") {
                     it("HasNoValue") {
                         expect {_ = try self.plistEncoder.encode(emptyTestInstance)}.toNot(throwError())
@@ -314,7 +314,7 @@ private struct NoWrapperModel: Codable, Equatable {
 }
 private let noWrapperTestInstance = NoWrapperModel(value: nil)
 
-//MARK: - Seconds Since 1970 Mock Data
+// MARK: - Seconds Since 1970 Mock Data
 private struct SecondsSince1970TestModel: Codable, Equatable {
     @OptionalCoding<SecondsSince1970DateCoding>
     var secondsSince1970Date: Date?
@@ -338,7 +338,7 @@ private let secondsSince1970XML = """
 </plist>
 """
 
-//MARK: - TransientCoding Mock Data
+// MARK: - TransientCoding Mock Data
 
 private struct TransientCodingTestModel: Codable, Equatable {
     @TransientCoding
@@ -363,7 +363,7 @@ private let transientCodingEmptyTestWithDataXML = """
 """
 
 
-//MARK: - OmitCoding Mock Data
+// MARK: - OmitCoding Mock Data
 
 private struct OmitCodingTestModel: Codable, Equatable {
     @OmitCoding
@@ -405,7 +405,7 @@ private let omitCodingEmptyTestWithNullXML = """
 """
 
 
-//MARK: - OmitDecoding Mock Data
+// MARK: - OmitDecoding Mock Data
 
 private struct OmitEncodingTestModel: Codable, Equatable {
     @OmitEncoding

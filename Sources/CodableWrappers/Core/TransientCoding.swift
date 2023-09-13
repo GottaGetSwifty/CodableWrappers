@@ -7,8 +7,7 @@
 
 import Foundation
 
-//MARK: - Transient Property Wrappers
-
+// MARK: - Transient Property Wrappers
 
 /// Indicates the encoding should be done with the wrapped value directly rather than in a nested container
 @propertyWrapper
@@ -30,7 +29,6 @@ public struct TransientDecoding<T:Codable>: TransientDecodable {
     }
 }
 
-
 /// Indicates the (en/de)coding should be done directly rather than at a new level of nesting
 @propertyWrapper
 public struct TransientCoding<T:Codable>: TransientCodable {
@@ -41,8 +39,7 @@ public struct TransientCoding<T:Codable>: TransientCodable {
     }
 }
 
-
-//MARK: - Transient Protocols
+// MARK: - Transient Protocols
 
 /// Contract for a Type that encodes it's value directly rather than encoding an extra level for itself.
 public protocol TransientEncodable: Encodable {
@@ -64,34 +61,34 @@ public protocol TransientDecodable: Decodable {
     // The init to use when decoding
     init(wrappedValue: InitType)
 }
+
 public extension TransientDecodable {
     // Decodes the value directly at the current level of encoding
     init(from decoder: Decoder) throws {
         self.init(wrappedValue: try InitType(from: decoder))
     }
 }
+
 /// Combination of TransientEncodable & TransientEncodable
 public protocol TransientCodable: TransientEncodable, TransientDecodable where ValueType == InitType { }
 
-
-//MARK: Enable Customizing one direction
+// MARK: Enable Customizing one direction
 
 extension TransientEncoding: Decodable where T: Decodable {
-    //Ensures there isn't an extra level added
+    // Ensures there isn't an extra level added
     public init(from decoder: Decoder) throws {
         wrappedValue = try T(from: decoder)
     }
 }
 
 extension TransientDecoding: Encodable where T: Encodable {
-    //Ensures there isn't an extra level added
+    // Ensures there isn't an extra level added
     public func encode(to encoder: Encoder) throws {
         try wrappedValue.encode(to: encoder)
     }
 }
 
-
-//MARK: - Conditional Equatable Conformance
+// MARK: - Conditional Equatable Conformance
 
 extension TransientEncoding: Equatable where T: Equatable {}
 extension TransientDecoding: Equatable where T: Equatable {}

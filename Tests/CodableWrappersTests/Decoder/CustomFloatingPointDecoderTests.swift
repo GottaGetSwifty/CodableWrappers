@@ -12,11 +12,11 @@ import Nimble
 
 class CustomFloatingPointDecoderTests: QuickSpec, DecodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("CustomFloatingPointDecoding") {
-            //MARK: - JSONDecoder
+            // MARK: - JSONDecoder
             context("JSONDecoder") {
-                //MARK: CustomFloat
+                // MARK: CustomFloat
                 it("CustomFloat") {
                     expect {_ = try self.jsonDecoder.decode(TestFloatModel.self, from: floatTestJSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(TestFloatModel.self, from: floatTestJSON.data(using: .utf8)!)
@@ -29,7 +29,7 @@ class CustomFloatingPointDecoderTests: QuickSpec, DecodingTestSpec {
 
                     }
                 }
-                //MARK: CustomDouble
+                // MARK: CustomDouble
                 it("CustomDouble") {
                     expect {_ = try self.jsonDecoder.decode(TestFloatModel.self, from: floatTestJSON.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.jsonDecoder.decode(TestFloatModel.self, from: floatTestJSON.data(using: .utf8)!)
@@ -42,9 +42,9 @@ class CustomFloatingPointDecoderTests: QuickSpec, DecodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListDecoder
+            // MARK: - PListDecoder
             context("PListDecoder") {
-                //MARK: CustomFloat
+                // MARK: CustomFloat
                 it("CustomFloat") {
                     expect {_ = try self.plistDecoder.decode(TestDoubleModel.self, from: floatTestXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(TestDoubleModel.self, from: floatTestXML.data(using: .utf8)!)
@@ -56,7 +56,7 @@ class CustomFloatingPointDecoderTests: QuickSpec, DecodingTestSpec {
                         expect(actualModel.regular) == doubleTestModel.regular
                     }
                 }
-                //MARK: CustomDouble
+                // MARK: CustomDouble
                 it("CustomDouble") {
                     expect {_ = try self.plistDecoder.decode(TestDoubleModel.self, from: doubleTestXML.data(using: .utf8)!)}.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(TestDoubleModel.self, from: doubleTestXML.data(using: .utf8)!)
@@ -152,7 +152,7 @@ private let doubleTestXML = """
 </plist>
 """
 
-//MARK: - FloatValueProvider
+// MARK: - FloatValueProvider
 private struct NonConformingValueProvider: NonConformingDecimalValueProvider {
     static var positiveInfinity: String = "100"
     static var negativeInfinity: String = "-100"

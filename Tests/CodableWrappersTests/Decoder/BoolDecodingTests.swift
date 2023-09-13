@@ -11,11 +11,11 @@ import Nimble
 
 class BoolDecodingTests: QuickSpec, DecodingTestSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("BoolDecoding") {
-            //MARK: - JSONDecoder
+            // MARK: - JSONDecoder
             context("JSONDecoder") {
-                //MARK: BoolAsInt
+                // MARK: BoolAsInt
                 describe("BoolAsInt") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.jsonDecoder.decode(BoolAsIntTextModel.self, from: boolAsIntTestJSON(intValue: 1).data(using: .utf8)!)}.toNot(throwError())
@@ -34,7 +34,7 @@ class BoolDecodingTests: QuickSpec, DecodingTestSpec {
                         }
                     }
                 }
-                //MARK: BoolAsString
+                // MARK: BoolAsString
                 describe("BoolAsString") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.jsonDecoder.decode(BoolAsStringTextModel.self, from: boolAsStringTestJSON(stringValue: "true").data(using: .utf8)!)}.toNot(throwError())
@@ -72,9 +72,9 @@ class BoolDecodingTests: QuickSpec, DecodingTestSpec {
                     }
                 }
             }
-            //MARK: - PListDecoder
+            // MARK: - PListDecoder
             context("PListDecoder") {
-                //MARK: BoolAsInt
+                // MARK: BoolAsInt
                 describe("BoolAsInt") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.plistDecoder.decode(BoolAsIntTextModel.self, from: boolAsIntTestXML(intValue: 1).data(using: .utf8)!)}.toNot(throwError())
@@ -93,7 +93,7 @@ class BoolDecodingTests: QuickSpec, DecodingTestSpec {
                         }
                     }
                 }
-                //MARK: BoolAsString
+                // MARK: BoolAsString
                 describe("BoolAsString") {
                     it("EvaluatesTrue") {
                         expect {_ = try self.plistDecoder.decode(BoolAsStringTextModel.self, from: boolAsStringTestXML(stringValue: "true").data(using: .utf8)!)}.toNot(throwError())
