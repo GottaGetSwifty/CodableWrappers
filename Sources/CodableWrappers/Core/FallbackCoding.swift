@@ -63,7 +63,10 @@ public struct FallbackEncoding<ValueProvider: FallbackValueProvider>: FallbackEn
         self.wrappedValue = wrappedValue
     }
 }
-
+struct Test: Codable {
+    @FallbackDecoding<EmptyBool>
+    var testBool: Bool
+}
 /// If a value is not found while decoding, will be initialized with the `ValueProvider.defaultValue` value.
 @propertyWrapper
 public struct FallbackDecoding<ValueProvider: FallbackValueProvider>: FallbackDecodingWrapper where ValueProvider.ValueType: Decodable {
