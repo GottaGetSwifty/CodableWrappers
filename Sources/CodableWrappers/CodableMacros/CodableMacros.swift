@@ -2,6 +2,7 @@
 // CodableMacros.swift
 //
 
+import CodableWrapperMacros
 /// Add to a struct to enable custom CodingKeys
 @attached(member, names: named(CodingKeys))
 public macro Codable() = #externalMacro(module: "CodableWrapperMacros", type: "Codable")

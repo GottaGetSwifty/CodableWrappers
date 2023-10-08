@@ -2,7 +2,7 @@
 // CodableMacros.swift
 //
 
-/// Add to a struct to enable custom CodingKeys
+/// Add to a struct to enable custom CodingKeys required for other CodingKey Macros to function
 @attached(member, names: named(CodingKeys))
 public macro Codable() = #externalMacro(module: "CodableWrapperMacros", type: "Codable")
 
