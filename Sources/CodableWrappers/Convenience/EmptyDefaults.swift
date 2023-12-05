@@ -102,3 +102,10 @@ public struct EmptyDictionary<Key: Hashable, Value>: FallbackValueProvider {
 public struct EmptySet<T: Hashable>: FallbackValueProvider {
     public static var defaultValue: Set<T> { [] }
 }
+
+/// Empty FallbackValueProvider for any Type: nil
+/// (if there is any decoding problem).
+public struct EmptyObject<T>: FallbackValueProvider {
+    public static var defaultValue: T? { nil }
+}
+typealias LossyObject<T: Decodable> = FallbackDecoding<EmptyObject<T>>
