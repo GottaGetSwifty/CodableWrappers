@@ -16,6 +16,12 @@ import UIKit
 public struct EmptyBool: FallbackValueProvider {
     public static var defaultValue: Bool { false }
 }
+typealias NegativeBool = EmptyBool
+
+/// Empty FallbackValueProvider for Bool: true
+public struct PositiveBool: FallbackValueProvider {
+    public static var defaultValue: Bool { true }
+}
 
 /// Empty FallbackValueProvider for String: ""
 public struct EmptyString: FallbackValueProvider {
