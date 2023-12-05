@@ -68,6 +68,11 @@ class EmptyDefaultsDecodingTests: QuickSpec, DecodingTestSpec {
 private struct DefaultDecodingModel: Codable, Equatable {
     @FallbackDecoding<EmptyBool>
     var bool: Bool
+    @FallbackDecoding<PositiveBool>
+    var positiveBool: Bool
+    @FallbackDecoding<NegativeBool>
+    var negativeBool: Bool
+
     @FallbackDecoding<EmptyString>
     var string: String
 
@@ -124,9 +129,9 @@ private struct DefaultDecodingModel: Codable, Equatable {
 }
 
 @available(iOS 14.0, *)
-private let testDecodingTestModel = DefaultDecodingModel(bool: true, string: "1", int: 1, int16: 1, int32: 1, int64: 1, Int8: 1, uInt: 1, uInt16: 1, uInt32: 1, uInt64: 1, uInt8: 1, cgFloat: 1, double: 1, float: 1, float16: 1, array: [1], dictionary: ["1":1], set: [1])
+private let testDecodingTestModel = DefaultDecodingModel(bool: true, positiveBool: false, negativeBool: true, string: "1", int: 1, int16: 1, int32: 1, int64: 1, Int8: 1, uInt: 1, uInt16: 1, uInt32: 1, uInt64: 1, uInt8: 1, cgFloat: 1, double: 1, float: 1, float16: 1, array: [1], dictionary: ["1":1], set: [1])
 @available(iOS 14.0, *)
-private let defaultsDecodingTestModel = DefaultDecodingModel(bool: false, string: "", int: 0, int16: 0, int32: 0, int64: 0, Int8: 0, uInt: 0, uInt16: 0, uInt32: 0, uInt64: 0, uInt8: 0, cgFloat: 0.0, double: 0.0, float: 0.0, float16: 0.0, array: [], dictionary: [:], set: [])
+private let defaultsDecodingTestModel = DefaultDecodingModel(bool: false, positiveBool: true, negativeBool: false, string: "", int: 0, int16: 0, int32: 0, int64: 0, Int8: 0, uInt: 0, uInt16: 0, uInt32: 0, uInt64: 0, uInt8: 0, cgFloat: 0.0, double: 0.0, float: 0.0, float16: 0.0, array: [], dictionary: [:], set: [])
 
 private let valuesTestingJSON = """
 {
@@ -154,6 +159,8 @@ private let valuesTestingJSON = """
     ],
     "Int8" : 1,
     "bool" : true,
+    "positiveBool": false,
+    "negativeBool": true,
     "int32" : 1
 }
 """
