@@ -12,6 +12,8 @@ import UIKit
 
 // MARK: - Convenience Defaults
 
+/// Empty FallbackValueProvider for Bool: false
+///  typealias for ``BoolFalse``
 public typealias EmptyBool = BoolFalse
 
 /// Empty FallbackValueProvider for Bool: false
