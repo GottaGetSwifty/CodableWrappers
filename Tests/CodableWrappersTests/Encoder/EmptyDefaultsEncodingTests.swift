@@ -85,8 +85,10 @@ class EmptyDefaultsEncodingTests: QuickSpec, EncodingTestSpec {
 
 @available(iOS 14.0, *)
 private struct DefaultEncodingModel: Codable, Equatable {
-    @FallbackEncoding<EmptyBool>
-    var bool: Bool?
+    @FallbackEncoding<BoolTrue>
+    var boolTrue: Bool?
+    @FallbackEncoding<BoolFalse>
+    var boolFalse: Bool?
     @FallbackEncoding<EmptyString>
     var string: String?
 
@@ -143,18 +145,19 @@ private struct DefaultEncodingModel: Codable, Equatable {
 }
 
 @available(iOS 14.0, *)
-private let emptyEncodingTestModel = DefaultEncodingModel(bool: nil, string: nil, int: nil, int16: nil, int32: nil, int64: nil, Int8: nil, uInt: nil, uInt16: nil, uInt32: nil, uInt64: nil, uInt8: nil, cgFloat: nil, double: nil, float: nil, float16: nil, array: nil, dictionary: nil, set: nil)
+private let emptyEncodingTestModel = DefaultEncodingModel(boolTrue: nil, boolFalse: nil, string: nil, int: nil, int16: nil, int32: nil, int64: nil, Int8: nil, uInt: nil, uInt16: nil, uInt32: nil, uInt64: nil, uInt8: nil, cgFloat: nil, double: nil, float: nil, float16: nil, array: nil, dictionary: nil, set: nil)
 @available(iOS 14.0, *)
-private let testEncodingTestModel = DefaultEncodingModel(bool: true, string: "1", int: 1, int16: 1, int32: 1, int64: 1, Int8: 1, uInt: 1, uInt16: 1, uInt32: 1, uInt64: 1, uInt8: 1, cgFloat: 1, double: 1, float: 1, float16: 1, array: [1], dictionary: ["1":1], set: [1])
+private let testEncodingTestModel = DefaultEncodingModel(boolTrue: false, boolFalse: true, string: "1", int: 1, int16: 1, int32: 1, int64: 1, Int8: 1, uInt: 1, uInt16: 1, uInt32: 1, uInt64: 1, uInt8: 1, cgFloat: 1, double: 1, float: 1, float16: 1, array: [1], dictionary: ["1":1], set: [1])
 @available(iOS 14.0, *)
-private let defaultsEncodingTestModel = DefaultEncodingModel(bool: false, string: "", int: 0, int16: 0, int32: 0, int64: 0, Int8: 0, uInt: 0, uInt16: 0, uInt32: 0, uInt64: 0, uInt8: 0, cgFloat: 0, double: 0, float: 0, float16: 0, array: [], dictionary: [:], set: [])
+private let defaultsEncodingTestModel = DefaultEncodingModel(boolTrue: true, boolFalse: false, string: "", int: 0, int16: 0, int32: 0, int64: 0, Int8: 0, uInt: 0, uInt16: 0, uInt32: 0, uInt64: 0, uInt8: 0, cgFloat: 0, double: 0, float: 0, float16: 0, array: [], dictionary: [:], set: [])
 
 private let valuesTestingJSON = """
 {
     "array" : [
     1
     ],
-    "bool" : true,
+    "boolFalse" : true,
+    "boolTrue" : false,
     "cgFloat" : 1,
     "dictionary" : {
     "1" : 1
@@ -184,7 +187,8 @@ private let emptyTestingJSON = """
     "array" : [
 
     ],
-    "bool" : false,
+    "boolFalse" : false,
+    "boolTrue" : true,
     "cgFloat" : 0,
     "dictionary" : {
 
