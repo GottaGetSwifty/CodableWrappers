@@ -31,7 +31,7 @@ public struct NonConformingFloatStaticCoder<ValueProvider: NonConformingDecimalV
         case ValueProvider.nan: return Float.nan
         default:
             guard let value = Float(stringValue) else {
-                throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
                 debugDescription: "Expected \(Float.self) but could not convert \(stringValue) to Float"))
             }
             return value
@@ -67,7 +67,7 @@ public struct NonConformingDoubleStaticCoder<ValueProvider: NonConformingDecimal
         case ValueProvider.nan: return Double.nan
         default:
             guard let value = Double(stringValue) else {
-                throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
                 debugDescription: "Expected \(Double.self) but could not convert \(stringValue) to Float"))
             }
             return value

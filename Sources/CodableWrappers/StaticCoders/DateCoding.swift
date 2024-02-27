@@ -64,7 +64,7 @@ extension DateFormatterStaticDecoder {
 
         guard let value = dateFormatter.date(from: stringValue) else {
             let description = "Expected \(Data.self) but could not convert \(stringValue) to Data"
-            throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
+            throw DecodingError.f(DecodingError.Context(codingPath: decoder.codingPath,
                                                                            debugDescription: description))
         }
         return value
@@ -123,7 +123,7 @@ extension ISO8601DateFormatterStaticDecoder {
 
         guard let value = iso8601DateFormatter.date(from: stringValue) else {
             let description = "Expected \(Data.self) but could not convert \(stringValue) to Data"
-            throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
                                                                            debugDescription: description))
         }
         return value
