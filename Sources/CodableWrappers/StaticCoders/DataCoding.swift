@@ -17,7 +17,7 @@ public struct Base64DataStaticCoder: StaticCoder {
         guard let value = Data.init(base64Encoded: stringValue) else {
             let debugDescription = "Expected \(Data.self) but could not convert \(stringValue) to Data"
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: debugDescription))
+                                                                    debugDescription: debugDescription))
         }
         return value
     }
