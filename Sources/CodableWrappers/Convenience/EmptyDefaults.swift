@@ -13,8 +13,17 @@ import UIKit
 // MARK: - Convenience Defaults
 
 /// Empty FallbackValueProvider for Bool: false
-public struct EmptyBool: FallbackValueProvider {
+///  typealias for ``BoolFalse``
+public typealias EmptyBool = BoolFalse
+
+/// Empty FallbackValueProvider for Bool: false
+public struct BoolFalse: FallbackValueProvider {
     public static var defaultValue: Bool { false }
+}
+
+/// Empty FallbackValueProvider for Bool: true
+public struct BoolTrue: FallbackValueProvider {
+    public static var defaultValue: Bool { true }
 }
 
 /// Empty FallbackValueProvider for String: ""
