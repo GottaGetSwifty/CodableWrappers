@@ -72,13 +72,11 @@ public struct EmptyUInt8: FallbackValueProvider {
     public static var defaultValue: UInt8 { 0 }
 }
 
-#if canImport(UIKit)
-
 /// Empty FallbackValueProvider for CGFloat: 0
+@available(iOS 1, watchOS 1, tvOS 1, macCatalyst 14.0, *)
 public struct EmptyCGFloat: FallbackValueProvider {
     public static var defaultValue: CGFloat { 0 }
 }
-#endif
 
 /// Empty FallbackValueProvider for Double: 0
 public struct EmptyDouble: FallbackValueProvider {
@@ -89,12 +87,11 @@ public struct EmptyFloat: FallbackValueProvider {
     public static var defaultValue: Float { 0 }
 }
 
-// Float16 is only available on ARM Macs.
+// Float16 is only available on ARM
 #if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
 /// Empty FallbackValueProvider for Float16: 0
-@available(iOS 14, macOS 11, tvOS 14.0, watchOS 7.0, macCatalyst 14.5, *)
+@available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
 public struct EmptyFloat16: FallbackValueProvider {
-    @available(iOS 14, macOS 11, tvOS 14.0, watchOS 7.0, macCatalyst 14.5, *)
     public static var defaultValue: Float16 { 0 }
 }
 #endif
