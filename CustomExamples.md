@@ -12,8 +12,8 @@ struct IntToStringCoder: StaticCoder {
         let stringValue = try String(from: decoder)
 
         guard let value = Int(stringValue) else {
-            throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: "Expected \(Int.self)) but could not convert \(stringValue) to \(Int.self)"))
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
+                                                                    debugDescription: "Expected \(Int.self)) but could not convert \(stringValue) to \(Int.self)"))
         }
         return value
     }
@@ -34,8 +34,8 @@ struct ASCIIDataCoder: StaticCoder {
         let dataValue = try Data(from: decoder)
 
         guard let value = String(data: dataValue, encoding: .ascii) else {
-            throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: "Expected \(String.self)) but could not convert \(dataValue) to \(String.self)"))
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
+                                                                    debugDescription: "Expected \(String.self)) but could not convert \(dataValue) to \(String.self)"))
         }
         return value
     }

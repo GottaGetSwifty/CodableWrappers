@@ -116,8 +116,8 @@ private struct CustomBase64Coder: StaticCoder {
         let stringValue = try String(from: decoder)
 
         guard let value = Data.init(base64Encoded: stringValue) else {
-            throw DecodingError.valueNotFound(self,  DecodingError.Context(codingPath: decoder.codingPath,
-                                                                           debugDescription: "Expected \(Data.self) but could not convert \(stringValue) to Data"))
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
+                                                                    debugDescription: "Expected \(Data.self) but could not convert \(stringValue) to Data"))
         }
         return value
     }
