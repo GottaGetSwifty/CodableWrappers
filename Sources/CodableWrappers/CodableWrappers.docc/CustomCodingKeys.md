@@ -4,7 +4,7 @@ Add the ``Codable()`` Macro to your Type to easily customize your CodingKeys wit
 
 ## Overview
 
-Make CodingKeys customization easy!
+Make CodingKey customization easy!
 
 ```swift
 // Your Code:
