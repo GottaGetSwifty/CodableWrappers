@@ -8,10 +8,13 @@ This is an overview about how it works
 
 ## Topics
 
-### Essentials
+### Coding Keys
 
 - <doc:CustomCodingKeys>
-- <doc:CodingPropertyWrappers>
+
+### Serialization Customization
+
+- <doc:SerializationCustomization>
 
 
 
