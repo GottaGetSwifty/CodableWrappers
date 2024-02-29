@@ -13,7 +13,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
     func testMultipleMacrosWithCodingKey() throws {
         assertMacroExpansion(
             """
-            @Codable struct TestCodable: Codable {
+            @CCodable struct TestCodable: Codable {
                 @CodingKey("testKey") @SnakeCase
                 let originalKey: String
             }
@@ -32,7 +32,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable struct TestCodable: Codable {
+            @CCodable struct TestCodable: Codable {
                 @SnakeCase @CodingKey("testKey")
                 let originalKey: String
             }
@@ -53,7 +53,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
     func testMultipleCodingKeyMacrosThrowsWarning() throws {
         assertMacroExpansion(
             """
-            @Codable struct TestCodable: Codable {
+            @CCodable struct TestCodable: Codable {
                 @SnakeCase @CamelCase @ScreamingSnakeCase
                 let originalKey: String
             }
@@ -72,7 +72,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable @SnakeCase @CamelCase @ScreamingSnakeCase
+            @CCodable @SnakeCase @CamelCase @ScreamingSnakeCase
             struct TestCodable: Codable {
                 let originalKey: String
             }
@@ -92,7 +92,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
             // making this work will need some refactoring
 //        assertMacroExpansion(
 //            """
-//            @Codable struct TestCodable: Codable {
+//            @CCodable struct TestCodable: Codable {
 //                @CodingKey("first") @CodingKey("second")
 //                let originalKey: String
 //            }
@@ -113,7 +113,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
     func testThrowsErrorWhenCodingKeyImplemented() throws {
         assertMacroExpansion(
             """
-            @Codable struct TestCodable: Codable {
+            @CCodable struct TestCodable: Codable {
                 let originalKey: String
 
                 enum CodingKeys: String, CodingKey {
@@ -138,7 +138,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
         assertMacroExpansion(
             """
             let customKey = "customKey"
-            @Codable struct TestCodable: Codable {
+            @CCodable struct TestCodable: Codable {
                 @CodingKey(customKey)
                 let originalKey: String
             }
@@ -156,7 +156,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
     func testThrowsDueToEmptyStringCodingKey() throws {
         assertMacroExpansion(
             """
-            @Codable struct TestCodable: Codable {
+            @CCodable struct TestCodable: Codable {
                 @CodingKey("")
                 let originalKey: String
             }

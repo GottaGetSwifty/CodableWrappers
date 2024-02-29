@@ -12,7 +12,7 @@ struct TestThing: Codable {
 
 //let testKey = "a_key"
 
-@Codable @ScreamingSnakeCase
+@CCodable @ScreamingSnakeCase
 struct OtherThing: Codable {
     var thing: String { "hi" }
     @CodingKeyPrefix("asdf_")

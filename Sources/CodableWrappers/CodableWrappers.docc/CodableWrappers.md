@@ -1,10 +1,20 @@
 # ``CodableWrappers``
 
-Making Codable Types easily customizable
+Easily customize you Codable Types!
 
 ## Overview
 
-This is an overview about how it works
+Make complicated serialization a breeze!:
+
+```swift
+@CCodable @SnakeCase
+struct User: Codable {
+    let firstName: String
+    let lastName: String
+    
+    let joinDate: Date
+}
+```
 
 ## Topics
 

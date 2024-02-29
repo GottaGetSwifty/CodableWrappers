@@ -5,7 +5,7 @@
 import CodableWrapperMacros
 /// Add to a struct to enable custom CodingKeys
 @attached(member, names: named(CodingKeys))
-public macro Codable() = #externalMacro(module: "CodableWrapperMacros", type: "Codable")
+public macro CCodable() = #externalMacro(module: "CodableWrapperMacros", type: "CCodable")
 
 /// Use a custom String value for a Property's CodingKey
 @attached(peer)

@@ -13,7 +13,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
     func testBasicPrefix() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             struct TestCodable: Codable {
                 @CodingKeyPrefix("_")
                 let originalKey: String
@@ -35,7 +35,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             @CodingKeyPrefix("_")
             struct TestCodable: Codable {
                 let originalKey: String
@@ -59,7 +59,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
     func testBasicSuffix() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             struct TestCodable: Codable {
                 @CodingKeySuffix("_")
                 let originalKey: String
@@ -81,7 +81,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             @CodingKeySuffix("_")
             struct TestCodable: Codable {
                 let originalKey: String
@@ -105,7 +105,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
     func testBasicPrefixAndSuffixWorkTogether() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             struct TestCodable: Codable {
                 @CodingKeyPrefix("-")
                 @CodingKeySuffix("_")
@@ -128,7 +128,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             @CodingKeyPrefix("-")
             @CodingKeySuffix("_")
             struct TestCodable: Codable {
@@ -153,7 +153,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
     func testBasicPrefixAndSuffixWorkWithOthers() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             struct TestCodable: Codable {
                 @CodingKeyPrefix("-")
                 @CodingKeySuffix("_")
@@ -177,7 +177,7 @@ final class CodingKeyPrefixSuffixTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable
+            @CCodable
             @CodingKeyPrefix("-")
             @CodingKeySuffix("_")
             @ScreamingSnakeCase

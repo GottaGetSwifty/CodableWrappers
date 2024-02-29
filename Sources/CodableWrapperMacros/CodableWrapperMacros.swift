@@ -11,7 +11,7 @@ import SwiftDiagnostics
 @main
 struct MyMacroPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
-        Codable.self,
+        CCodable.self,
         CodingKey.self,
         CodingKeyPrefix.self,
         CodingKeySuffix.self,
@@ -35,8 +35,8 @@ protocol MacroNameable {
     static var macroName: String { get }
 }
 
-public struct Codable: MemberMacro, MacroNameable {
-    static let macroName: String = "Codable"
+public struct CCodable: MemberMacro, MacroNameable {
+    static let macroName: String = "CCodable"
 
     public static func expansion(of node: AttributeSyntax,
                                  providingMembersOf declaration: some DeclGroupSyntax,

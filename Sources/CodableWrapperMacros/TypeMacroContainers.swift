@@ -20,7 +20,7 @@ struct CodableMacroStructContainer {
 
     init(declaration: DeclGroupSyntax) throws {
         self.typeName = declaration.structName!
-        self.codableDefined = declaration.attributes.attribute(named: Codable.macroName) != nil
+        self.codableDefined = declaration.attributes.attribute(named: CCodable.macroName) != nil
         self.hasCodingKeys = declaration.hasEnum(named: "CodingKeys")
         self.codableAttributes = declaration.attributes.codingAttributes
         self.codingKeyPrefix = try declaration.parameterValue(for: CodingKeyPrefix.macroName)
@@ -30,7 +30,7 @@ struct CodableMacroStructContainer {
     func attributeNameCanGenerate(name: String?) -> Bool {
         switch name {
         case .none: false
-        case Codable.macroName:
+        case CCodable.macroName:
             true
         case CodingKeyPrefix.macroName:
             !codableDefined
