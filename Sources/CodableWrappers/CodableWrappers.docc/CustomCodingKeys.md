@@ -4,7 +4,7 @@
 
 ## Requrements
 
-Add the ``CCodable()`` Macro to your Type to easily customize your CodingKeys with one line of code!
+Add the ``CustomCodable()`` Macro to your Type to easily customize your CodingKeys with one line of code!
 
 ## Overview
 
@@ -12,7 +12,7 @@ Make CodingKey customization easy!
 
 ```swift
 // Your Code:
-@CCodable
+@CustomCodable
 struct YourType: Codable {
     @CodingKey("your-Custom_naming")
     let firstProperty: String
@@ -39,7 +39,7 @@ case fourth_property = "fourthproperty"
 You can even add it to the whole Type!
 
 ```swift
-@CCodable SnakeCase
+@CustomCodable SnakeCase
 struct YourType: Codable {
     let firstProperty: String
     let secondProperty: String
@@ -53,11 +53,11 @@ struct YourType: Codable {
 
 ### Prerequisites 
 
-- ``CCodable()``
+- ``CustomCodable()``
 
 ### Custom Keys
 
-- ``CodingKey(_:)``
+- ``CustomCodingKey(_:)``
 - ``CodingKeyPrefix(_:)``
 - ``CodingKeySuffix(_:)``
 

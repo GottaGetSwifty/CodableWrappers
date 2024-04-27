@@ -5,20 +5,21 @@
 
 ## Simplified Serialization with [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md)
 
-Move your Codable and (En/De)coder customization to annotations!
+Make Complex Codable Serializate a breeze with declarative annotations!
 
 ```swift
-struct YourType: Codable {
-    @MillisecondsSince1970DateCoding
-    var millisecondsDate: Date
-    @Base64Coding
-    var someData: Data
-    @OmitCoding
-    var temporaryProperty
+@CustomCodable @SnakeCase
+struct User: Codable {
+    let firstName: String
+    let lastName: String
+    @SecondsSince1970DateCoding
+    var joinDate: Date
+    @CustomCodingKey("data")
+    var imageData: Data
 }
 ```
 
-2.0's released! [Release Notes](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/ReleaseNotes.md)
+3.0 released! [Release Notes](https://github.com/GottaGetSwifty/CodableWrappers/blob/master/ReleaseNotes.md)
 
 ---
 
@@ -34,48 +35,60 @@ Manifest:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/GottaGetSwifty/CodableWrappers.git", .upToNextMajor(from: "2.0.0" )),
+    .package(url: "https://github.com/GottaGetSwifty/CodableWrappers.git", .upToNextMajor(from: "3.0.0" )),
 ]
 ```
 
 ### CocoaPods
 
+```ruby
+pod 'CodableWrappers', '~> 3.0.0'
 ```
-pod 'CodableWrappers', '~> 2.0.0'
-```
 
----
+## Available CodingKey Macros
 
-## Info
-
-- [Advantages](#Advantages)
-- [Compatibility](#Compatibility)
+- [@CustomCodable](#customcodable) \*New in 3.0!*
+- [@CustomCodingKey(String)](#customcodingkeystring) \*New in 3.0!*
+- [@CodingKeyPrefix(String)](#codingkeyprefixstring) \*New in 3.0!*
+- [@CodingKeySuffix(String)](#codingkeysuffixstring) \*New in 3.0!*
+- [@CamelCase](#camelcase) \*New in 3.0!*
+- [@FlatCase](#flatcase) \*New in 3.0!*
+- [@PascalCase](#pascalcase) \*New in 3.0!*
+- [@UpperCase](#uppercase) \*New in 3.0!*
+- [@SnakeCase](#snakecase) \*New in 3.0!*
+- [@CamelSnakeCase](#camelsnakecase) \*New in 3.0!*
+- [@PascalSnakeCase](#pascalsnakecase) \*New in 3.0!*
+- [@ScreamingSnakeCase](#screamingsnakecase) \*New in 3.0!*
+- [@KebabCase](#kebabcase) \*New in 3.0!*
+- [@CamelKebabCase](#camelkebabcase) \*New in 3.0!*
+- [@PascalKebabCase](#pascalkebabcase) \*New in 3.0!*
+- [@ScreamingKebabCase](#screamingkebabcase) \*New in 3.0!*
 
 ## Available Property Wrappers
 
-- [@EncodeNulls](#EncodeNulls) \*New in 2.0*
-- [Lossy Collections](#Lossy-Collections) \*New in 2.0*
-- [Empty Defaults](#Empty-Defaults) \*New in 2.0*
-- [Other Fallbacks](#Other-Fallbacks) \*New in 2.0*
-- [@OmitCoding](#OmitCoding)
+- [@EncodeNulls](#encodenulls)
+- [Lossy Collections](#lossy-collections)
+- [Empty Defaults](#empty-defaults)
+- [Other Fallbacks](#other-fallbacks)
+- [@OmitCoding](#omitcoding)
 - [@Base64Coding](#base64coding)
 - [@SecondsSince1970DateCoding](#secondssince1970datecoding)
 - [@MillisecondsSince1970DateCoding](#millisecondssince1970datecoding)
-- [@DateFormatterCoding\<DateFormatterStaticCoder>](#DateFormatterCoding\<DateFormatterStaticCoder>)
+- [@DateFormatterCoding\<DateFormatterStaticCoder>](#dateformattercodingdateformatterstaticcoder)
 - [@ISO8601DateCoding](#iso8601datecoding)
-- [@ISO8601DateFormatterCoding\<ISO8601DateFormatterStaticCoder>](#ISO8601DateFormatterCoding\<ISO8601DateFormatterStaticCoder>)
+- [@ISO8601DateFormatterCoding\<ISO8601DateFormatterStaticCoder>](#iso8601dateformattercodingiso8601dateformatterstaticcoder)
 - [@NonConformingFloatCoding\<ValueProvider>](#nonconformingfloatcodingvalueprovider)
 - [@NonConformingDoubleCoding\<ValueProvider>](#nonconformingdoublecodingvalueprovider)
-- [Bool Coding](#Bool-Coding)
-- [Additional Customization](#Additional-Customization)
+- [Bool Coding](#bool-coding)
+- [Additional Customization](#additional-customization)
 - [Property Mutability](#property-mutability)
 - [Only Encoding or Decoding](#only-encoding-or-decoding)
 
 ## Other Customization
 
-- [Property Mutability](#Property-Mutability) \*New in 2.0*
-- [Optionals](#Optionals) \*New in 2.0*
-- [Only Encoding or Decoding](#Only-Encoding-or-Decoding)
+- [Property Mutability](#property-mutability) \*New in 2.0*
+- [Optionals](#optionals) \*New in 2.0*
+- [Only Encoding or Decoding](#only-encoding-or-decoding)
 
 ## Additional Links
 
@@ -85,20 +98,293 @@ pod 'CodableWrappers', '~> 2.0.0'
 
 ---
 
-## Advantages
+## @CustomCodable
 
-- Declarative
-- Extendable
-- Declare once for all Encoders and Decoders. (e.g. JSONEncoder and PropertyListEncoder)
-- Custom (de/en)coding without overriding `encode(to: Encoder)` or `init(with decoder)` for your whole Type
-- Varied (de/en)coding strategies allowed
-- Cross Platform
+Prerequisite for customizing CodingKeys
 
-## Compatibility
+```swift
+@Codable
+struct MyType: Codable {
+}
+```
 
-2.x has a Swift 5.2 as it's minimum. 5.1 is available on 1.x
+## @CustomCodingKey\(String)
 
----
+Use a custom String value for a Property's CodingKey
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @CodingKey("your-Custom_naming")
+    let firstProperty: String // Coding key will be "your-Custom_naming"
+}
+```
+
+## CodingKeyPrefix\(String)
+
+Set a property's CodingKey with a custom value
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @CodingKeyPrefix("beta-")
+    let firstProperty: String // CodingKey will be "beta-firstProperty"
+}
+```
+
+```swift
+@CustomCodable @CodingKeyPrefix("beta-")
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "beta-firstProperty"
+}
+```
+
+## CodingKeySuffix\(String)
+
+/// Add a Suffix a property's CodingKey or Type's CodingKeys with a custom value
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @CodingKeySuffix("-beta")
+    let firstProperty: String // CodingKey will be "firstProperty-beta"
+}
+```
+
+```swift
+@CustomCodable @CodingKeySuffix("-beta")
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "firstProperty-beta"
+}
+```
+
+## CamelCase
+
+/// Make the CodingKey for a property or Type `camelCase`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @CamelCase
+    let first-property: String // CodingKey will be "firstProperty"
+}
+```
+
+```swift
+@CustomCodable @CamelCase
+struct YourType: Codable {
+    let first-property: String // CodingKey will be "firstProperty"
+}
+```
+
+## @FlatCase
+
+Make the CodingKey for a property or Type `flatcase`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @FlatCase
+    let firstProperty: String // CodingKey will be "firstproperty"
+}
+```
+
+```swift
+@CustomCodable @FlatCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "firstproperty"
+}
+```
+
+## @PascalCase
+
+Make the CodingKey for a property or Type `PascalCase`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @PascalCase
+    let firstProperty: String // CodingKey will be "FirstProperty"
+}
+```
+
+```swift
+@CustomCodable @PascalCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "FirstProperty"
+}
+```
+
+## @UpperCase
+
+Make the CodingKey for a property or Type `UPPERCASE`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @UpperCase
+    let firstProperty: String // CodingKey will be "FIRSTPROPERTY"
+}
+```
+
+```swift
+@CustomCodable @UpperCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "FIRSTPROPERTY"
+}
+```
+
+## @SnakeCase
+
+Make the CodingKey for a property or Type `snake_case`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @SnakeCase
+    let firstProperty: String // CodingKey will be "first_property"
+}
+```
+
+```swift
+@CustomCodable @SnakeCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "first_property"
+}
+```
+
+## @CamelSnakeCase
+
+Make the CodingKey for a property or Type `camel_Snake_Case`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @CamelSnakeCase
+    let firstProperty: String // CodingKey will be "first_Property"
+}
+```
+
+```swift
+@CustomCodable @CamelSnakeCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "first_Property"
+}
+```
+
+## @PascalSnakeCase
+
+Make the CodingKey for a property or Type `Pascal_Snake_Case`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @PascalSnakeCase
+    let firstProperty: String // CodingKey will be "First_Property"
+}
+```
+
+```swift
+@CustomCodable @PascalSnakeCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "First_Property"
+}
+```
+
+## @ScreamingSnakeCase
+
+Make the CodingKey for a property or Type `SCREAMING_SNAKE_CASE`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @ScreamingSnakeCase
+    let firstProperty: String // CodingKey will be "FIRST_PROPERTY"
+}
+```
+
+```swift
+@CustomCodable @ScreamingSnakeCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "FIRST_PROPERTY"
+}
+```
+
+## @KebabCase
+
+Make the CodingKey for a property or Type `kebab-case`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @KebabCase
+    let firstProperty: String // CodingKey will be "first-property"
+}
+```
+
+```swift
+@CustomCodable @KebabCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "first-property"
+}
+```
+
+## @CamelKebabCase
+
+Make the CodingKey for a property or Type `camel-Kebab-Case`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @CamelKebabCase
+    let firstProperty: String // CodingKey will be "first-Property"
+}
+```
+
+```swift
+@CustomCodable @CamelKebabCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "first-Property"
+}
+```
+
+## @PascalKebabCase
+
+Make the CodingKey for a property or Type `Pascal-Kebab-Case`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @PascalKebabCase
+    let firstProperty: String // CodingKey will be "First-Property"
+}
+```
+
+```swift
+@CustomCodable @PascalKebabCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "First-Property"
+}
+```
+
+## @ScreamingKebabCase
+
+Make the CodingKey for a property or Type `SCREAMING-KEBAB-CASE`
+
+```swift
+@CustomCodable
+struct YourType: Codable {
+    @ScreamingKebabCase
+    let firstProperty: String // CodingKey will be "FIRST-PROPERTY"
+}
+```
+
+```swift
+@CustomCodable @ScreamingKebabCase 
+struct YourType: Codable {
+    let firstProperty: String // CodingKey will be "FIRST-PROPERTY"
+}
+```
 
 ## @EncodeNulls
 
@@ -147,14 +433,15 @@ struct MyType: Codable {
 }
 ```
 
-
-
 <details>
+
 <summary>All Empty Values</summary>
 
 </br>
 
 ```swift
+BoolTrue
+BoolFalse
 EmptyBool
 EmptyString
 EmptyInt
@@ -446,6 +733,16 @@ struct MyType: Decodable {
 
 ```
 
+---
+
+## Compatibility
+
+- 3.x supports Swift 5.9  
+- 2.x supports Swift 5.2
+- 1.x supports Swift 5.1
+
+---
+
 ## Contributions
 
-If there is a standard Serialization strategy that could be added feel free to open an issue requesting it and/or submit a pull request with the new option.
+If there is a standard Serialization or Coding Key strategy that could be added feel free to open an issue requesting it and/or submit a pull request with the new option.

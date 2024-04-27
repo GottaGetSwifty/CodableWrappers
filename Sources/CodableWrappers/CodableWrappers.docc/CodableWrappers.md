@@ -7,12 +7,14 @@ Easily customize you Codable Types!
 Make complicated serialization a breeze!:
 
 ```swift
-@CCodable @SnakeCase
+@CustomCodable @SnakeCase
 struct User: Codable {
     let firstName: String
     let lastName: String
-    
-    let joinDate: Date
+    @SecondsSince1970DateCoding
+    var joinDate: Date
+    @CustomCodingKey("data")
+    var imageData: Data
 }
 ```
 

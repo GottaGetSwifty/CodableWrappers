@@ -1,5 +1,36 @@
 # CodableWrappers Release Notes
 
+## Version 3.0
+
+CodingKey macro support! Customized CodingKeys can now be generated with annotation!
+
+### Breaking Changes
+
+- Deprectated symbols from 2.0 have been removed
+
+### Added in 3.0
+
+- `@CustomCodable()` Macro to customize Codable
+
+- `CustomCodingKey(_:)`
+- `CodingKeyPrefix(_:)`
+- `CodingKeySuffix(_:)`
+
+- `CamelCase()`
+- `FlatCase()`
+- `PascalCase()`
+- `UpperCase()`
+- `SnakeCase()`
+- `CamelSnakeCase()`
+- `PascalSnakeCase()`
+- `ScreamingSnakeCase()`
+- `KebabCase()`
+- `CamelKebabCase()`
+- `PascalKebabCase()`
+- `ScreamingKebabCase()`
+
+See documentation for more details.
+
 ## Version 2.0
 
 The major goal for this release is to reduce API surface level by unifying Property variation, make the abstractions more meaningful, and add a couple useful wrappers.

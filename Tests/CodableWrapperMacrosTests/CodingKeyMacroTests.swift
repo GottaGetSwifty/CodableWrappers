@@ -13,9 +13,9 @@ final class CodingKeyMacroTests: XCTestCase {
     func testCustomCodingWorks() throws {
         assertMacroExpansion(
             """
-            @CCodable()
+            @CustomCodable()
             struct TestCodable: Codable {
-                @CodingKey("NewKey")
+                @CustomCodingKey("NewKey")
                 let originalKey: String
             }
             """,
@@ -34,7 +34,7 @@ final class CodingKeyMacroTests: XCTestCase {
     func testMultipleMacrosOnSameProperty() throws {
         assertMacroExpansion(
             """
-            @CCodable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase @CamelCase @UpperCase
                 let originalKey: String
@@ -56,9 +56,9 @@ final class CodingKeyMacroTests: XCTestCase {
     func testMultipleMacrosWithCodingKey() throws {
         assertMacroExpansion(
             """
-            @CCodable
+            @CustomCodable
             struct TestCodable: Codable {
-                @SnakeCase @CamelCase @UpperCase @CodingKey("TESTKEY")
+                @SnakeCase @CamelCase @UpperCase @CustomCodingKey("TESTKEY")
                 let originalKey: String
             }
             """,
@@ -78,7 +78,7 @@ final class CodingKeyMacroTests: XCTestCase {
     func testComputedPropertiesAreIgnored() throws {
         assertMacroExpansion(
             """
-            @CCodable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -99,7 +99,7 @@ final class CodingKeyMacroTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @CCodable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -124,7 +124,7 @@ final class CodingKeyMacroTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @CCodable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -149,7 +149,7 @@ final class CodingKeyMacroTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @CCodable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -182,7 +182,7 @@ final class CodingKeyMacroTests: XCTestCase {
     func testComputedPropertiesWithAttributeShowWarning() throws {
         assertMacroExpansion(
             """
-            @CCodable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -207,10 +207,10 @@ final class CodingKeyMacroTests: XCTestCase {
     func testStructLevelSnakeCase() throws {
         assertMacroExpansion(
             """
-            @CCodable @SnakeCase
+            @CustomCodable @SnakeCase
             struct OtherThing: Codable {
                 let oneThing: String
-                @CodingKey("testKey")
+                @CustomCodingKey("testKey")
                 let twoThing: TestThing
                 @KebabCase
                 private let threeThing: String
@@ -278,7 +278,7 @@ final class CodingKeyMacroTests: XCTestCase {
         CodingKeyTestValues.validPropertyNames.forEach { testValue in
             assertMacroExpansion(
                     """
-                    @CCodable
+                    @CustomCodable
                     struct TestCodable: Codable {
                         @\(attributeName)
                         let \(testName): String
@@ -301,7 +301,7 @@ final class CodingKeyMacroTests: XCTestCase {
         CodingKeyTestValues.validPropertyNames.forEach { testValue in
             assertMacroExpansion(
                     """
-                    @CCodable @\(attributeName)
+                    @CustomCodable @\(attributeName)
                     struct TestCodable: Codable {
                         let \(testName): String
                         @SnakeCase let otherName: String

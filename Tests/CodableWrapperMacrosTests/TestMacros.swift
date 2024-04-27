@@ -11,8 +11,8 @@ import SwiftSyntaxMacrosTestSupport
 @testable import CodableWrapperMacros
 
 let testMacros: [String: Macro.Type] = [
-    CCodable.macroName: CCodable.self,
-    CodingKey.macroName: CodingKey.self,
+    CustomCodable.macroName: CustomCodable.self,
+    CustomCodingKey.macroName: CustomCodingKey.self,
     CamelCase.macroName: CamelCase.self,
     FlatCase.macroName: FlatCase.self,
     PascalCase.macroName: PascalCase.self,
