@@ -2,13 +2,13 @@
 // CodableMacros.swift
 //
 
-/// Add to a struct to enable custom CodingKeys
+/// Add to a struct to enable custom CodingKeys required for other CodingKey Macros to function
 @attached(member, names: named(CodingKeys))
-public macro Codable() = #externalMacro(module: "CodableWrapperMacros", type: "Codable")
+public macro CustomCodable() = #externalMacro(module: "CodableWrapperMacros", type: "CustomCodable")
 
 /// Use a custom String value for a Property's CodingKey
 @attached(peer)
-public macro CodingKey(_ name: StringLiteralType) = #externalMacro(module: "CodableWrapperMacros", type: "CodingKey")
+public macro CustomCodingKey(_ name: StringLiteralType) = #externalMacro(module: "CodableWrapperMacros", type: "CustomCodingKey")
 
 /// Prefix the CodingKey with a custom value
 @attached(peer)

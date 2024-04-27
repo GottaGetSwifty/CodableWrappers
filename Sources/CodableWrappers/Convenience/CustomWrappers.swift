@@ -75,7 +75,6 @@ public typealias ISO8601DateCoding = CodingUses<ISO8601DateStaticCoder>
 /// Encode this immutable `Date` Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public typealias ISO8601DateFormatterEncoding<CustomEncoder: ISO8601DateFormatterStaticEncoder> = EncodingUses<CustomEncoder>
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 /// Decode this immutable `Date` Property using the passed formatter
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public typealias ISO8601DateFormatterDecoding<CustomDecoder: ISO8601DateFormatterStaticDecoder> = DecodingUses<CustomDecoder>

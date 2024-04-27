@@ -20,11 +20,11 @@ enum SyntaxError: Error {
 
     var localizedDescription: String {
         switch self {
-        case .requiresCodableMacro(let name): "@CodingKey is required to use @\(name)"
+        case .requiresCodableMacro(let name): "@\(CustomCodable.macroName) is required to use @\(name)"
         case .mustBeStringLiteral: "CodingKey must be a String Literal"
         case .codingKeyValueRequired: "CodingKey must have a value String"
         case .codingKeyValueCannotBeEmpty: "CodingKey must pass a non-empty String"
-        case .codingKeysExist: "Please remove `CodingKeys` to use \(Codable.macroName)"
+        case .codingKeysExist: "Please remove `CodingKeys` to use @\(CustomCodable.macroName)"
         case .canOnlyBeAttachedToProperty(let name): "\(name) can only be attached to properties"
         case .canOnlyBeAttachedToStruct(let name): "\(name) can only be attached to structs"
         case .canOnlyBeAttachedToPropertiesAndStructs(let name): "\(name) can only be attached to properties and structs"

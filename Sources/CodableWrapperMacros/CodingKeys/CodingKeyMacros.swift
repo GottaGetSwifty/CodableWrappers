@@ -9,8 +9,8 @@ import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 import SwiftDiagnostics
 
-public struct CodingKey: PeerMacro, MacroNameable {
-    static let macroName: String = "CodingKey"
+public struct CustomCodingKey: PeerMacro, MacroNameable {
+    static let macroName: String = "CustomCodingKey"
     public static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
         guard declaration.as(VariableDeclSyntax.self) != nil else {
             throw DiagnosticsError(diagnostics: [.init(node: node, syntaxError: .canOnlyBeAttachedToProperty(name: "@\(macroName)"))])

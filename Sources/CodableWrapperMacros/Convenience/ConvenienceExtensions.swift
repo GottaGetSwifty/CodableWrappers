@@ -115,7 +115,7 @@ extension InheritanceClauseSyntax {
 }
 extension StructDeclSyntax {
     var hasCodableAttribute: Bool {
-        hasAttribute(named: Codable.macroName)
+        hasAttribute(named: CustomCodable.macroName)
     }
 
     func hasAttribute(named name: String) -> Bool {

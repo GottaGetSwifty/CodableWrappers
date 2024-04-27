@@ -27,7 +27,7 @@ let package = Package(
         // swiftlint is kinda big to pull in and build right now...maybe later
 //        .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.52.0")),
         // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
-        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.0-swift-DEVELOPMENT-SNAPSHOT-2023-08-15-a"),
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.1.1"),
     ],
     targets: [
         .target(
@@ -59,6 +59,15 @@ let package = Package(
             dependencies: [
                 "CodableWrapperMacros",
                 "Quick", "Nimble",
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+            ]
+        ),
+        .testTarget(
+            name: "IntegrationTests",
+            dependencies: [
+                "CodableWrapperMacros",
+                "Quick", "Nimble",
+                "CodableWrappers",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ]
         ),

@@ -9,32 +9,13 @@ import XCTest
 // Macro implementations build for the host, so the corresponding module is not available when cross-compiling. Cross-compiled tests may still make use of the macro itself in end-to-end tests.
 @testable import CodableWrapperMacros
 
-let testMacros: [String: Macro.Type] = [
-    "Codable": Codable.self,
-    "CodingKey": CodingKey.self,
-    "CamelCase": CamelCase.self,
-    "FlatCase": FlatCase.self,
-    "PascalCase": PascalCase.self,
-    "UpperCase": UpperCase.self,
-    "SnakeCase": SnakeCase.self,
-    "CamelSnakeCase": CamelSnakeCase.self,
-    "PascalSnakeCase": PascalSnakeCase.self,
-    "ScreamingSnakeCase": ScreamingSnakeCase.self,
-    "KebabCase": KebabCase.self,
-    "CamelKebabCase": CamelKebabCase.self,
-    "PascalKebabCase": PascalKebabCase.self,
-    "ScreamingKebabCase": ScreamingKebabCase.self,
-    "CodingKeyPrefix": CodingKeyPrefix.self,
-    "CodingKeySuffix": CodingKeySuffix.self,
-]
-
 final class CodingKeyMacroTests: XCTestCase {
     func testCustomCodingWorks() throws {
         assertMacroExpansion(
             """
-            @Codable()
+            @CustomCodable()
             struct TestCodable: Codable {
-                @CodingKey("NewKey")
+                @CustomCodingKey("NewKey")
                 let originalKey: String
             }
             """,
@@ -53,7 +34,7 @@ final class CodingKeyMacroTests: XCTestCase {
     func testMultipleMacrosOnSameProperty() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase @CamelCase @UpperCase
                 let originalKey: String
@@ -75,9 +56,9 @@ final class CodingKeyMacroTests: XCTestCase {
     func testMultipleMacrosWithCodingKey() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CustomCodable
             struct TestCodable: Codable {
-                @SnakeCase @CamelCase @UpperCase @CodingKey("TESTKEY")
+                @SnakeCase @CamelCase @UpperCase @CustomCodingKey("TESTKEY")
                 let originalKey: String
             }
             """,
@@ -97,7 +78,7 @@ final class CodingKeyMacroTests: XCTestCase {
     func testComputedPropertiesAreIgnored() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -118,7 +99,7 @@ final class CodingKeyMacroTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -143,7 +124,7 @@ final class CodingKeyMacroTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -168,7 +149,7 @@ final class CodingKeyMacroTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            @Codable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -201,7 +182,7 @@ final class CodingKeyMacroTests: XCTestCase {
     func testComputedPropertiesWithAttributeShowWarning() throws {
         assertMacroExpansion(
             """
-            @Codable
+            @CustomCodable
             struct TestCodable: Codable {
                 @SnakeCase
                 let originalKey: String
@@ -226,10 +207,10 @@ final class CodingKeyMacroTests: XCTestCase {
     func testStructLevelSnakeCase() throws {
         assertMacroExpansion(
             """
-            @Codable() @SnakeCase
+            @CustomCodable @SnakeCase
             struct OtherThing: Codable {
                 let oneThing: String
-                @CodingKey("testKey")
+                @CustomCodingKey("testKey")
                 let twoThing: TestThing
                 @KebabCase
                 private let threeThing: String
@@ -297,7 +278,7 @@ final class CodingKeyMacroTests: XCTestCase {
         CodingKeyTestValues.validPropertyNames.forEach { testValue in
             assertMacroExpansion(
                     """
-                    @Codable
+                    @CustomCodable
                     struct TestCodable: Codable {
                         @\(attributeName)
                         let \(testName): String
@@ -320,7 +301,7 @@ final class CodingKeyMacroTests: XCTestCase {
         CodingKeyTestValues.validPropertyNames.forEach { testValue in
             assertMacroExpansion(
                     """
-                    @Codable @\(attributeName)
+                    @CustomCodable @\(attributeName)
                     struct TestCodable: Codable {
                         let \(testName): String
                         @SnakeCase let otherName: String
