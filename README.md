@@ -23,6 +23,10 @@ struct User: Codable {
 
 ---
 
+## Documentation
+
+[Full DocC documentation here](https://swiftpackageindex.com/GottaGetSwifty/CodableWrappers/documentation/codablewrappers) thanks to the Swift Package Index!
+
 ## Installation
 
 ### Swift Package Manager \***Preferred***
