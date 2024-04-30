@@ -6,6 +6,8 @@ import Foundation
 import Quick
 import Nimble
 
+#if canImport(CodableWrapperMacros)
+
 @testable import CodableWrapperMacros
 
 final class KeyConverterTests: QuickSpec {
@@ -83,3 +85,5 @@ final class KeyConverterTests: QuickSpec {
         }
     }
 }
+
+#endif

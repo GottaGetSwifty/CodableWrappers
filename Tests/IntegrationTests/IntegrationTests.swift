@@ -8,6 +8,8 @@
 import XCTest
 import Foundation
 import CodableWrappers
+
+#if canImport(CodableWrapperMacros)
 import CodableWrapperMacros
 
 final class IntegrationTests: XCTestCase {
@@ -37,3 +39,4 @@ final class IntegrationTests: XCTestCase {
 //    @SecondsSince1970DateCoding
 //    var joinDate: Date
 //}
+#endif

@@ -6,6 +6,7 @@ import SwiftSyntaxMacros
 import SwiftSyntaxMacrosTestSupport
 import XCTest
 
+#if canImport(CodableWrapperMacros)
 @testable import CodableWrapperMacros
 
 extension DiagnosticSpec {
@@ -17,3 +18,5 @@ extension DiagnosticSpec {
         self.init(message: error.localizedDescription, line: line, column: column, severity: .error)
     }
 }
+
+#endif

@@ -4,6 +4,8 @@
 
 import Quick
 import Nimble
+
+#if canImport(CodableWrapperMacros)
 @testable import CodableWrapperMacros
 
 /// This predicate
@@ -105,3 +107,5 @@ enum CodingKeyTestValues: String, CaseIterable {
         }
     }
 }
+
+#endif
