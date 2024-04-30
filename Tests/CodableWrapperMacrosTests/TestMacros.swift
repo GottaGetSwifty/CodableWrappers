@@ -8,6 +8,8 @@
 import SwiftSyntaxMacros
 import SwiftSyntaxMacrosTestSupport
 
+#if canImport(CodableWrapperMacros)
+
 @testable import CodableWrapperMacros
 
 let testMacros: [String: Macro.Type] = [
@@ -28,3 +30,5 @@ let testMacros: [String: Macro.Type] = [
     CodingKeyPrefix.macroName: CodingKeyPrefix.self,
     CodingKeySuffix.macroName: CodingKeySuffix.self,
 ]
+
+#endif
