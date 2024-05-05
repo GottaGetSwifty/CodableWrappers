@@ -123,3 +123,9 @@ extension OptionalCoding: Equatable where CustomCoderWrapper.CustomEncoder.Origi
 extension OptionalEncoding: Hashable where CustomEncoderWrapper.CustomEncoder.OriginalType: Hashable {}
 extension OptionalDecoding: Hashable where CustomDecoderWrapper.CustomDecoder.DecodedType: Hashable {}
 extension OptionalCoding: Hashable where CustomCoderWrapper.CustomEncoder.OriginalType: Hashable {}
+
+// MARK: Conditional Sendable Conformance
+
+extension OptionalEncoding: Sendable where CustomEncoderWrapper.CustomEncoder.OriginalType: Sendable {}
+extension OptionalDecoding: Sendable where CustomDecoderWrapper.CustomDecoder.DecodedType: Sendable {}
+extension OptionalCoding: Sendable where CustomCoderWrapper.CustomEncoder.OriginalType: Sendable {}

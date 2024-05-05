@@ -93,3 +93,9 @@ extension TransientDecoding: Encodable where T: Encodable {
 extension TransientEncoding: Equatable where T: Equatable {}
 extension TransientDecoding: Equatable where T: Equatable {}
 extension TransientCoding: Equatable where T: Equatable {}
+
+// MARK: - Conditional Sendable Conformance
+
+extension TransientEncoding: Sendable where T: Sendable {}
+extension TransientDecoding: Sendable where T: Sendable {}
+extension TransientCoding: Sendable where T: Sendable {}

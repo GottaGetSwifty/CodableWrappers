@@ -113,8 +113,15 @@ extension FallbackEncoding: Equatable where ValueProvider.ValueType: Equatable {
 extension FallbackDecoding: Equatable where ValueProvider.ValueType: Equatable {}
 extension FallbackCoding: Equatable where ValueProvider.ValueType: Equatable {}
 
+
 // MARK: Conditional Hashable Conformance
 
 extension FallbackEncoding: Hashable where ValueProvider.ValueType: Hashable {}
 extension FallbackDecoding: Hashable where ValueProvider.ValueType: Hashable {}
 extension FallbackCoding: Hashable where ValueProvider.ValueType: Hashable {}
+
+// MARK: Conditional Sendable Conformance
+
+extension FallbackEncoding: Sendable where ValueProvider.ValueType: Sendable {}
+extension FallbackDecoding: Sendable where ValueProvider.ValueType: Sendable {}
+extension FallbackCoding: Sendable where ValueProvider.ValueType: Sendable {}
