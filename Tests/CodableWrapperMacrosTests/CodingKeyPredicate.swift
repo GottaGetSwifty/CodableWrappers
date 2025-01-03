@@ -9,20 +9,20 @@ import Nimble
 @testable import CodableWrapperMacros
 
 /// This predicate
-public func matchConversion(from keyConverter: KeyConverter, with variant: CaseVariant) -> Predicate<String> {
-    return Predicate { actualExpression throws -> PredicateResult in
+public func matchConversion(from keyConverter: KeyConverter, with variant: CaseVariant) -> Matcher<String> {
+    return Matcher { actualExpression throws -> MatcherResult in
         guard let expectedValue = try actualExpression.evaluate() else {
-            return PredicateResult(status: .fail, message: ExpectationMessage.fail("Invalid Expression").appendedBeNilHint())
+            return MatcherResult(status: .fail, message: ExpectationMessage.fail("Invalid Expression").appendedBeNilHint())
         }
 
         for value in CodingKeyTestValues.allCases {
             let convertedValue = keyConverter.convert(value: value.rawValue, variant: variant)
             if convertedValue != expectedValue {
-                return PredicateResult(bool: false, message: .expectedTo("convert \(value.rawValue) to \(expectedValue) instead of \(convertedValue)"))
+                return MatcherResult(bool: false, message: .expectedTo("convert \(value.rawValue) to \(expectedValue) instead of \(convertedValue)"))
             }
         }
 
-        return PredicateResult(
+        return MatcherResult(
             bool: true,
             message: ExpectationMessage.expectedTo("Coding Matched")
         )

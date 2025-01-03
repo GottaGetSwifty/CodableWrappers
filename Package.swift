@@ -12,18 +12,21 @@ let package = Package(
         .library(
             name: "CodableWrappers",
             targets: ["CodableWrappers"]),
-//        .library(
-//            name: "CodableMacros",
-//            targets: ["CodableMacros"]
-//        ),
-//        .executable(
-//            name: "TestClient",
-//            targets: ["TestClient"]
-//        ),
+/*
+ *Targets used to ease active development
+        .library(
+            name: "CodableMacros",
+            targets: ["CodableMacros"]
+        ),
+        .executable(
+            name: "TestClient",
+            targets: ["TestClient"]
+        ),
+*/
     ],
     dependencies: [
-        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "12.0.0")),
-        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "7.0.0")),
+        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "13.0.0")),
+        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "7.6.0")),
         // swiftlint is kinda big to pull in and build right now...maybe later
 //        .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.52.0")),
         // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
@@ -47,12 +50,15 @@ let package = Package(
             ]
         ),
 
+/*
+ *Targets used to ease active development
+
         // This is really just one file. Keeping it separate for faster development/testing
-//        .target(name: "CodableMacros", dependencies: ["CodableWrapperMacros"]),
+        .target(name: "CodableMacros", dependencies: ["CodableWrapperMacros"]),
 
         // A client of the library, which is able to use the macro in its own code.
-//        .executableTarget(name: "TestClient", dependencies: ["CodableMacros"]),
-
+        .executableTarget(name: "TestClient", dependencies: ["CodableMacros"]),
+*/
         // A test target used to develop the macro implementation.
         .testTarget(
             name: "CodableWrapperMacrosTests",

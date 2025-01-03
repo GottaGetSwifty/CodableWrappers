@@ -9,21 +9,21 @@ import Quick
 import Nimble
 
 /// This predicate
-public func haveEqualLines(to expectedValue: String, trimWhitespace: Bool = true) -> Predicate<String> {
+public func haveEqualLines(to expectedValue: String, trimWhitespace: Bool = true) -> Matcher<String> {
     // Can be shortened to:
     //   Predicate { actual in  ... }
     //
     // But shown with types here for clarity.
-    return Predicate { (actualExpression: Expression<String>) throws -> PredicateResult in
+    return Matcher { (actualExpression: Expression<String>) throws -> MatcherResult in
         guard let actualValue = try actualExpression.evaluate() else {
-            return PredicateResult(status: .fail, message: ExpectationMessage.fail("").appendedBeNilHint())
+            return MatcherResult(status: .fail, message: ExpectationMessage.fail("").appendedBeNilHint())
         }
 
         let expectedLines = expectedValue.split(separator: "\n")
         let actualLines = actualValue.split(separator: "\n")
 
         guard actualLines.count >= expectedLines.count  else {
-            return PredicateResult(status: .fail,
+            return MatcherResult(status: .fail,
                                    message: ExpectationMessage
                                     .expectedCustomValueTo("""
                                         have \(expectedLines.count) lines
@@ -41,13 +41,13 @@ public func haveEqualLines(to expectedValue: String, trimWhitespace: Bool = true
                 (expectedLines[i].trimmingCharacters(in: .whitespacesAndNewlines) ==
                     actualLines[i].trimmingCharacters(in: .whitespacesAndNewlines))
             if !isEqual {
-                return PredicateResult(status: .fail,
+                return MatcherResult(status: .fail,
                                        message: ExpectationMessage
                                         .expectedCustomValueTo("have line \(i) be \(expectedLines[i]) ", actual: "\(actualLines[i])"))
             }
         }
 
-        return PredicateResult(
+        return MatcherResult(
             bool: true,
             message: ExpectationMessage.expectedTo("Match XML")
         )

@@ -153,6 +153,7 @@ private let defaultsEncodingTestModel = DefaultEncodingModel(boolTrue: true, boo
 
 private let valuesTestingJSON = """
 {
+    "Int8" : 1,
     "array" : [
     1
     ],
@@ -166,7 +167,6 @@ private let valuesTestingJSON = """
     "float" : 1,
     "float16" : 1,
     "int" : 1,
-    "Int8" : 1,
     "int16" : 1,
     "int32" : 1,
     "int64" : 1,
@@ -175,15 +175,16 @@ private let valuesTestingJSON = """
     ],
     "string" : "1",
     "uInt" : 1,
-    "uInt8" : 1,
     "uInt16" : 1,
     "uInt32" : 1,
-    "uInt64" : 1
+    "uInt64" : 1,
+    "uInt8" : 1
 }
 """
 
 private let emptyTestingJSON = """
 {
+    "Int8" : 0,
     "array" : [
 
     ],
@@ -197,7 +198,6 @@ private let emptyTestingJSON = """
     "float" : 0,
     "float16" : 0,
     "int" : 0,
-    "Int8" : 0,
     "int16" : 0,
     "int32" : 0,
     "int64" : 0,
@@ -205,10 +205,10 @@ private let emptyTestingJSON = """
     ],
     "string" : "",
     "uInt" : 0,
-    "uInt8" : 0,
     "uInt16" : 0,
     "uInt32" : 0,
-    "uInt64" : 0
+    "uInt64" : 0,
+    "uInt8" : 0
 }
 """
 
