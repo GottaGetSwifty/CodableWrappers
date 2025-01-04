@@ -211,7 +211,7 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec, DecodingTestSpec {
                         expect(encodedString).toNot(beNil())
 
                         if let actualString = encodedString {
-                            expect(actualString).to(haveEqualLines(to: secondsSince1970XML))
+                            expect(actualString).to(haveEqualLines(to: secondsSince1970XML, secondsSince1970XML2))
                         }
                     }
                 }
@@ -328,6 +328,17 @@ private let secondsSince1970JSON = """
 """
 
 private let secondsSince1970XML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>secondsSince1970Date</key>
+    <real>590277534.0</real>
+</dict>
+</plist>
+"""
+
+private let secondsSince1970XML2 = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

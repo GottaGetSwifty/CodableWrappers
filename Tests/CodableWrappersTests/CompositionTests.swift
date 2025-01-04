@@ -46,7 +46,7 @@ class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec 
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: basicXML))
+                        expect(actualString).to(haveEqualLines(to: basicXML, basicXML2))
                     }
                 }
                 it("WithEmptyModel") {
@@ -57,7 +57,7 @@ class PartialImplementationTests: QuickSpec, DecodingTestSpec, EncodingTestSpec 
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: missingOptionalXML))
+                        expect(actualString).to(haveEqualLines(to: missingOptionalXML, missingOptionalXML2, missingOptionalXML3))
                     }
                 }
             }
@@ -133,7 +133,7 @@ private let basicModel = CompositionTestModel(mutableTime: Date(timeIntervalSinc
                                               plainOptionalImmutable: "There",
                                               duration: 1)
 private let emptyModel = CompositionTestModel(mutableTime: Date(timeIntervalSince1970: 590277534.0),
-                                              immutableTime: Date(timeIntervalSince1970: 590277534.0),
+                                              immutableTime: Date(timeIntervalSince1970: 590277535.0),
                                               optionalTime: nil,
                                               optionalImmutableTime: nil,
                                               plainImmutable: "",
@@ -153,6 +153,29 @@ private let basicJSON = """
 """
 
 private let basicXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>duration</key>
+    <real>1.0</real>
+    <key>immutableTime</key>
+    <real>590277534.0</real>
+    <key>mutableTime</key>
+    <real>590277534.0</real>
+    <key>optionalImmutableTime</key>
+    <real>590277534.0</real>
+    <key>optionalTime</key>
+    <real>590277534.0</real>
+    <key>plainImmutable</key>
+    <string>Hi</string>
+    <key>plainOptionalImmutable</key>
+    <string>There</string>
+</dict>
+</plist>
+"""
+
+private let basicXML2 = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -178,11 +201,12 @@ private let basicXML = """
 private let missingOptionalJSON = """
 {
     "duration" : 0,
-    "immutableTime" : 590277534,
+    "immutableTime" : 590277535,
     "mutableTime" : 590277534,
     "plainImmutable" : ""
 }
 """
+
 
 private let missingOptionalXML = """
 <?xml version="1.0" encoding="UTF-8"?>
@@ -190,9 +214,26 @@ private let missingOptionalXML = """
 <plist version="1.0">
 <dict>
     <key>duration</key>
+    <real>0.0</real>
+    <key>immutableTime</key>
+    <real>590277535.0</real>
+    <key>mutableTime</key>
+    <real>590277534.0</real>
+    <key>plainImmutable</key>
+    <string></string>
+</dict>
+</plist>
+"""
+
+private let missingOptionalXML2 = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>duration</key>
     <real>0</real>
     <key>immutableTime</key>
-    <real>590277534</real>
+    <real>590277535</real>
     <key>mutableTime</key>
     <real>590277534</real>
     <key>plainImmutable</key>
@@ -200,3 +241,21 @@ private let missingOptionalXML = """
 </dict>
 </plist>
 """
+
+private let missingOptionalXML3 = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>duration</key>
+    <real>0.0</real>
+    <key>immutableTime</key>
+    <real>590277535</real>
+    <key>mutableTime</key>
+    <real>590277534</real>
+    <key>plainImmutable</key>
+    <string></string>
+</dict>
+</plist>
+"""
+
