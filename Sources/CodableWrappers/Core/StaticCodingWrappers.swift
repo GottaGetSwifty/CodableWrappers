@@ -95,3 +95,9 @@ extension CodingUses: Equatable where CustomCoder.CodingType: Equatable {}
 extension EncodingUses: Hashable where CustomEncoder.OriginalType: Hashable {}
 extension DecodingUses: Hashable where CustomDecoder.DecodedType: Hashable {}
 extension CodingUses: Hashable where CustomCoder.CodingType: Hashable {}
+
+// MARK: - Conditional Sendable Conformance
+
+extension EncodingUses: Sendable where CustomEncoder.OriginalType: Sendable {}
+extension DecodingUses: Sendable where CustomDecoder.DecodedType: Sendable {}
+extension CodingUses: Sendable where CustomCoder.CodingType: Sendable {}

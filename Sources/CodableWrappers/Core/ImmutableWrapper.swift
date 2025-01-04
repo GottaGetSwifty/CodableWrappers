@@ -25,7 +25,7 @@ public struct Immutable<T>: AnyImmutableWrapper {
     }
 }
 
-// MARK: - Conditional Equatable Conformances
+// MARK: - Conditional Conformances
 
 // TransientCodable will handle the (en/de)coding here when needed without adding additional layers
 extension Immutable: Encodable, TransientEncodable where T: Encodable { }
@@ -34,6 +34,7 @@ extension Immutable: TransientCodable where T: Codable { }
 
 extension Immutable: Equatable where T: Equatable { }
 extension Immutable: Hashable where T: Hashable { }
+extension Immutable: Sendable where T: Sendable { }
 
 // MARK: - Handling Immutable and Optional interaction
 

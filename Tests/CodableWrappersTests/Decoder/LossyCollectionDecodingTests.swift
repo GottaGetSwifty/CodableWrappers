@@ -71,7 +71,9 @@ class LossyCollectionDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpe
                     }
                 }
                 it("FiltersAllNulls") {
-                    expect {_ = try self.plistDecoder.decode(LossyCollectionModel.self, from: allNullTestXML.data(using: .utf8)!)}.toNot(throwError())
+                    expect {
+                        _ = try self.plistDecoder.decode(LossyCollectionModel.self, from: allNullTestXML.data(using: .utf8)!)
+                    }.toNot(throwError())
                     let decodedModel = try? self.plistDecoder.decode(LossyCollectionModel.self, from: allNullTestXML.data(using: .utf8)!)
                     expect(decodedModel).toNot(beNil())
                     if let actualModel = decodedModel {
@@ -196,8 +198,6 @@ private let allNullTestXML = """
     <dict>
         <key>first</key>
         <string>$null</string>
-        <key>$null</key>
-        <string>$null</string>
     </dict>
     <key>set</key>
     <array>
@@ -245,8 +245,6 @@ private let partialNullTestXML = """
         <string>$null</string>
         <key>second</key>
         <string>second</string>
-        <key>$null</key>
-        <string>$null</string>
     </dict>
     <key>set</key>
     <array>

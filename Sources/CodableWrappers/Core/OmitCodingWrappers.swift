@@ -96,3 +96,9 @@ extension OmitCoding: Equatable where WrappedType: Equatable { }
 extension OmitEncoding: Hashable where WrappedType: Hashable { }
 extension OmitDecoding: Hashable where WrappedType: Hashable { }
 extension OmitCoding: Hashable where WrappedType: Hashable { }
+
+// MARK: - Conditional Sendable Conformance
+
+extension OmitEncoding: Sendable where WrappedType: Sendable { }
+extension OmitDecoding: Sendable where WrappedType: Sendable { }
+extension OmitCoding: Sendable where WrappedType: Sendable { }

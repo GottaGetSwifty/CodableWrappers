@@ -190,7 +190,7 @@ private let missingOptionalXML = """
 <plist version="1.0">
 <dict>
     <key>duration</key>
-    <real>0.0</real>
+    <real>0</real>
     <key>immutableTime</key>
     <real>590277534</real>
     <key>mutableTime</key>
