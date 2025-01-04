@@ -10,9 +10,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-  macos-swift-test:
-    name: latest macOS Swift tests
-    runs-on: macos-latest
+  macos-15-sequoia-swift-test:
+    name: macOS 15 sequoia Swift tests
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run swift tests
+      run: swift test -v
+  macos-15-sequoia-large-swift-test:
+    name: macOS 15 sequoia large Swift tests
+    runs-on: macos-15-large
     steps:
     - uses: actions/checkout@v4
     - name: Build
@@ -20,9 +29,9 @@ jobs:
     - name: Run swift tests
       run: swift test -v
 
-  macos-sonoma-swift-test:
-    name: macOS Sonoma swift tests
-    runs-on: macos-14.7
+  macos-14-sonoma-swift-test:
+    name: macOS 14 Sonoma swift tests
+    runs-on: macos-14
     steps:
     - uses: actions/checkout@v4
     - name: Build
