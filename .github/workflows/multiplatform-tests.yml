@@ -1,0 +1,41 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Multi-platform Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  macos-15-sequoia-swift-test:
+    name: macOS 15 sequoia Swift tests
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run swift tests
+      run: swift test -v
+
+  macos-14-sonoma-swift-test:
+    name: macOS 14 Sonoma swift tests
+    runs-on: macos-14
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run swift tests
+      run: swift test -v
+
+  ubuntu-swift-test:
+    name: latest Ubuntu swift tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run swift tests
+      run: swift test -v
