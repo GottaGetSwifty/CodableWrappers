@@ -30,7 +30,8 @@ let package = Package(
         // swiftlint is kinda big to pull in and build right now...maybe later
 //        .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.52.0")),
         // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
-        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.1.1"),
+//        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.1.1"),
+        .package(url: "https://github.com/apple/swift-syntax.git", "508.0.0"..<"600.0.1"),
     ],
     targets: [
         .target(
