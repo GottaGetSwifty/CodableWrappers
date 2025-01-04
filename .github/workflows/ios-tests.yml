@@ -1,0 +1,40 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: iOS Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ios-18-test:
+    name: iOS 18 tests
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
+    - name: iOS 18
+      env:
+          scheme: ${{ 'CodableWrappers' }}
+          platform: ${{ 'iOS Simulator' }}
+          OS: ${{ '18.2' }}
+          device_name:  ${{ 'iPhone 16 Pro' }}
+      run: |
+        xcodebuild test -scheme "$scheme" -destination "platform=$platform,OS=$OS,name=$device_name"
+
+  ios-17-test:
+    name: iOS 17 tests
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
+    - name: iOS 17
+      env:
+          scheme: ${{ 'CodableWrappers' }}
+          platform: ${{ 'iOS Simulator' }}
+          OS: ${{ '17.5' }}
+          device_name:  ${{ 'iPhone 15 Pro' }}
+      run: |
+        xcodebuild test -scheme "$scheme" -destination "platform=$platform,OS=$OS,name=$device_name"
+  
