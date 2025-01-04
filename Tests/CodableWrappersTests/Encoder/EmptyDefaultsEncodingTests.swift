@@ -32,7 +32,7 @@ class EmptyDefaultsEncodingTests: QuickSpec, EncodingTestSpec {
                             expect(encodedString).toNot(beNil())
 
                             if let actualString = encodedString {
-                                expect(actualString).to(haveEqualLines(to: emptyTestingJSON))
+                                expect(actualString).to(haveEqualLines(to: emptyTestingJSON, emptyTestingJSON2))
                             }
                         }
                     }
@@ -45,7 +45,7 @@ class EmptyDefaultsEncodingTests: QuickSpec, EncodingTestSpec {
                             expect(encodedString).toNot(beNil())
 
                             if let actualString = encodedString {
-                                expect(actualString).to(haveEqualLines(to: valuesTestingJSON))
+                                expect(actualString).to(haveEqualLines(to: valuesTestingJSON, valuesTestingJSON2))
                             }
                         }
                     }
@@ -181,6 +181,38 @@ private let valuesTestingJSON = """
 }
 """
 
+private let valuesTestingJSON2 = """
+{
+    "array" : [
+    1
+    ],
+    "boolFalse" : true,
+    "boolTrue" : false,
+    "cgFloat" : 1,
+    "dictionary" : {
+    "1" : 1
+    },
+    "double" : 1,
+    "float" : 1,
+    "float16" : 1,
+    "int" : 1,
+    "Int8" : 1,
+    "int16" : 1,
+    "int32" : 1,
+    "int64" : 1,
+    "set" : [
+    1
+    ],
+    "string" : "1",
+    "uInt" : 1,
+    "uInt8" : 1,
+    "uInt16" : 1,
+    "uInt32" : 1,
+    "uInt64" : 1
+}
+"""
+
+
 private let emptyTestingJSON = """
 {
     "Int8" : 0,
@@ -208,6 +240,36 @@ private let emptyTestingJSON = """
     "uInt32" : 0,
     "uInt64" : 0,
     "uInt8" : 0
+}
+"""
+
+private let emptyTestingJSON2 = """
+{
+    "array" : [
+
+    ],
+    "boolFalse" : false,
+    "boolTrue" : true,
+    "cgFloat" : 0,
+    "dictionary" : {
+
+    },
+    "double" : 0,
+    "float" : 0,
+    "float16" : 0,
+    "int" : 0,
+    "Int8" : 0,
+    "int16" : 0,
+    "int32" : 0,
+    "int64" : 0,
+    "set" : [
+    ],
+    "string" : "",
+    "uInt" : 0,
+    "uInt8" : 0,
+    "uInt16" : 0,
+    "uInt32" : 0,
+    "uInt64" : 0
 }
 """
 

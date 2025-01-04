@@ -51,7 +51,7 @@ class CustomFloatingPointEncoderTests: QuickSpec, EncodingTestSpec {
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: doubleTestXML))
+                        expect(actualString).to(haveEqualLines(to: doubleTestXML, doubleTestXML2))
                     }
                 }
                 // MARK: CustomDouble
@@ -63,7 +63,7 @@ class CustomFloatingPointEncoderTests: QuickSpec, EncodingTestSpec {
                     expect(encodedString).toNot(beNil())
 
                     if let actualString = encodedString {
-                        expect(actualString).to(haveEqualLines(to: doubleTestXML))
+                        expect(actualString).to(haveEqualLines(to: doubleTestXML, doubleTestXML2))
                     }
                 }
             }
@@ -134,6 +134,23 @@ private let doubleTestJSON = """
 """
 
 private let doubleTestXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>infinity</key>
+    <string>100</string>
+    <key>nan</key>
+    <string>-1</string>
+    <key>negativeInfinity</key>
+    <string>-100</string>
+    <key>regular</key>
+    <real>5.0</real>
+</dict>
+</plist>
+"""
+
+private let doubleTestXML2 = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
