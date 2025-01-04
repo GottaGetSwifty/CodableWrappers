@@ -4,8 +4,8 @@
 name: Experimental Tests
 
 on:
-  pull_request:
-    branches: [ ]
+  push:
+    branches: [ "main" ]
 
 jobs:
   windows-swift-test:
@@ -21,7 +21,7 @@ jobs:
       run: swift build -v
     - name: Run swift tests
       run: swift test -v
-      
+
   check-macro-compatibility:
     name: Check Macro Compatibility
     runs-on: macos-15
@@ -31,5 +31,5 @@ jobs:
       - name: Run Swift Macro Compatibility Check
         uses: Matejkob/swift-macro-compatibility-check@v1
         with:
-          run-tests: false
+          run-tests: true
           major-versions-only: true
