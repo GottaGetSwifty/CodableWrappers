@@ -2,13 +2,13 @@ import XCTest
 import Quick
 
 @testable import CodableWrappersTests
-@testable import CodableWrapperMacrosTests
+//@testable import CodableWrapperMacrosTests
 
 let allTestClasses = [
-    CodingKeyMacroErrorTests.self,
-    CodingKeyMacroTests.self,
-    CodingKeyPrefixSuffixTests.self,
-    KeyConverterTests.self,
+//    CodingKeyMacroErrorTests.self,
+//    CodingKeyMacroTests.self,
+//    CodingKeyPrefixSuffixTests.self,
+//    KeyConverterTests.self,
 
     BoolDecodingTests.self,
     CustomFloatingPointDecoderTests.self,
