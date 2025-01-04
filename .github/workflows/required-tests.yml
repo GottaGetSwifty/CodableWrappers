@@ -30,7 +30,7 @@ jobs:
         scheme='CodableWrappers'
     - name: Build
       env:
-          scheme: ${{ 'scheme' }}
+          # scheme: ${{ '$scheme' }}
           platform: ${{ 'iOS Simulator' }}
           OS: ${{ '18.2' }}
           device_name:  ${{ 'iPhone 16 Pro' }}
@@ -38,7 +38,7 @@ jobs:
         xcodebuild build-for-testing -scheme "$scheme" -destination 'platform="$platform",OS="$OS",name="$device_name"'
     - name: Run iOS tests
       env:
-          scheme: ${{ 'scheme' }}
+          # scheme: ${{ '$scheme' }}
           platform: ${{ 'iOS Simulator' }}
           OS: ${{ '18.2' }}
           device_name:  ${{ 'iPhone 16 Pro' }}
