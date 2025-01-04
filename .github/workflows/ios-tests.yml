@@ -10,9 +10,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  ios-test:
-    name: iOS tests
-    runs-on: macos-latest
+  ios-18-test:
+    name: iOS 18 tests
+    runs-on: macos-15
     steps:
     - uses: actions/checkout@v4
     - name: iOS 18
@@ -23,6 +23,12 @@ jobs:
           device_name:  ${{ 'iPhone 16 Pro' }}
       run: |
         xcodebuild test -scheme "$scheme" -destination 'platform="$platform",OS="$OS",name="$device_name"'
+        
+  ios-17-test:
+    name: iOS 17 tests
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
     - name: iOS 17
       env:
           scheme: ${{ 'CodableWrappers' }}

@@ -19,15 +19,6 @@ jobs:
       run: swift build -v
     - name: Run swift tests
       run: swift test -v
-  macos-15-sequoia-large-swift-test:
-    name: macOS 15 sequoia large Swift tests
-    runs-on: macos-15-large
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: swift build -v
-    - name: Run swift tests
-      run: swift test -v
 
   macos-14-sonoma-swift-test:
     name: macOS 14 Sonoma swift tests
@@ -42,6 +33,16 @@ jobs:
   ubuntu-swift-test:
     name: latest Ubuntu swift tests
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run swift tests
+      run: swift test -v
+
+  windows-swift-test:
+    name: latest Windows swift tests
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
     - name: Build

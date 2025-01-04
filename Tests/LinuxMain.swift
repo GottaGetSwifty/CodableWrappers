@@ -21,4 +21,9 @@ let allTestClasses = [
     CompositionTests.self,
     PartialImplementationTests.self,
 ]
-Quick.QCKMain(allTestClasses)
+
+@main struct Main {
+    static func main() {
+        QCKMain(allTestClasses)
+    }
+}
