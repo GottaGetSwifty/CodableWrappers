@@ -2,6 +2,7 @@ import XCTest
 import Quick
 
 @testable import CodableWrappersTests
+@testable import CodableWrapperMacrosTests
 
 let allTestClasses = [
     CodingKeyMacroErrorTests.self,

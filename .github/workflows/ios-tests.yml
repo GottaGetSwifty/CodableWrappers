@@ -33,7 +33,7 @@ jobs:
       env:
           scheme: ${{ 'CodableWrappers' }}
           platform: ${{ 'iOS Simulator' }}
-          OS: ${{ '17.7' }}
+          OS: ${{ '17.5' }}
           device_name:  ${{ 'iPhone 15 Pro' }}
       run: |
         xcodebuild test -scheme "$scheme" -destination "platform=$platform,OS=$OS,name=$device_name"
