@@ -56,11 +56,11 @@ extension AttributeSyntax {
             throw DiagnosticsError(diagnostics: [.init(node: self, syntaxError: .mustBeStringLiteral)])
         }
         // Uses the value in the Macro
-        guard let customKeyValue = argument.as(LabeledExprSyntax.self)?.expression else {
+        guard let customKeyValue = argument.expression.as(StringLiteralExprSyntax.self) else {
             throw DiagnosticsError(diagnostics: [.init(node: self, syntaxError: .codingKeyValueRequired)])
         }
 
-        return customKeyValue
+        return ExprSyntax(customKeyValue)
     }
 }
 

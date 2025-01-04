@@ -6,6 +6,8 @@ name: Experimental Tests
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   windows-swift-test:

@@ -12,6 +12,47 @@ import XCTest
 
 final class CodingKeyMacroErrorTests: XCTestCase {
     func testMultipleMacrosWithCodingKey() throws {
+#if canImport(SwiftSyntax600)
+        assertMacroExpansion(
+            """
+            @CustomCodable struct TestCodable: Codable {
+                @CustomCodingKey("testKey") @SnakeCase
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+            
+                let originalKey: String
+            
+                private enum CodingKeys: String, CodingKey {
+                    case originalKey = "testKey"
+                }
+            }
+            """,
+            diagnostics: [.init(warning: .defaultingToCodingKey, line: 2, column: 5)],
+            macros: testMacros)
+
+        assertMacroExpansion(
+            """
+            @CustomCodable struct TestCodable: Codable {
+                @SnakeCase @CustomCodingKey("testKey")
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+            
+                let originalKey: String
+            
+                private enum CodingKeys: String, CodingKey {
+                    case originalKey = "testKey"
+                }
+            }
+            """,
+            diagnostics: [.init(warning: .defaultingToCodingKey, line: 2, column: 5)],
+            macros: testMacros)
+#else
         assertMacroExpansion(
             """
             @CustomCodable struct TestCodable: Codable {
@@ -49,9 +90,31 @@ final class CodingKeyMacroErrorTests: XCTestCase {
             """,
             diagnostics: [.init(warning: .defaultingToCodingKey, line: 2, column: 5)],
             macros: testMacros)
+#endif
     }
 
     func testMultipleCodingKeyMacrosThrowsWarning() throws {
+#if canImport(SwiftSyntax600)
+        assertMacroExpansion(
+            """
+            @CustomCodable struct TestCodable: Codable {
+                @SnakeCase @CamelCase @ScreamingSnakeCase
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+            
+                let originalKey: String
+            
+                private enum CodingKeys: String, CodingKey {
+                    case originalKey = "original_key"
+                }
+            }
+            """,
+            diagnostics: [.init(warning: .multipleCodingKeyAttributes, line: 2, column: 5)],
+            macros: testMacros)
+#else
         assertMacroExpansion(
             """
             @CustomCodable struct TestCodable: Codable {
@@ -70,7 +133,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
             """,
             diagnostics: [.init(warning: .multipleCodingKeyAttributes, line: 2, column: 5)],
             macros: testMacros)
-
+#endif
         assertMacroExpansion(
             """
             @CustomCodable @SnakeCase @CamelCase @ScreamingSnakeCase
