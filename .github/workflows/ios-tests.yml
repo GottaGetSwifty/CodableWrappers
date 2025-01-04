@@ -22,8 +22,8 @@ jobs:
           OS: ${{ '18.2' }}
           device_name:  ${{ 'iPhone 16 Pro' }}
       run: |
-        xcodebuild test -scheme "$scheme" -destination 'platform="$platform",OS="$OS",name="$device_name"'
-        
+        xcodebuild test -scheme "$scheme" -destination 'platform=$platform,OS=$OS,name=$device_name'
+
   ios-17-test:
     name: iOS 17 tests
     runs-on: macos-15
@@ -36,5 +36,5 @@ jobs:
           OS: ${{ '17.7' }}
           device_name:  ${{ 'iPhone 15 Pro' }}
       run: |
-        xcodebuild test -scheme "$scheme" -destination 'platform="$platform",OS="$OS",name="$device_name"'
+        xcodebuild test -scheme "$scheme" -destination 'platform=$platform,OS=$OS,name=$device_name'
   

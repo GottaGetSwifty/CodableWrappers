@@ -44,6 +44,10 @@ jobs:
     name: latest Windows swift tests
     runs-on: windows-latest
     steps:
+    - uses: compnerd/gha-setup-swift@main
+      with:
+        branch: swift-6.0-release
+        tag: 6.0-RELEASE
     - uses: actions/checkout@v4
     - name: Build
       run: swift build -v
