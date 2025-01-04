@@ -27,7 +27,7 @@ let allTestClasses = [
     CompositionTests.self,
     PartialImplementationTests.self,
 ]
-#if os(Linux, *)
+#if os(Linux)
 @main struct Main {
     static func main() {
         QCKMain(allTestClasses)
