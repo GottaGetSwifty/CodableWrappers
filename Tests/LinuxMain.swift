@@ -24,6 +24,6 @@ let allTestClasses = [
 
 @main struct Main {
     static func main() {
-        QCKMain.QCKMain(allTestClasses)
+        QCKMain(allTestClasses)
     }
 }
