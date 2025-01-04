@@ -4,8 +4,10 @@
 name: Experimental Tests
 
 on:
+  push:
+    branches: [ "experimental*" ]
   pull_request:
-    branches: [ ]
+    branches: [ "experimental*" ]
 
 jobs:
   windows-swift-test:

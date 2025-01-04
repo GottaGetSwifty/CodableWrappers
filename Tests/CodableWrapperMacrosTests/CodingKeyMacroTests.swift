@@ -33,6 +33,28 @@ final class CodingKeyMacroTests: XCTestCase {
     }
 
     func testMultipleMacrosOnSameProperty() throws {
+#if canImport(SwiftSyntax600)
+        assertMacroExpansion(
+            """
+            @CustomCodable
+            struct TestCodable: Codable {
+                @SnakeCase @CamelCase @UpperCase
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+            
+                let originalKey: String
+            
+                private enum CodingKeys: String, CodingKey {
+                    case originalKey = "original_key"
+                }
+            }
+            """,
+            diagnostics: [.init(warning: .multipleCodingKeyAttributes, line: 3, column: 5)],
+            macros: testMacros)
+#else
         assertMacroExpansion(
             """
             @CustomCodable
@@ -52,9 +74,32 @@ final class CodingKeyMacroTests: XCTestCase {
             """,
             diagnostics: [.init(warning: .multipleCodingKeyAttributes, line: 3, column: 5)],
             macros: testMacros)
+#endif
     }
 
     func testMultipleMacrosWithCodingKey() throws {
+#if canImport(SwiftSyntax600)
+        assertMacroExpansion(
+            """
+            @CustomCodable
+            struct TestCodable: Codable {
+                @SnakeCase @CamelCase @UpperCase @CustomCodingKey("TESTKEY")
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+            
+                let originalKey: String
+            
+                private enum CodingKeys: String, CodingKey {
+                    case originalKey = "TESTKEY"
+                }
+            }
+            """,
+            diagnostics: [.init(warning: .defaultingToCodingKey, line: 3, column: 5)],
+            macros: testMacros)
+#else
         assertMacroExpansion(
             """
             @CustomCodable
@@ -74,6 +119,7 @@ final class CodingKeyMacroTests: XCTestCase {
             """,
             diagnostics: [.init(warning: .defaultingToCodingKey, line: 3, column: 5)],
             macros: testMacros)
+#endif
     }
 
     func testComputedPropertiesAreIgnored() throws {

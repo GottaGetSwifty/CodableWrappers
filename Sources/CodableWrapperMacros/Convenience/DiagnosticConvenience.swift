@@ -5,6 +5,7 @@
 import Foundation
 import SwiftSyntax
 import SwiftDiagnostics
+import SwiftSyntaxMacros
 import SwiftSyntaxMacroExpansion
 
 extension Diagnostic {
