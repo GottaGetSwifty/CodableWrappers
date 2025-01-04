@@ -21,12 +21,13 @@ jobs:
       run: swift test -v
 
   ios-test:
-    name: Basic swift tests
+    name: iOS tests
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
     - name: Setup Vars
-      run: scheme:'CodableWrappers'
+      run: |
+        scheme='CodableWrappers'
     - name: Build
       env:
           scheme: ${{ 'scheme' }}
