@@ -1,0 +1,46 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Required Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  swift-test:
+    name: Basic swift tests
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run swift tests
+      run: swift test -v
+
+  ios-test:
+    name: Basic swift tests
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Vars
+      run: scheme:'CodableWrappers'
+    - name: Build
+      env:
+          scheme: ${{ 'scheme' }}
+          platform: ${{ 'iOS Simulator' }}
+          OS: ${{ '18.2' }}
+          device_name:  ${{ 'iPhone 16 Pro' }}
+      run: |
+        xcodebuild build-for-testing -scheme "$scheme" -destination 'platform="$platform",OS="$OS",name="$device_name"'
+    - name: Run iOS tests
+      env:
+          scheme: ${{ 'scheme' }}
+          platform: ${{ 'iOS Simulator' }}
+          OS: ${{ '18.2' }}
+          device_name:  ${{ 'iPhone 16 Pro' }}
+      run: |
+        xcodebuild test-without-building -scheme "$scheme" -destination 'platform="$platform",OS="$OS",name="$device_name"'
+  
