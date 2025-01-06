@@ -122,7 +122,7 @@ enum CaseVariant {
     case upperCase
 }
 
-class KeyConverter {
+struct KeyConverter: Sendable {
     static let snakeCaseConverter = KeyConverter(separator: "_")
     static let kebabCaseConverter = KeyConverter(separator: "-")
     static let plainCaseConverter = KeyConverter(separator: "")

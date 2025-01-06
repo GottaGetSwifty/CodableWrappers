@@ -58,6 +58,18 @@ public typealias SecondsSince1970DateDecoding = DecodingUses<SecondsSince1970Dat
 /// (En/De)code this immutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateCoding = CodingUses<SecondsSince1970DateStaticCoder>
 
+// MARK: ISO8601DateStyle
+
+/// Encode this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
+@available(macOS 12, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+public typealias ISO8601DateStyleEncoding = EncodingUses<ISO8601DateStyleCoder>
+/// Decode this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
+@available(macOS 12, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+public typealias ISO8601DateStyleDecoding = DecodingUses<ISO8601DateStyleCoder>
+/// (En/De) this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
+@available(macOS 12, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+public typealias ISO8601DateStyleCoding = CodingUses<ISO8601DateStyleCoder>
+
 // MARK: ISO8601Date
 
 /// Encode this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`

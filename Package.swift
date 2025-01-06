@@ -37,7 +37,10 @@ let package = Package(
     targets: [
         .target(
             name: "CodableWrappers",
-            dependencies: ["CodableWrapperMacros"]),
+            dependencies: ["CodableWrapperMacros"],
+            swiftSettings: [
+                .enableExperimentalFeature("StrictConcurrency")
+            ]),
 //            plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]),
 
         .testTarget(
@@ -49,6 +52,9 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("StrictConcurrency")
             ]
         ),
 
