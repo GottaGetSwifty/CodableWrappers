@@ -38,7 +38,7 @@ These wrappers are what largely what's used to construct the more user-friendly 
 - ``NonConformingDoubleStaticCoder``
 - ``NonConformingFloatStaticCoder``
 
-- ``ISO8601DateStyleCoder``
+- ``ISO8601StaticCoder``
 - ``ISO8601DateStaticCoder``
 
 

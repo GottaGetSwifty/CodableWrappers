@@ -19,6 +19,14 @@ Customize your Date serialization when you declare your properties: `@ISO8601Dat
 
 ### ISO-8601
 
+iOS 15+
+
+- ``ISO8601Coding``
+- ``ISO8601Encoding``
+- ``ISO8601Decoding``
+
+Deprecated
+
 - ``ISO8601DateCoding``
 - ``ISO8601DateEncoding``
 - ``ISO8601DateDecoding``
@@ -26,24 +34,24 @@ Customize your Date serialization when you declare your properties: `@ISO8601Dat
 ### Date Formatter
 Use with an instance of ``DateFormatterStaticCoder`` to use a custom DateFormatter for serialization
 
-- ``ISO8601DateStyleCoding``
-- ``ISO8601DateStyleEncoding``
-- ``ISO8601DateStyleDecoding``
+- ``DateFormatterCoding``
+- ``DateFormatterEncoding``
+- ``DateFormatterDecoding``
 
 - ``DateFormatterStaticCoder``
 - ``DateFormatterStaticEncoder``
 - ``DateFormatterStaticDecoder``
 
 ### ISO-8601 Date Style
-Use with an instance of ``ISO8601DateStyleCoder`` to use a custom DateFormatter for serialization
+Use with an instance of ``ISO8601StaticCoder`` to use a custom DateFormatter for serialization
 
-- ``ISO8601DateFormatterCoding``
-- ``ISO8601DateFormatterEncoding``
-- ``ISO8601DateFormatterDecoding``
+- ``ISO8601DateFormatStyleCoding``
+- ``ISO8601DateFormatStyleEncoding``
+- ``ISO8601DateFormatStyleDecoding``
 
-- ``ISO8601DateStyleStaticCoder``
-- ``ISO8601DateStyleStaticEncoder``
-- ``ISO8601DateStyleStaticDecoder``
+- ``ISO8601DateFormatStyleStaticCoder``
+- ``ISO8601DateFormatStyleStaticEncoder``
+- ``ISO8601DateFormatStyleStaticDecoder``
 
 ### ISO-8601 Date Formatter
 Use with an instance of ``ISO8601DateFormatterStaticCoder`` to use a custom DateFormatter for serialization
