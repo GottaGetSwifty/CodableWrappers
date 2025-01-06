@@ -29,7 +29,7 @@ let package = Package(
         .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "7.6.0")),
         // swiftlint is kinda big to pull in and build right now...maybe later
 //        .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.52.0")),
-        .package(url: "https://github.com/apple/swift-syntax.git", "508.0.0"..."600.0.1"),
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", "508.0.0"..."600.0.1"),
         // For testing different versions of swift-syntax
 //        .package(url: "https://github.com/apple/swift-syntax.git", .upToNextMajor(from: "509.0.0"))
 
