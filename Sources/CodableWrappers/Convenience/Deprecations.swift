@@ -104,11 +104,19 @@ public typealias ISO8601DateFormatterCoding<CustomCoder: ISO8601DateFormatterSta
 @available(tvOS, introduced: 10.0, deprecated: 15, renamed: "ISO8601DateFormatStyleStaticCoder",
            message: "To support Concurrency Checks use of `ISO8601DateFormatter` has been deprecated in favor of using `Date.ISO8601FormatStyle` with a new API")
 public struct ISO8601DateStaticCoder: ISO8601DateFormatterStaticCoder {
+#if swift(>=6.0.0)
     nonisolated(unsafe) public static let iso8601DateFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = .withInternetDateTime
         return formatter
     }()
+#else
+    public static let iso8601DateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = .withInternetDateTime
+        return formatter
+    }()
+#endif
 }
 
 /// ** Deprecated ** Replace  with ``ISO8601DateFormatStyleStaticDecoder``

@@ -85,5 +85,6 @@ let package = Package(
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ]
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.version("6"), .v5]
 )
