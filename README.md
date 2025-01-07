@@ -1,7 +1,8 @@
 # CodableWrappers
-
+[![API Docs](http://img.shields.io/badge/Read_the-docs-2196f3.svg)](https://swiftpackageindex.com/GottaGetSwifty/CodableWrappers/documentation/codablewrappers)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FGottaGetSwifty%2FCodableWrappers%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/GottaGetSwifty/CodableWrappers)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FGottaGetSwifty%2FCodableWrappers%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/GottaGetSwifty/CodableWrappers)
+[![codecov](https://codecov.io/github/GottaGetSwifty/CodableWrappers/graph/badge.svg?token=3F2A9MM6ED)](https://codecov.io/github/GottaGetSwifty/CodableWrappers)
 
 ## Simplified Serialization with [Property Wrappers](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md)
 
