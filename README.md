@@ -46,7 +46,7 @@ dependencies: [
 
 ### CocoaPods
 
-\***WARNING*** CocoaPods is not supported from version 3.0 to avoid complications with Swift Macros.
+\***WARNING*** CocoaPods is not currently supported for version 3.0 to avoid complications with Swift Macros.
 --- 
 
 
