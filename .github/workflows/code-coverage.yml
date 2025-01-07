@@ -1,0 +1,20 @@
+name: Code Coverage
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  test-and-upload-coverage:
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build and Test
+      env:
+          scheme: ${{ 'CodableWrappers' }}
+          platform: ${{ 'macOS' }}
+          device_name:  ${{ 'My Mac' }}
+      run: |
+        xcodebuild test -scheme "$scheme" -destination "platform=$platform,name=$device_name" -enableCodeCoverage YES 
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1.2.1
