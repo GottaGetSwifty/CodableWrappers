@@ -1,5 +1,22 @@
 # CodableWrappers Release Notes
 
+## Version 3.1
+
+### New Features
+
+- Full support for Swift 6's Strict concurrency checking
+- New `@ISO8601Coding` Property Wrappers using `Date.ISO8601FormatStyle` to fully support `Sendable`
+
+### Bug Fixes
+
+- Updating Manifest to avoid versioning issues for Swift and SwiftSyntax
+
+### Deprecations
+
+- `@ISO8601DateCoding` and `@ISO8601DateFormatterCoding` and related Types are deprecated due to `ISO8601DateFormatter` not being Thread Safe. 
+
+    Generally any current usage should work fine as-is, but it may be removed in a future major release.
+
 ## Version 3.0
 
 CodingKey macro support! Customized CodingKeys can now be generated with annotation!

@@ -34,7 +34,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                     }
                 }
                 // MARK: ISO8601
-                if #available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
+                if #available(OSX 12, iOS 15.0, watchOS 8, tvOS 15.0, *) {
                     it("ISO8601") {
                         expect {_ = try self.jsonDecoder.decode(ISO8601TestModel.self, from: iso8601JSON.data(using: .utf8)!)}.toNot(throwError())
                         let decodedModel = try? self.jsonDecoder.decode(ISO8601TestModel.self, from: iso8601JSON.data(using: .utf8)!)
@@ -83,7 +83,7 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                     }
                 }
                 // MARK: ISO8601
-                if #available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
+                if #available(OSX 12, iOS 15.0, watchOS 8, tvOS 15.0, *) {
                     it("ISO8601") {
                         expect {_ = try self.plistDecoder.decode(ISO8601TestModel.self, from: iso8601XML.data(using: .utf8)!)}.toNot(throwError())
                         let decodedModel = try? self.plistDecoder.decode(ISO8601TestModel.self, from: iso8601XML.data(using: .utf8)!)
@@ -162,17 +162,23 @@ private let millisecondsSince1790XML = """
 """
 
 // MARK: - ISO8601 Mock Data
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
 private struct ISO8601TestModel: Codable, Equatable {
     @ISO8601DateCoding
     var iso8601Date: Date
+    @ISO8601Coding
+    var isoDateStyle8601Date: Date
 }
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-private let iso8601TestInstance = ISO8601TestModel(iso8601Date: ISO8601DateFormatter().date(from: "2008-09-15T10:53:00Z")!)
+@available(OSX 12, iOS 15.0, watchOS 8, tvOS 15.0, *)
+private let iso8601TestInstance = ISO8601TestModel(iso8601Date: ISO8601DateFormatter().date(from: "2008-09-15T10:53:00Z")!,
+                                                   isoDateStyle8601Date: ISO8601DateFormatter().date(from: "2008-09-15T10:53:00Z")!)
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 private let iso8601JSON = """
 {
-    "iso8601Date" : "2008-09-15T10:53:00Z"
+    "iso8601Date" : "2008-09-15T10:53:00Z",
+    "isoDateStyle8601Date" : "2008-09-15T10:53:00Z"
 }
 """
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
@@ -182,6 +188,8 @@ private let iso8601XML = """
 <plist version="1.0">
 <dict>
     <key>iso8601Date</key>
+    <string>2008-09-15T10:53:00Z</string>
+    <key>isoDateStyle8601Date</key>
     <string>2008-09-15T10:53:00Z</string>
 </dict>
 </plist>
@@ -220,16 +228,20 @@ private struct TestCustomDateFormatter: DateFormatterStaticCoder {
 
 // MARK: - Custom ISO8601 Mock Data
 
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+@available(macOS 12, iOS 15.0, watchOS 8, tvOS 15.0, *)
 private struct CustomISO8601FormatterTestModel: Codable, Equatable {
     @CodingUses<TestCustomISO8601DateFormatter>
     var customFormatDate: Date
+    @CodingUses<TestCustomISO8601DateStyle>
+    var customFormatDateStyle: Date
 }
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-private let iso8601customFormatterTestInstance = CustomISO8601FormatterTestModel(customFormatDate: TestCustomISO8601DateFormatter.iso8601DateFormatter.date(from: "2011-06-10T20:24:16Z")!)
+@available(macOS 12, iOS 15.0, watchOS 8, tvOS 15.0, *)
+private let iso8601customFormatterTestInstance = CustomISO8601FormatterTestModel(customFormatDate: TestCustomISO8601DateFormatter.iso8601DateFormatter.date(from: "2011-06-10T20:24:16Z")!,
+                                                                                 customFormatDateStyle: TestCustomISO8601DateFormatter.iso8601DateFormatter.date(from: "2011-06-10T20:24:16Z")!)
 private let iso8601customFormatterJSON = """
 {
-    "customFormatDate" : "2011-06-10T20:24:16Z"
+    "customFormatDate" : "2011-06-10T20:24:16Z",
+    "customFormatDateStyle" : "20110610T20:24:16Z"
 }
 """
 private let iso8601customFormatterXML = """
@@ -239,16 +251,34 @@ private let iso8601customFormatterXML = """
 <dict>
     <key>customFormatDate</key>
     <string>2011-06-10T20:24:16Z</string>
+    <key>customFormatDateStyle</key>
+    <string>20110610T20:24:16Z</string>
 </dict>
 </plist>
 """
 
 // MARK: - Custom ISO8601 Formatter
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+@available(macOS 12, iOS 15.0, watchOS 8, tvOS 15.0, *)
 private struct TestCustomISO8601DateFormatter: ISO8601DateFormatterStaticCoder {
+#if swift(>=6.0.0)
+    nonisolated(unsafe) static let iso8601DateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withDashSeparatorInDate]
+        return formatter
+    }()
+#else
     static let iso8601DateFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withDashSeparatorInDate]
         return formatter
     }()
+#endif
+}
+
+// MARK: - Custom ISO8601 Date Style Formatter
+@available(macOS 12, iOS 15.0, watchOS 8, tvOS 15.0, *)
+private struct TestCustomISO8601DateStyle: ISO8601DateFormatStyleStaticCoder {
+    static var iso8601DateStyle: Date.ISO8601FormatStyle {
+        .init().dateSeparator(.omitted)
+    }
 }

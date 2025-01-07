@@ -170,8 +170,8 @@ private let doubleTestXML2 = """
 // MARK: - FloatValueProvider
 
 private struct NonConformingValueProvider: NonConformingDecimalValueProvider {
-    static var positiveInfinity: String = "100"
-    static var negativeInfinity: String = "-100"
-    static var nan: String = "-1"
+    static let positiveInfinity: String = "100"
+    static let negativeInfinity: String = "-100"
+    static let nan: String = "-1"
 }
 

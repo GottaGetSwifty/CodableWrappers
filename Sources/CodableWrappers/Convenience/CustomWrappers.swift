@@ -58,31 +58,43 @@ public typealias SecondsSince1970DateDecoding = DecodingUses<SecondsSince1970Dat
 /// (En/De)code this immutable `Date` Property using secondsSince1970
 public typealias SecondsSince1970DateCoding = CodingUses<SecondsSince1970DateStaticCoder>
 
-// MARK: ISO8601Date
+// MARK: ISO8601 Date
 
-/// Encode this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateEncoding = EncodingUses<ISO8601DateStaticCoder>
-/// Decode this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateDecoding = DecodingUses<ISO8601DateStaticCoder>
-/// (En/De) this immutable `Date` Property using a ISO8601DateFormatter with `formatOptions` set to `.withInternetDateTime`
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateCoding = CodingUses<ISO8601DateStaticCoder>
+/// Encode this immutable `Date` Property using `Date.ISO8601FormatStyle`
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public typealias ISO8601Encoding = EncodingUses<ISO8601StaticCoder>
+/// Decode this immutable `Date` Property using `Date.ISO8601FormatStyle`
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public typealias ISO8601Decoding = DecodingUses<ISO8601StaticCoder>
+/// (En/De) this immutable `Date` Property using `Date.ISO8601FormatStyle`
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public typealias ISO8601Coding = CodingUses<ISO8601StaticCoder>
 
-// MARK: CustomISO8601Date
+// MARK: CustomISO8601DateFormat
 
 /// Encode this immutable `Date` Property using the passed formatter
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterEncoding<CustomEncoder: ISO8601DateFormatterStaticEncoder> = EncodingUses<CustomEncoder>
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public typealias ISO8601DateFormatStyleEncoding<CustomEncoder: ISO8601DateFormatStyleStaticEncoder> = EncodingUses<CustomEncoder>
 /// Decode this immutable `Date` Property using the passed formatter
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterDecoding<CustomDecoder: ISO8601DateFormatterStaticDecoder> = DecodingUses<CustomDecoder>
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public typealias ISO8601DateFormatStyleDecoding<CustomDecoder: ISO8601DateFormatStyleStaticDecoder> = DecodingUses<CustomDecoder>
 /// (En/De)code this immutable `Date` Property using the passed formatter
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterCoding<CustomCoder: ISO8601DateFormatterStaticCoder> = CodingUses<CustomCoder>
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public typealias ISO8601DateFormatStyleCoding<CustomCoder: ISO8601DateFormatStyleStaticCoder> = CodingUses<CustomCoder>
 
-// MARK: DateFormatter
+// MARK: Custom DateFormatter
 
 /// Encode this immutable `Date` Property using the passed formatter
 public typealias DateFormatterEncoding<CustomEncoder: DateFormatterStaticEncoder> = EncodingUses<CustomEncoder>

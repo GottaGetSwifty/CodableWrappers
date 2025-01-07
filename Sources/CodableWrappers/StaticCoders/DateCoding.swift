@@ -78,62 +78,66 @@ extension DateFormatterStaticEncoder {
     }
 }
 
-// MARK: - ISO8601
+// MARK: - ISO8601 DateStyle
 
-/// Uses `ISO8601DateFormatter` with `formatOptions` set to `.withInternetDateTime` for (de)serailization of `Date`
+/// Uses default `Date.ISO8601FormatStyle`
 /// - Note: Implement a `StaticCoder` to use a custom formatter
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public struct ISO8601DateStaticCoder: ISO8601DateFormatterStaticCoder {
-
-    public static let iso8601DateFormatter: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = .withInternetDateTime
-        return formatter
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public struct ISO8601StaticCoder: ISO8601DateFormatStyleStaticCoder {
+    public static let iso8601DateStyle: Date.ISO8601FormatStyle = {
+        let style = Date.ISO8601FormatStyle()
+        return style
     }()
 }
 
-// MARK: Custom
-
-/// A `StaticDecoder` that uses an ISO8601DateFormatter for decoding
-/// - Note: Implement to use a custom `ISO8601DateFormatter` for deserialization in the `StaticDecoder` Property Wrapper
-/// - Example: `@StaticDecoder<YourCustomISO8601DateFormatterDecoder>`
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public protocol ISO8601DateFormatterStaticDecoder: StaticDecoder {
-    static var iso8601DateFormatter: ISO8601DateFormatter { get }
+/// A `StaticDecoder` that uses an `Date.ISO8601FormatStyle` for decoding
+/// - Note: Implement to use a custom `Date.ISO8601FormatStyle` for deserialization in the `StaticDecoder` Property Wrapper
+/// - Example: `@StaticDecoder<YourCustomISO8601DateDecoder>`
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public protocol ISO8601DateFormatStyleStaticDecoder: StaticDecoder {
+    static var iso8601DateStyle: Date.ISO8601FormatStyle { get }
 }
-/// A `StaticEncoder` that uses an ISO8601DateFormatter for decoding
-/// - Note: Implement to use a custom `ISO8601DateFormatter` for serialization in the `StaticEncoder` Property Wrapper
-/// - Example: `@StaticEncoder<YourCustomISO8601DateFormatterEncoder>`
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public protocol ISO8601DateFormatterStaticEncoder: StaticEncoder {
-    static var iso8601DateFormatter: ISO8601DateFormatter { get }
+/// A `StaticEncoder` that uses an `Date.ISO8601FormatStyle` for decoding
+/// - Note: Implement to use a custom `Date.ISO8601FormatStyle` for serialization in the `StaticEncoder` Property Wrapper
+/// - Example: `@StaticEncoder<YourCustomISO8601DateEncoder>`
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public protocol ISO8601DateFormatStyleStaticEncoder: StaticEncoder {
+    static var iso8601DateStyle: Date.ISO8601FormatStyle { get }
 }
 
-/// Combination of `ISO8601DateFormatterStaticEncoder` & `ISO8601DateFormatterStaticDecoder`
-/// - Note: Implement to use a custom `ISO8601DateFormatter` for (de)serialization in the `StaticCoder` Property Wrapper
-/// - Example: `@StaticCoder<YourCustomISO8601DateFormatterCoder>`
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public typealias ISO8601DateFormatterStaticCoder = StaticCoder & ISO8601DateFormatterStaticEncoder & ISO8601DateFormatterStaticDecoder
+/// Combination of `ISO8601DateFormatStyleStaticEncoder` & `ISO8601DateFormatStyleStaticDecoder`
+/// - Note: Implement to use a custom `Date.ISO8601FormatStyle` for (de)serialization in the `StaticCoder` Property Wrapper
+/// - Example: `@StaticCoder<YourCustomISO8601DateCoder>`
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+public typealias ISO8601DateFormatStyleStaticCoder = StaticCoder & ISO8601DateFormatStyleStaticEncoder & ISO8601DateFormatStyleStaticDecoder
 
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-extension ISO8601DateFormatterStaticDecoder {
-    /// Uses `ISO8601DateFormatter` for decoding
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+extension ISO8601DateFormatStyleStaticDecoder {
+    /// Uses `iso8601DateStyle` for decoding
     public static func decode(from decoder: Decoder) throws -> Date {
         let stringValue = try String(from: decoder)
 
-        guard let value = iso8601DateFormatter.date(from: stringValue) else {
-            let description = "Expected \(Data.self) but could not convert \(stringValue) to Data"
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
-                                                                    debugDescription: description))
-        }
+        let value = try iso8601DateStyle.parse(stringValue)
         return value
     }
 }
 
-@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-extension ISO8601DateFormatterStaticEncoder {
-/// Uses `dateFormatter` for encoding
+@available(swift, introduced: 5.4) @available(macOS, introduced: 12)
+@available(iOS, introduced: 15.0) @available(tvOS, introduced: 15.0)
+@available(watchOS, introduced: 8.0)
+extension ISO8601DateFormatStyleStaticEncoder {
+    /// Uses `iso8601DateStyle` for encoding
     public static func encode(value: Date, to encoder: Encoder) throws {
-        try iso8601DateFormatter.string(from: value).encode(to: encoder)
+        try value.formatted(iso8601DateStyle).encode(to: encoder)
     }
 }

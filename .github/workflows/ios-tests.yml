@@ -37,4 +37,45 @@ jobs:
           device_name:  ${{ 'iPhone 15 Pro' }}
       run: |
         xcodebuild test -scheme "$scheme" -destination "platform=$platform,OS=$OS,name=$device_name"
+
+  ios-16-test:
+    name: iOS 16 tests
+    runs-on: macos-14
+    steps:
+    - uses: actions/checkout@v4
+    - name: iOS 16
+      env:
+          scheme: ${{ 'CodableWrappers' }}
+          platform: ${{ 'iOS Simulator' }}
+          OS: ${{ '16.7.10' }}
+          device_name:  ${{ 'iPhone 14 Pro' }}
+      run: |
+        xcodebuild test -scheme "$scheme" -destination "platform=$platform,OS=$OS,name=$device_name"
+  
+  ios-15-test:
+    name: iOS 15 tests
+    runs-on: macos-13
+    steps:
+    - uses: actions/checkout@v4
+    - name: iOS 15
+      env:
+          scheme: ${{ 'CodableWrappers' }}
+          platform: ${{ 'iOS Simulator' }}
+          OS: ${{ '15.8.3' }}
+          device_name:  ${{ 'iPhone 13 Pro' }}
+      run: |
+        xcodebuild test -scheme "$scheme" -destination "platform=$platform,OS=$OS,name=$device_name"
+  ios-14-test:
+    name: iOS 14 tests
+    runs-on: macos-13
+    steps:
+    - uses: actions/checkout@v4
+    - name: iOS 14
+      env:
+          scheme: ${{ 'CodableWrappers' }}
+          platform: ${{ 'iOS Simulator' }}
+          OS: ${{ '14.8.1' }}
+          device_name:  ${{ 'iPhone 12 Pro' }}
+      run: |
+        xcodebuild test -scheme "$scheme" -destination "platform=$platform,OS=$OS,name=$device_name"
   
