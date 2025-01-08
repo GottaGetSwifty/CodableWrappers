@@ -25,9 +25,10 @@ extension MemberBlockItemListSyntax.Element {
         decl.as(VariableDeclSyntax.self)?.attributes.matching(matching: T.self) ?? []
     }
 
-    func attributeSyntax<T: RawRepresentable>(matching rawType: T.Type) -> [(T, AttributeSyntax)] where T.RawValue == String {
-        decl.as(VariableDeclSyntax.self)?.attributes.matchingSyntax(matching: T.self) ?? []
-    }
+    // Not currently used
+//    func attributeSyntax<T: RawRepresentable>(matching rawType: T.Type) -> [(T, AttributeSyntax)] where T.RawValue == String {
+//        decl.as(VariableDeclSyntax.self)?.attributes.matchingSyntax(matching: T.self) ?? []
+//    }
 
     func attributeSyntax(named name: String) -> AttributeSyntax? {
         attribute(named: name)?.as(AttributeSyntax.self)
@@ -57,14 +58,15 @@ extension AttributeListSyntax {
         }
     }
 
-    func matchingSyntax<T: RawRepresentable>(matching rawType: T.Type) -> [(T, AttributeSyntax)] where T.RawValue == String {
-        compactMap {
-            guard let attributeName = $0.identifierName?.trimmingCharacters(in: .whitespacesAndNewlines), let syntax = $0.as(AttributeSyntax.self), let type = T(rawValue: attributeName) else {
-                return nil
-            }
-            return (type, syntax)
-        }
-    }
+      // Not currently used
+//    func matchingSyntax<T: RawRepresentable>(matching rawType: T.Type) -> [(T, AttributeSyntax)] where T.RawValue == String {
+//        compactMap {
+//            guard let attributeName = $0.identifierName?.trimmingCharacters(in: .whitespacesAndNewlines), let syntax = $0.as(AttributeSyntax.self), let type = T(rawValue: attributeName) else {
+//                return nil
+//            }
+//            return (type, syntax)
+//        }
+//    }
 }
 extension AttributeListSyntax.Element {
     var identifierName: String? {

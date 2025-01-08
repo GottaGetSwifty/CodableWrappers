@@ -31,7 +31,7 @@ let package = Package(
 //        .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.52.0")),
         .package(url: "https://github.com/swiftlang/swift-syntax.git", "508.0.0"..."600.0.1"),
         // For testing different versions of swift-syntax
-//        .package(url: "https://github.com/apple/swift-syntax.git", .upToNextMajor(from: "509.0.0"))
+//        .package(url: "https://github.com/apple/swift-syntax.git", .upToNextMajor(from: "510.0.0"))
 
     ],
     targets: [
