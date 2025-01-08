@@ -174,7 +174,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
 //            macros: testMacros)
     }
 
-    func testThrowsErrorWhenCodingKeyImplemented() throws {
+    func testThrowsErrorWhenCodingKeysImplemented() throws {
         assertMacroExpansion(
             """
             @CustomCodable struct TestCodable: Codable {
@@ -215,6 +215,21 @@ final class CodingKeyMacroErrorTests: XCTestCase {
             """,
             diagnostics: [.init(error: .mustBeStringLiteral, line: 3, column: 5)],
             macros: testMacros)
+
+        assertMacroExpansion(
+            """
+            @CustomCodable struct TestCodable: Codable {
+                @CustomCodingKey(1)
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+                let originalKey: String
+            }
+            """,
+            diagnostics: [.init(error: .mustBeStringLiteral, line: 2, column: 5)],
+            macros: testMacros)
     }
 
     func testThrowsDueToEmptyStringCodingKey() throws {
@@ -234,7 +249,7 @@ final class CodingKeyMacroErrorTests: XCTestCase {
             macros: testMacros)
     }
 
-    func testThrowsDueToNoeCodableMacro() throws {
+    func testThrowsDueToNoCodableMacro() throws {
         assertMacroExpansion(
             """
             @SnakeCase struct TestCodable: Codable {
@@ -252,6 +267,21 @@ final class CodingKeyMacroErrorTests: XCTestCase {
 
         assertMacroExpansion(
             """
+            @CodingKeySuffix struct TestCodable: Codable {
+                @CustomCodingKey("")
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+                let originalKey: String
+            }
+            """,
+            diagnostics: [.init(error: .requiresCodableMacro(macroName: "CodingKeySuffix"), line: 1, column: 1)],
+            macros: testMacros)
+
+        assertMacroExpansion(
+            """
             @CodingKeyPrefix struct TestCodable: Codable {
                 @CustomCodingKey("")
                 let originalKey: String
@@ -263,6 +293,76 @@ final class CodingKeyMacroErrorTests: XCTestCase {
             }
             """,
             diagnostics: [.init(error: .requiresCodableMacro(macroName: "CodingKeyPrefix"), line: 1, column: 1)],
+            macros: testMacros)
+    }
+
+    func testThrowsWhenNotStruct() throws {
+        assertMacroExpansion(
+            """
+            @CustomCodable class TestCodable: Codable {
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            class TestCodable: Codable {
+                let originalKey: String
+            }
+            """,
+            diagnostics: [.init(error: .canOnlyBeAttachedToStruct(name: "@CustomCodable"), line: 1, column: 1)],
+            macros: testMacros)
+
+        assertMacroExpansion(
+            """
+            @SnakeCase enum TestCodable: Codable {
+                case test
+            }
+            """,
+            expandedSource: """
+            enum TestCodable: Codable {
+                case test
+            }
+            """,
+            diagnostics: [.init(error: .canOnlyBeAttachedToPropertiesAndStructs(name: "@SnakeCase"), line: 1, column: 1)],
+            macros: testMacros)
+    }
+
+    func testThrowsWithEmptyCodingKey() throws {
+        assertMacroExpansion(
+            """
+            @CustomCodable @SnakeCase struct TestCodable: Codable {
+                @CustomCodingKey()
+                let originalKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+                let originalKey: String
+            }
+            """,
+            diagnostics: [.init(error: .codingKeyValueRequired, line: 2, column: 5)],
+            macros: testMacros)
+    }
+
+    func testThrowsWhenAttachedToFunction() throws {
+        assertMacroExpansion(
+            """
+            @CustomCodable struct TestCodable: Codable {
+                let originalKey: String
+                @CustomCodingKey("test")
+                func test() -> String { "" }
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+                let originalKey: String
+                func test() -> String { "" }
+            
+                private enum CodingKeys: String, CodingKey {
+                    case originalKey = "originalKey"
+                }
+            }
+            """,
+            diagnostics: [.init(error: .canOnlyBeAttachedToProperty(name: "@CustomCodingKey"), line: 3, column: 5)],
             macros: testMacros)
     }
 }

@@ -31,7 +31,6 @@ public struct BoolAsStringValueProvider: NonConformingBoolValueProvider {
         case "true": return true
         case "false": return false
         default:
-            print("Failed to convert \(typeValue) to Boolean return nil")
             return nil
         }
     }

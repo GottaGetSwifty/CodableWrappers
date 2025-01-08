@@ -288,11 +288,14 @@ class OptionalEncodingTests: QuickSpec, EncodingTestSpec, DecodingTestSpec {
 private struct EmptyModel: Codable, Equatable {
     @TransientCoding
     var value: String?
+    @TransientEncoding
+    var otherValue: String?
 }
-private let emptyTestInstance = EmptyModel(value: nil)
-private let emptyTestWithDataInstance = EmptyModel(value: "hi")
+private let emptyTestInstance = EmptyModel(value: nil, otherValue: nil)
+private let emptyTestWithDataInstance = EmptyModel(value: "hi", otherValue: "there")
 private let emptyTestWithDataJSON = """
 {
+    "otherValue" : "there",
     "value" : "hi"
 }
 """
@@ -302,6 +305,8 @@ private let emptyTestWithDataXML = """
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>otherValue</key>
+    <string>there</string>
     <key>value</key>
     <string>hi</string>
 </dict>
@@ -318,11 +323,15 @@ private let noWrapperTestInstance = NoWrapperModel(value: nil)
 private struct SecondsSince1970TestModel: Codable, Equatable {
     @OptionalCoding<SecondsSince1970DateCoding>
     var secondsSince1970Date: Date?
+
+    @OptionalEncoding<SecondsSince1970DateCoding>
+    var otherSecondsSince1970Date: Date?
 }
-private let secondsSince1970TestEmptyInstance = SecondsSince1970TestModel(secondsSince1970Date: nil)
-private let secondsSince1970TestInstance = SecondsSince1970TestModel(secondsSince1970Date: Date(timeIntervalSince1970: 590277534.0))
+private let secondsSince1970TestEmptyInstance = SecondsSince1970TestModel(secondsSince1970Date: nil, otherSecondsSince1970Date: nil)
+private let secondsSince1970TestInstance = SecondsSince1970TestModel(secondsSince1970Date: Date(timeIntervalSince1970: 590277534.0), otherSecondsSince1970Date: Date(timeIntervalSince1970: 590277534.0))
 private let secondsSince1970JSON = """
 {
+    "otherSecondsSince1970Date" : 590277534,
     "secondsSince1970Date" : 590277534
 }
 """
@@ -332,6 +341,8 @@ private let secondsSince1970XML = """
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>otherSecondsSince1970Date</key>
+    <real>590277534.0</real>
     <key>secondsSince1970Date</key>
     <real>590277534.0</real>
 </dict>
@@ -343,6 +354,8 @@ private let secondsSince1970XML2 = """
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>otherSecondsSince1970Date</key>
+    <real>590277534</real>
     <key>secondsSince1970Date</key>
     <real>590277534</real>
 </dict>

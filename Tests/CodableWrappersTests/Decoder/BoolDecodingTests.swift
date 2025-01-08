@@ -70,6 +70,11 @@ class BoolDecodingTests: QuickSpec, DecodingTestSpec {
                             }
                         }
                     }
+                    context("WhenInvald") {
+                        it("ThrowsError") {
+                            expect {_ = try self.jsonDecoder.decode(BoolAsStringTextModel.self, from: boolAsStringInvliadTestJSON.data(using: .utf8)!)}.to(throwError())
+                        }
+                    }
                 }
             }
             // MARK: - PListDecoder
@@ -129,6 +134,11 @@ class BoolDecodingTests: QuickSpec, DecodingTestSpec {
                             }
                         }
                     }
+                    context("WhenInvald") {
+                        it("ThrowsError") {
+                            expect {_ = try self.plistDecoder.decode(BoolAsStringTextModel.self, from: boolAsStringInvalidTestXML.data(using: .utf8)!)}.to(throwError())
+                        }
+                    }
                 }
             }
         }
@@ -186,6 +196,25 @@ private func boolAsStringTestXML(stringValue: String) -> String { """
 <dict>
     <key>boolValue</key>
     <string>\(stringValue)</string>
+</dict>
+</plist>
+"""
+}
+
+private var boolAsStringInvliadTestJSON: String { """
+{
+    "boolValue" : "blabla"
+}
+"""
+}
+
+private var boolAsStringInvalidTestXML: String { """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>boolValue</key>
+    <string>blabla</string>
 </dict>
 </plist>
 """

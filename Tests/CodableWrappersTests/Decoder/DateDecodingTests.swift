@@ -61,6 +61,9 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                         expect(actualModel) == customFormatterTestInstance
                     }
                 }
+                it("CustomFormatterWithInvalidJSON") {
+                    expect {_ = try self.jsonDecoder.decode(CustomFormatterTestModel.self, from: customFormatterInvalidJSON.data(using: .utf8)!)}.to(throwError())
+                }
             }
             // MARK: - PListDecoder
             describe("PListDecoder") {
@@ -109,6 +112,9 @@ class DateDecodingTests: QuickSpec, DecodingTestSpec {
                     if let actualModel = decodedModel {
                         expect(actualModel) == customFormatterTestInstance
                     }
+                }
+                it("CustomFormatterWithInvalidJSON") {
+                    expect {_ = try self.plistDecoder.decode(CustomFormatterTestModel.self, from: customFormatterInvalidXML.data(using: .utf8)!)}.to(throwError())
                 }
             }
         }
@@ -213,6 +219,22 @@ private let customFormatterXML = """
 <dict>
     <key>customFormatDate</key>
     <string>06:10:11 15:24:16</string>
+</dict>
+</plist>
+"""
+
+private let customFormatterInvalidJSON = """
+{
+    "customFormatDate" : "juf2q9hru4;afiejrsz"
+}
+"""
+private let customFormatterInvalidXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>customFormatDate</key>
+    <string>juf2q9hru4;afiejrsz</string>
 </dict>
 </plist>
 """
