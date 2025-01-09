@@ -82,7 +82,7 @@ enum CodingKeyCase {
     /// custom casing
     case custom((String) -> (String))
 
-    var separator: String {
+    var separator: String? {
         switch self {
         case .noChanges, .camelCase, .flatCase, .pascalCase, .upperCase:
             ""
@@ -90,27 +90,35 @@ enum CodingKeyCase {
             "_"
         case .kebabCase, .camelKebabCase, .pascalKebabCase, .screamingKebabCase:
             "-"
-        case .custom(_):
-            ""
+        case .custom:
+            nil
+        }
+    }
+
+    var caseVariant: CaseVariant? {
+        switch self {
+        case .flatCase, .snakeCase, .kebabCase:
+            .lowerCase
+        case .camelCase, .camelSnakeCase, .camelKebabCase:
+            .camelCase
+        case .pascalCase, .pascalSnakeCase, .pascalKebabCase:
+            .pascalCase
+        case .upperCase, .screamingSnakeCase, .screamingKebabCase:
+            .upperCase
+        case .custom(_), .noChanges:
+            nil
         }
     }
 
     func makeKeyValue(from value: String) -> String {
         switch self {
-        case .noChanges: value
-        case .camelCase: KeyConverter.plainCaseConverter.convert(value: value, variant: .camelCase)
-        case .flatCase: KeyConverter.plainCaseConverter.convert(value: value, variant: .lowerCase)
-        case .pascalCase: KeyConverter.plainCaseConverter.convert(value: value, variant: .pascalCase)
-        case .upperCase: KeyConverter.plainCaseConverter.convert(value: value, variant: .upperCase)
-        case .snakeCase: KeyConverter.snakeCaseConverter.convert(value: value, variant: .lowerCase)
-        case .camelSnakeCase: KeyConverter.snakeCaseConverter.convert(value: value, variant: .camelCase)
-        case .pascalSnakeCase: KeyConverter.snakeCaseConverter.convert(value: value, variant: .pascalCase)
-        case .screamingSnakeCase: KeyConverter.snakeCaseConverter.convert(value: value, variant: .upperCase)
-        case .kebabCase: KeyConverter.kebabCaseConverter.convert(value: value, variant: .lowerCase)
-        case .camelKebabCase: KeyConverter.kebabCaseConverter.convert(value: value, variant: .camelCase)
-        case .pascalKebabCase: KeyConverter.kebabCaseConverter.convert(value: value, variant: .pascalCase)
-        case .screamingKebabCase: KeyConverter.kebabCaseConverter.convert(value: value, variant: .upperCase)
-        case .custom(let converter): converter(value)
+        case .noChanges: return value
+        case .custom(let converter): return converter(value)
+        default:
+            guard let keyConverter = KeyConverter(keyCase: self), let caseVariant else {
+                return value
+            }
+            return keyConverter.convert(value: value, variant: caseVariant)
         }
     }
 }
@@ -131,7 +139,12 @@ struct KeyConverter: Sendable {
     init(separator: String) {
         self.separator = separator
     }
-    
+
+    init?(keyCase: CodingKeyCase) {
+        guard let separator = keyCase.separator else { return nil }
+        self.init(separator: separator)
+    }
+
     func convert(value: String, variant: CaseVariant) -> String {
         // Remove any special characters at the beginning/end
         let isAllCaps = value.isAllCaps

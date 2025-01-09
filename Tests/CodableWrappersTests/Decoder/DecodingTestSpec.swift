@@ -10,6 +10,20 @@ import Foundation
 import Quick
 import Nimble
 
+protocol CodingTests: DecodingTests, EncodingTests { }
+extension CodingTests {
+
+    static var emptyJSON: String { "{\n\n}" }
+    static var emptyPList: String { """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+            <dict/>
+        </plist>
+        """
+    }
+}
+
 protocol CodingTestSpec {
 
 }
@@ -26,12 +40,16 @@ extension CodingTestSpec {
     }
 }
 
-protocol DecodingTestSpec: CodingTestSpec {
+protocol DecodingTests {
     static var jsonDecoder: JSONDecoder { get }
     static var plistDecoder: PropertyListDecoder { get }
 }
 
-extension DecodingTestSpec {
+protocol DecodingTestSpec: DecodingTests, CodingTestSpec {
+
+}
+
+extension DecodingTests {
     static var jsonDecoder: JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970

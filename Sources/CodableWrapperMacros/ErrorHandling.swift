@@ -52,12 +52,9 @@ extension AttributeSyntax {
             throw DiagnosticsError(diagnostics: [.init(node: self, syntaxError: .codingKeyValueRequired)])
         }
         let argument = argumentList[argumentList.index(argumentList.startIndex, offsetBy: index)]
-        guard argument.expression.is(StringLiteralExprSyntax.self) else {
-            throw DiagnosticsError(diagnostics: [.init(node: self, syntaxError: .mustBeStringLiteral)])
-        }
-        // Uses the value in the Macro
+        // Get the value of the macro
         guard let customKeyValue = argument.expression.as(StringLiteralExprSyntax.self) else {
-            throw DiagnosticsError(diagnostics: [.init(node: self, syntaxError: .codingKeyValueRequired)])
+            throw DiagnosticsError(diagnostics: [.init(node: self, syntaxError: .mustBeStringLiteral)])
         }
 
         return ExprSyntax(customKeyValue)

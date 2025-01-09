@@ -33,6 +33,9 @@ class DataDecodingTests: QuickSpec, DecodingTestSpec {
                         expect(actualModel) == customDataTestModel
                     }
                 }
+                it("InvalidBase64") {
+                    expect {_ = try self.jsonDecoder.decode(TestBase64Model.self, from: base64InvalidTestJSON.data(using: .utf8)!)}.to(throwError())
+                }
             }
             // MARK: - PListDecoder
             context("PListDecoder") {
@@ -53,6 +56,9 @@ class DataDecodingTests: QuickSpec, DecodingTestSpec {
                     if let actualModel = decodedModel {
                         expect(actualModel) == customDataTestModel
                     }
+                }
+                it("InvalidBase64") {
+                    expect {_ = try self.plistDecoder.decode(TestBase64Model.self, from: base64InvalidTestXML.data(using: .utf8)!)}.to(throwError())
                 }
             }
         }
@@ -80,6 +86,23 @@ private let base64TestXML = """
 <dict>
     <key>base64Data</key>
     <string>T2gsIEhpIE1hcmsh</string>
+</dict>
+</plist>
+"""
+
+private let base64InvalidTestJSON = """
+{
+    "customData" : 123
+}
+"""
+
+private let base64InvalidTestXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>customData</key>
+    <string>123</string>
 </dict>
 </plist>
 """

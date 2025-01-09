@@ -48,6 +48,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: swift build -v
+      run: swift build -v 
     - name: Run swift tests
-      run: swift test -v
+      run: swift test --enable-experimental-swift-testing -v 

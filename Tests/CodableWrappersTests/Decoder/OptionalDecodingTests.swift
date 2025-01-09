@@ -42,6 +42,27 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
                         }
                     }
                 }
+                describe("OptionalStaticCoder") {
+                    // MARK: SecondsSince1970
+                    describe("SecondsSince1970DateOptionalCoding") {
+                        it("HasNoValue") {
+                            expect {_ = try self.jsonDecoder.decode(SecondsSince1970TestModel.self, from: emptyJSON.data(using: .utf8)!) }.toNot(throwError())
+                            let decodedModel = try? self.jsonDecoder.decode(SecondsSince1970TestModel.self, from: emptyJSON.data(using: .utf8)!)
+                            expect(decodedModel).toNot(beNil())
+                            if let actualModel = decodedModel {
+                                expect(actualModel) == secondsSince1970TestEmptyInstance
+                            }
+                        }
+                        it("HasAValue") {
+                            expect {_ = try self.jsonDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1970JSON.data(using: .utf8)!) }.toNot(throwError())
+                            let decodedModel = try? self.jsonDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1970JSON.data(using: .utf8)!)
+                            expect(decodedModel).toNot(beNil())
+                            if let actualModel = decodedModel {
+                                expect(actualModel) == secondsSince1970TestInstance
+                            }
+                        }
+                    }
+                }
                 describe("OmitCoding") {
                     it("HasNoValue") {
                         expect {_ = try self.jsonDecoder.decode(OmitCodingTestModel.self, from: Self.emptyJSON.data(using: .utf8)!)}.toNot(throwError())
@@ -135,6 +156,24 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
                         }
                     }
                 }
+                describe("OptionalStaticCoder") {
+                    it("HasNoValue") {
+                        expect {_ = try self.plistDecoder.decode(SecondsSince1970TestModel.self, from: emptyPList.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.plistDecoder.decode(SecondsSince1970TestModel.self, from: emptyPList.data(using: .utf8)!)
+                        expect(decodedModel).toNot(beNil())
+                        if let actualModel = decodedModel {
+                            expect(actualModel) == secondsSince1970TestEmptyInstance
+                        }
+                    }
+                    it("HasAValue") {
+                        expect {_ = try self.plistDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1970XML.data(using: .utf8)!)}.toNot(throwError())
+                        let decodedModel = try? self.plistDecoder.decode(SecondsSince1970TestModel.self, from: secondsSince1970XML.data(using: .utf8)!)
+                        expect(decodedModel).toNot(beNil())
+                        if let actualModel = decodedModel {
+                            expect(actualModel) == secondsSince1970TestInstance
+                        }
+                    }
+                }
                 describe("OmitCoding") {
                     it("HasNoValue") {
                         expect {_ = try self.plistDecoder.decode(OmitCodingTestModel.self, from: Self.emptyPList.data(using: .utf8)!)}.toNot(throwError())
@@ -209,12 +248,15 @@ class OptionalDecodingTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
 private struct TransientModel: Codable, Equatable {
     @TransientCoding
     var value: String?
+    @TransientDecoding
+    var otherValue: String?
 }
-private let transientTestInstance = TransientModel(value: nil)
-private let transientTestWithDataInstance = TransientModel(value: "hi")
+private let transientTestInstance = TransientModel(value: nil, otherValue: nil)
+private let transientTestWithDataInstance = TransientModel(value: "hi", otherValue: "There")
 
 private let emptyTestWithNullJSON = """
 {
+    "otherValue" : null,
     "value" : null
 }
 """
@@ -224,6 +266,8 @@ private let emptyTestWithNullXML = """
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>otherValue</key>
+    <string>$null</string>
     <key>value</key>
     <string>$null</string>
 </dict>
@@ -232,6 +276,7 @@ private let emptyTestWithNullXML = """
 
 private let emptyTestWithDataJSON = """
 {
+    "otherValue" : "There",
     "value" : "hi"
 }
 """
@@ -241,8 +286,53 @@ private let emptyTestWithDataXML = """
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>otherValue</key>
+    <string>There</string>
     <key>value</key>
     <string>hi</string>
+</dict>
+</plist>
+"""
+
+// MARK: - Seconds Since 1970 Mock Data
+private struct SecondsSince1970TestModel: Codable, Equatable {
+    @OptionalCoding<SecondsSince1970DateCoding>
+    var secondsSince1970Date: Date?
+
+    @OptionalDecoding<SecondsSince1970DateCoding>
+    var otherSecondsSince1970Date: Date?
+}
+private let secondsSince1970TestEmptyInstance = SecondsSince1970TestModel(secondsSince1970Date: nil, otherSecondsSince1970Date: nil)
+private let secondsSince1970TestInstance = SecondsSince1970TestModel(secondsSince1970Date: Date(timeIntervalSince1970: 590277534.0), otherSecondsSince1970Date: Date(timeIntervalSince1970: 590277534.0))
+private let secondsSince1970JSON = """
+{
+    "otherSecondsSince1970Date" : 590277534,
+    "secondsSince1970Date" : 590277534
+}
+"""
+
+private let secondsSince1970XML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>otherSecondsSince1970Date</key>
+    <real>590277534.0</real>
+    <key>secondsSince1970Date</key>
+    <real>590277534.0</real>
+</dict>
+</plist>
+"""
+
+private let secondsSince1970XML2 = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>otherSecondsSince1970Date</key>
+    <real>590277534</real>
+    <key>secondsSince1970Date</key>
+    <real>590277534</real>
 </dict>
 </plist>
 """

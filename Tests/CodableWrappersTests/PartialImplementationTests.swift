@@ -7,36 +7,27 @@
 
 import CodableWrappers
 import Foundation
-import Quick
-import Nimble
+//import Quick
+//import Nimble
 
-class CompositionTests: QuickSpec, DecodingTestSpec, EncodingTestSpec {
-    override class func spec() {
-        describe("StaticCoder") {
-            context("OnlyCustomDecoding") {
-                it("EncodesWithDefault") {
-                    let currentDate = Date()
-                    let encodingModel = DecodingModel(time: currentDate)
-                    let encoded = try! self.jsonEncoder.encode(encodingModel)
-                    expect {_ = try self.jsonDecoder.decode(DecodingModel.self, from: encoded)}.toNot(throwError())
-                    let decoded = try? self.jsonDecoder.decode(DecodingModel.self, from: encoded)
-                    expect(decoded).toNot(beNil())
-                    // This means it was decoded using the SecondsSince1970DateDecoding, but encoded using the default
-                    expect(decoded?.time.timeIntervalSince1970) == currentDate.timeIntervalSinceReferenceDate
-                }
-            }
-            context("OnlyCustomEncoding") {
-                it("DecodesWithDefault") {
-                    let currentDate = Date()
-                    let encodingModel = EncodingModel(time: currentDate)
-                    let encoded = try! self.jsonEncoder.encode(encodingModel)
-                    expect {_ = try self.jsonDecoder.decode(EncodingModel.self, from: encoded)}.toNot(throwError())
-                    let decoded = try? self.jsonDecoder.decode(EncodingModel.self, from: encoded)
-                    expect(decoded).toNot(beNil())
-                    // This means it was decoded using the SecondsSince1970DateDecoding, but encoded using the default
-                    expect(decoded?.time.timeIntervalSinceReferenceDate) == currentDate.timeIntervalSince1970
-                }
-            }
+import Testing
+
+struct CompositionTests {
+    struct StaticCoder: CodingTests {
+        @Test func customDecodingEncodesWithDefaults() async throws {
+            let currentDate = Date()
+            let encodingModel = DecodingModel(time: currentDate)
+            let encoded = try Self.jsonEncoder.encode(encodingModel)
+            let decoded = try Self.jsonDecoder.decode(DecodingModel.self, from: encoded)
+            #expect(decoded.time.timeIntervalSince1970 == currentDate.timeIntervalSinceReferenceDate)
+        }
+
+        @Test func customEncodingDecodesWithDefaults() async throws {
+            let currentDate = Date()
+            let encodingModel = EncodingModel(time: currentDate)
+            let encoded = try Self.jsonEncoder.encode(encodingModel)
+            let decoded = try Self.jsonDecoder.decode(EncodingModel.self, from: encoded)
+            #expect(decoded.time.timeIntervalSinceReferenceDate == currentDate.timeIntervalSince1970)
         }
     }
 }

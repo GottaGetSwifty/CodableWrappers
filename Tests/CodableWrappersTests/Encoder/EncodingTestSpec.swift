@@ -9,13 +9,14 @@
 import Foundation
 import Quick
 import Nimble
-
-protocol EncodingTestSpec: CodingTestSpec {
+protocol EncodingTests {
     static var jsonEncoder: JSONEncoder { get }
     static var plistEncoder: PropertyListEncoder { get }
 }
 
-extension EncodingTestSpec {
+protocol EncodingTestSpec: EncodingTests, CodingTestSpec { }
+
+extension EncodingTests {
     static var jsonEncoder: JSONEncoder {
             let encoder = JSONEncoder()
     //        if #available(OSX 10.13, *) {

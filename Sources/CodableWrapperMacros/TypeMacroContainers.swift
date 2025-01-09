@@ -28,18 +28,20 @@ struct CodableMacroStructContainer {
     }
 
     func attributeNameCanGenerate(name: String?) -> Bool {
-        switch name {
-        case .none: false
-        case CustomCodable.macroName:
-            true
-        case CodingKeyPrefix.macroName:
-            !codableDefined
-        case CodingKeySuffix.macroName:
-            attributeNameCanGenerate(name: CodingKeyPrefix.macroName) && codingKeyPrefix == nil
-        default:
-            attributeNameCanGenerate(name: CodingKeySuffix.macroName) 
-                && name == codableAttributes.first?.attributeType.rawValue
-        }
+        name == CustomCodable.macroName
+        // Future work for other attributres being able to generate
+//        switch name {
+//        case .none: false
+//        case CustomCodable.macroName:
+//            true
+//        case CodingKeyPrefix.macroName:
+//            !codableDefined
+//        case CodingKeySuffix.macroName:
+//            attributeNameCanGenerate(name: CodingKeyPrefix.macroName) && codingKeyPrefix == nil
+//        default:
+//            attributeNameCanGenerate(name: CodingKeySuffix.macroName)
+//                && name == codableAttributes.first?.attributeType.rawValue
+//        }
     }
 }
 

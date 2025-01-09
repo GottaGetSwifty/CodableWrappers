@@ -13,6 +13,18 @@ import Nimble
 final class KeyConverterTests: QuickSpec {
     override class func spec() {
         describe("KeyConverter") {
+            describe("GeneralTests") {
+                context("CustomCase") {
+                    it("ConvertsCorrectly") {
+                        expect(CodingKeyCase.custom({ $0 + "Test" }).makeKeyValue(from: "Key")) == "KeyTest"
+                    }
+                }
+                context("IsNumeric") {
+                    it("ConvertsCorrectly") {
+                        expect(KeyConverter.snakeCaseConverter.convert(value: "12345", variant: .camelCase)) == "12345"
+                    }
+                }
+            }
             describe("SnakeCase") {
                 let converter = KeyConverter.snakeCaseConverter
                 context("WithLowerCase") {
@@ -79,6 +91,13 @@ final class KeyConverterTests: QuickSpec {
                 context("WithPascalCase") {
                     it("ConvertsCorrectly") {
                         expect("TestNameExpectation").to(matchConversion(from: converter, with: .pascalCase))
+                    }
+                }
+            }
+            describe("Invalid Cases") {
+                context("WithNoCaseSeparator") {
+                    it("ReturnsNil") {
+                        expect(KeyConverter(keyCase: .custom({ $0 }))) == nil
                     }
                 }
             }
