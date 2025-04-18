@@ -10,9 +10,10 @@ import SwiftDiagnostics
 
 struct CodingAttributeInfo {
     let attributeType: CodingKeyAttribute
+    let customSeparator: String?
 
     var codingKeyCase: CodingKeyCase {
-        attributeType.codingKeyCase
+        attributeType.codingKeyCase(customSeparator: customSeparator)
     }
 
     func asCodingKeyInfo(named name: String) throws -> CodingKeyInfo {
@@ -36,15 +37,18 @@ struct CodingAttributeInfo {
 struct CodingKeyInfo {
     let caseName: String
     var rawCaseValue: String
+    let customSeparator: String?
 
-    init(caseName: String, rawCaseValue: String) {
+    init(caseName: String, rawCaseValue: String, customSeparator: String?) {
         self.caseName = caseName
         self.rawCaseValue = rawCaseValue.replacingOccurrences(of: "\"", with: "")
+        self.customSeparator = customSeparator
     }
 
     init(caseName: String, rawCaseValue: String, keyCase: CodingKeyCase) {
         self.init(caseName: caseName,
-                  rawCaseValue: keyCase.makeKeyValue(from: rawCaseValue.replacingOccurrences(of: "\"", with: "")))
+                  rawCaseValue: keyCase.makeKeyValue(from: rawCaseValue.replacingOccurrences(of: "\"", with: "")),
+                  customSeparator: keyCase.separator)
     }
 
     var declaration: MemberBlockItemSyntax {
@@ -56,40 +60,39 @@ enum CodingKeyCase {
     /// no changes
     case noChanges
     /// casedLikeThis
-    case camelCase
+    case camelCase(separator: String = "")
     /// casedlikethis
-    case flatCase
+    case flatCase(separator: String = "")
     /// CasedLikeThis
-    case pascalCase
+    case pascalCase(separator: String = "")
     /// CASEDLIKETHIS
-    case upperCase
+    case upperCase(separator: String = "")
+
     /// cased_like_this
-    case snakeCase
+    static var snakeCase: Self { .flatCase(separator: "_") }
     /// cased_Like_This
-    case camelSnakeCase
+    static var camelSnakeCase: Self { .camelCase(separator: "_") }
     /// cased_Like_This
-    case pascalSnakeCase
+    static var pascalSnakeCase: Self { .pascalCase(separator: "_") }
     /// CASED_LIKE_THIS
-    case screamingSnakeCase
+    static var screamingSnakeCase: Self { .upperCase(separator: "_") }
     /// cased-like-this
-    case kebabCase
+    static var kebabCase: Self { .flatCase(separator: "-") }
     /// cased-Like-This
-    case camelKebabCase
+    static var camelKebabCase: Self { .camelCase(separator: "-") }
     /// Cased-Like-This
-    case pascalKebabCase
+    static var pascalKebabCase: Self { .pascalCase(separator: "-") }
     /// CASED-LIKE-THIS
-    case screamingKebabCase
+    static var screamingKebabCase: Self { .upperCase(separator: "-") }
     /// custom casing
     case custom((String) -> (String))
 
     var separator: String? {
         switch self {
-        case .noChanges, .camelCase, .flatCase, .pascalCase, .upperCase:
+        case .noChanges:
             ""
-        case .snakeCase, .camelSnakeCase, .pascalSnakeCase, .screamingSnakeCase:
-            "_"
-        case .kebabCase, .camelKebabCase, .pascalKebabCase, .screamingKebabCase:
-            "-"
+        case .camelCase(let separator), .flatCase(let separator), .pascalCase(let separator), .upperCase(let separator):
+            separator
         case .custom:
             nil
         }
@@ -97,13 +100,13 @@ enum CodingKeyCase {
 
     var caseVariant: CaseVariant? {
         switch self {
-        case .flatCase, .snakeCase, .kebabCase:
+        case .flatCase:
             .lowerCase
-        case .camelCase, .camelSnakeCase, .camelKebabCase:
+        case .camelCase:
             .camelCase
-        case .pascalCase, .pascalSnakeCase, .pascalKebabCase:
+        case .pascalCase:
             .pascalCase
-        case .upperCase, .screamingSnakeCase, .screamingKebabCase:
+        case .upperCase:
             .upperCase
         case .custom(_), .noChanges:
             nil
