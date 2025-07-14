@@ -20,19 +20,19 @@ public macro CodingKeySuffix(_ name: StringLiteralType) = #externalMacro(module:
 
 /// CodingKey value will be `camelCase`
 @attached(peer)
-public macro CamelCase() = #externalMacro(module: "CodableWrapperMacros", type: "CamelCase")
+public macro CamelCase(separator: StringLiteralType = "") = #externalMacro(module: "CodableWrapperMacros", type: "CamelCase")
 
 /// CodingKey value will be` flatcase`
 @attached(peer)
-public macro FlatCase() = #externalMacro(module: "CodableWrapperMacros", type: "FlatCase")
+public macro FlatCase(separator: StringLiteralType = "") = #externalMacro(module: "CodableWrapperMacros", type: "FlatCase")
 
 /// CodingKey value will be `PascalCase`
 @attached(peer)
-public macro PascalCase() = #externalMacro(module: "CodableWrapperMacros", type: "PascalCase")
+public macro PascalCase(separator: StringLiteralType = "") = #externalMacro(module: "CodableWrapperMacros", type: "PascalCase")
 
 /// CodingKey value will be `UPPERCASE`
 @attached(peer)
-public macro UpperCase() = #externalMacro(module: "CodableWrapperMacros", type: "UpperCase")
+public macro UpperCase(separator: StringLiteralType = "") = #externalMacro(module: "CodableWrapperMacros", type: "UpperCase")
 
 /// CodingKey value will be `snake_case`
 @attached(peer)

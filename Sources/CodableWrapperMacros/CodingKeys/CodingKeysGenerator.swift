@@ -76,7 +76,7 @@ class CodingKeysGenerator {
             if !property.codableAttributes.isEmpty {
                 context.diagnose(.init(node: member, syntaxWarning: .defaultingToCodingKey))
             }
-            return .init(caseName: propertyName, rawCaseValue: codingKey)
+            return .init(caseName: propertyName, rawCaseValue: codingKey, customSeparator: nil)
         }
         if let codingAttribute = property.codableAttributes.first {
             return try codingAttribute.asCodingKeyInfo(named: propertyName)

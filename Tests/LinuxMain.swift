@@ -2,6 +2,7 @@ import XCTest
 import Quick
 
 @testable import CodableWrappersTests
+@testable import CodableWrappers
 //@testable import CodableWrapperMacrosTests
 
 let allTestClasses = [
@@ -28,10 +29,10 @@ let allTestClasses = [
     CompositionTests.self,
     PartialImplementationTests.self,
 ]
-#if os(Linux)
+//#if os(Linux)
 @main struct Main {
     static func main() {
         QCKMain(allTestClasses)
     }
 }
-#endif
+//#endif

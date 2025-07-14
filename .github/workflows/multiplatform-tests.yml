@@ -4,10 +4,12 @@
 name: Multi-platform Tests
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
 
 jobs:
   check-macro-compatibility:
@@ -46,7 +48,10 @@ jobs:
     name: latest Ubuntu swift tests
     runs-on: ubuntu-latest
     steps:
+    - uses: swift-actions/setup-swift@v2
     - uses: actions/checkout@v4
+    - name: Version
+      run: swift --version
     - name: Build
       run: swift build -v
     - name: Run swift tests

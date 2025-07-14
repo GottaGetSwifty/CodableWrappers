@@ -153,12 +153,12 @@ enum CodingKeyAttribute: String, CaseIterable {
     /// CASED-LIKE-THIS
     case screamingKebabCase = "ScreamingKebabCase"
 
-    var codingKeyCase: CodingKeyCase {
+    func codingKeyCase(customSeparator: String? = nil) -> CodingKeyCase {
         switch self {
-        case .camelCase: .camelCase
-        case .flatCase: .flatCase
-        case .pascalCase: .pascalCase
-        case .upperCase: .upperCase
+        case .camelCase: .camelCase(separator: customSeparator ?? "")
+        case .flatCase: .flatCase(separator: customSeparator ?? "")
+        case .pascalCase: .pascalCase(separator: customSeparator ?? "")
+        case .upperCase: .upperCase(separator: customSeparator ?? "")
         case .snakeCase: .snakeCase
         case .camelSnakeCase: .camelSnakeCase
         case .pascalSnakeCase: .pascalSnakeCase

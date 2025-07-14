@@ -18,10 +18,12 @@ extension MemberBlockItemListSyntax.Element {
     }
 
     var codingAttributes: [CodingAttributeInfo] {
-        attributes(matching: CodingKeyAttribute.self).map(CodingAttributeInfo.init(attributeType:))
+        attributes(matching: CodingKeyAttribute.self).map {
+            CodingAttributeInfo.init(attributeType: $0.0, customSeparator: $0.1)
+        }
     }
 
-    func attributes<T: RawRepresentable>(matching rawType: T.Type) -> [T] where T.RawValue == String {
+    func attributes<T: RawRepresentable>(matching rawType: T.Type) -> [(T, String?)] where T.RawValue == String {
         decl.as(VariableDeclSyntax.self)?.attributes.matching(matching: T.self) ?? []
     }
 
@@ -36,9 +38,10 @@ extension MemberBlockItemListSyntax.Element {
 }
 
 extension AttributeListSyntax {
-
     var codingAttributes: [CodingAttributeInfo] {
-        matching(matching: CodingKeyAttribute.self).map(CodingAttributeInfo.init(attributeType:))
+        matching(matching: CodingKeyAttribute.self).map {
+            CodingAttributeInfo.init(attributeType: $0.0, customSeparator: $0.1)
+        }
     }
 
     func attribute(named attributeName: String) -> AttributeListSyntax.Element? {
@@ -49,12 +52,13 @@ extension AttributeListSyntax {
         attribute(named: attributeName)?.as(AttributeSyntax.self)
     }
 
-    func matching<T: RawRepresentable>(matching rawType: T.Type) -> [T] where T.RawValue == String {
+    func matching<T: RawRepresentable>(matching rawType: T.Type) -> [(T, String?)] where T.RawValue == String {
         compactMap {
             guard let attributeName = $0.identifierName?.trimmingCharacters(in: .whitespacesAndNewlines), let type = T(rawValue: attributeName) else {
                 return nil
             }
-            return type
+
+            return (type, try? $0.parameterValue())
         }
     }
 
@@ -71,6 +75,12 @@ extension AttributeListSyntax {
 extension AttributeListSyntax.Element {
     var identifierName: String? {
         self.as(AttributeSyntax.self)?.attributeName.as(IdentifierTypeSyntax.self)?.description
+    }
+}
+
+extension AttributeListSyntax.Element {
+    func parameterValue() throws -> String? {
+        try self.as(AttributeSyntax.self)?.parameterValue()
     }
 }
 

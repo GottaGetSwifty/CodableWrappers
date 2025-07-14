@@ -11,6 +11,38 @@ import XCTest
 @testable import CodableWrapperMacros
 
 final class CodingKeyMacroTests: XCTestCase {
+    func testCustomCaseSeparators() throws {
+        assertMacroExpansion(
+            """
+            @CustomCodable() @CamelCase(separator: "~")
+            struct TestCodable: Codable {
+                let camelCaseKey: String
+                @FlatCase(seprator: "~")
+                let flatCaseKey: String
+                @PascalCase(seprator: "~")
+                let pascalCaseKey: String
+                @UpperCase(seprator: "~")
+                let upperCaseKey: String
+            }
+            """,
+            expandedSource: """
+            struct TestCodable: Codable {
+                let camelCaseKey: String
+                let flatCaseKey: String
+                let pascalCaseKey: String
+                let upperCaseKey: String
+            
+                private enum CodingKeys: String, CodingKey {
+                    case camelCaseKey = "camel~Case~Key"
+                    case flatCaseKey = "flat~case~key"
+                    case pascalCaseKey = "Pascal~Case~Key"
+                    case upperCaseKey = "UPPER~CASE~KEY"
+                }
+            }
+            """,
+            macros: testMacros)
+    }
+
     func testCustomCodingWorks() throws {
         assertMacroExpansion(
             """
