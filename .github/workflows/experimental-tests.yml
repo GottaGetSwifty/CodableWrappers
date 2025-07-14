@@ -4,6 +4,7 @@
 name: Experimental Tests
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "experimental*" ]
   pull_request:

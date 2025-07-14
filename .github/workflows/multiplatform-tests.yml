@@ -4,10 +4,12 @@
 name: Multi-platform Tests
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
 
 jobs:
   check-macro-compatibility:
