@@ -27,7 +27,7 @@ jobs:
 
   ios-17-test:
     name: iOS 17 tests
-    runs-on: macos-15
+    runs-on: macos-14
     steps:
     - uses: actions/checkout@v4
     - name: iOS 17
