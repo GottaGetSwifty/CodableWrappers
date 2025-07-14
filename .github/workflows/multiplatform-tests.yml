@@ -50,8 +50,9 @@ jobs:
     steps:
     - uses: swift-actions/setup-swift@v2
     - uses: actions/checkout@v4
-    - name: Build
+    - name: Version
       run: swift --version
+    - name: Build
       run: swift build -v
     - name: Run swift tests
       run: swift test -v
