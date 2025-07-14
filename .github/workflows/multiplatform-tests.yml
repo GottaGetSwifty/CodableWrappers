@@ -47,10 +47,10 @@ jobs:
   ubuntu-swift-test:
     name: latest Ubuntu swift tests
     runs-on: ubuntu-latest
-    container:
-      image: swift:latest
     steps:
     - uses: actions/checkout@v4
+      with:
+          swift-version: 6.0.3
     - name: Build
       run: swift build -v
     - name: Run swift tests
